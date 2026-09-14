@@ -1,151 +1,144 @@
-# Guía de Despliegue en Railway
+# Guía de Despliegue en Railway y Administración con PostgreSQL
 
-Esta guía explica paso a paso cómo desplegar el proyecto en **[Railway](https://railway.app)**.
-
-> **Arquitectura actual:** Validum usa Supabase como backend principal (Auth, PostgreSQL, Storage y Edge Functions). La API NestJS y el dashboard forman un subsistema independiente para WhatsApp, colas y OCR, con PostgreSQL/Redis/S3 propios en Railway. Sus datos no se sincronizan automáticamente con Supabase.
+Esta guía explica paso a paso cómo desplegar la plataforma completa en **[Railway](https://railway.app)** utilizando **PostgreSQL** como la base de datos central y cómo administrarla directamente mediante consultas **SQL**.
 
 ---
 
-## 🚀 Despliegue de Validum (Frontend Principal con Supabase)
+## 🏛️ Arquitectura de la Base de Datos (PostgreSQL en Railway)
 
-Validum es la aplicación web (React + Vite + Tailwind) conectada directamente a Supabase Cloud (Auth, Base de datos, Storage y Edge Functions).
+Toda la información del sistema (usuarios, empresas, afiliados, beneficiarios, novedades, planillas PILA, documentos soporte, sellos de radicación, plantillas de formularios y casos) está unificada en **PostgreSQL**.
 
-### Paso 1: Crear el proyecto en Railway
-1. Ingresa a [railway.app](https://railway.app) e inicia sesión con tu cuenta de GitHub.
-2. Haz clic en **"New Project"** (Nuevo Proyecto).
-3. Selecciona **"Deploy from GitHub repo"** y elige este repositorio (`Proyecto Formularios EPS` o el nombre con el que esté en GitHub).
-
-### Paso 2: Configurar el servicio para usar el Dockerfile
-1. Una vez añadido el repositorio, haz clic sobre la tarjeta del servicio creado y ve a la pestaña **Settings**.
-2. En la sección **Build**:
-   - **Builder**: Cambia a `Dockerfile` (si no está seleccionado).
-   - Agrega esta variable de configuración del servicio:
-     ```text
-     RAILWAY_DOCKERFILE_PATH=/deploy/validum.Dockerfile
-     ```
-   - **Root Directory**: Déjalo en `/` (raíz del repositorio).
-
-### Paso 3: Configurar Variables de Entorno (Pestaña "Variables")
-Agrega las siguientes variables en la pestaña **Variables**:
-
-| Variable | Valor |
-|---|---|
-| `VITE_SUPABASE_URL` | `https://guygyibcouicbziphswc.supabase.co` |
-| `VITE_SUPABASE_PUBLISHABLE_KEY` | La clave pública/publishable activa del proyecto Supabase |
-
-Estas variables se incorporan al cliente durante la compilación. Si cambian, realiza un nuevo despliegue; reiniciar el contenedor no recompila la aplicación. Nunca uses aquí una clave `service_role`.
-
-### Paso 4: Generar Dominio Público (Pestaña "Networking")
-1. Ve a la pestaña **Settings** > sección **Networking**.
-2. Haz clic en **"Generate Domain"**.
-3. Railway te asignará una URL pública segura con HTTPS, por ejemplo:
-   `https://validum-production-xxxx.up.railway.app`
-4. No fijes manualmente el puerto: Nginx escucha el valor dinámico `PORT` suministrado por Railway.
-
-### Paso 5: Actualizar Supabase con tu nuevo dominio
-Para que el inicio de sesión, invitaciones y redirecciones funcionen:
-1. Entra a tu panel de [Supabase](https://supabase.com/dashboard/project/guygyibcouicbziphswc).
-2. Ve a **Authentication** > **URL Configuration**.
-3. En **Site URL**, coloca tu dominio de Railway:
-   ```text
-   https://tu-servicio.up.railway.app
-   ```
-4. En **Redirect URLs**, agrega:
-   ```text
-   https://tu-servicio.up.railway.app/**
-   ```
-5. Guarda los cambios. ¡Validum ya está completamente desplegado y funcional!
+### Características clave:
+1. **Acceso Directo con SQL**: Puedes consultar, insertar, modificar o exportar cualquier dato usando la pestaña **Data** o **Query** de Railway, o mediante clientes SQL de escritorio (DBeaver, TablePlus, pgAdmin, DataGrip, VSCode SQLTools).
+2. **Migraciones Automáticas**: La API (`apps/api`) ejecuta automáticamente `prisma migrate deploy` en Railway al iniciar, garantizando que el esquema de PostgreSQL siempre esté al día.
+3. **Script SQL Maestro**: Incluido en [`deploy/railway_database_init.sql`](file:///f:/Proyecto%20Formularios%20EPS/deploy/railway_database_init.sql) para inicializar toda la base de datos de manera idempotente con un solo clic.
 
 ---
 
-## 🛠️ Despliegue de la API Backend (NestJS) en Railway *(Opcional)*
+## 🗄️ Paso 1: Crear la Base de Datos PostgreSQL en Railway
 
-Si además deseas desplegar la API NestJS (`apps/api`) con colas y base de datos propia:
+1. Entra a tu proyecto en [Railway](https://railway.app).
+2. Haz clic en el botón **"+ New"** (o presiona `Cmd+K` / `Ctrl+K`).
+3. Selecciona **Database** > **Add PostgreSQL**.
+4. Railway creará instantáneamente un contenedor gestionado de PostgreSQL.
+5. Haz clic sobre la tarjeta de **Postgres**:
+   - En la pestaña **Variables**, verás:
+     - `DATABASE_URL` (conexión interna privada)
+     - `DATABASE_PUBLIC_URL` (conexión pública para conectarte desde tu computador)
+     - `PGHOST`, `PGPORT`, `PGUSER`, `PGPASSWORD`, `PGDATABASE`.
 
-### Paso 1: Agregar PostgreSQL y Redis en Railway
-Dentro del mismo proyecto en Railway:
-1. Haz clic en **"+ New"** > **Database** > **PostgreSQL**.
-2. Haz clic en **"+ New"** > **Database** > **Redis**.
-Railway creará ambas bases de datos gestionadas de forma instantánea.
+---
 
-### Paso 2: Crear el servicio para la API
-1. Haz clic en **"+ New"** > **GitHub Repo** y selecciona de nuevo este repositorio.
-2. En la tarjeta del nuevo servicio, ve a **Settings**:
-   - **Service Name**: Renómbralo a `api`.
-   - Agrega `RAILWAY_DOCKERFILE_PATH=/deploy/api.Dockerfile` en las variables del servicio.
-   - **Root Directory**: Déjalo en `/`.
+## 💻 Paso 2: Inicializar la Base de Datos con SQL (Opcional si usas el API)
 
-### Paso 3: Configurar Variables de la API
-En la pestaña **Variables** del servicio `api`:
+Si deseas precargar todas las tablas e insertar los datos iniciales (administrador por defecto y empresa base) de inmediato:
 
-| Variable | Valor |
-|---|---|
-| `DATABASE_URL` | `${{Postgres.DATABASE_URL}}` *(Seleccionar del desplegable de Railway)* |
-| `REDIS_URL` | `${{Redis.REDIS_URL}}` *(Seleccionar del desplegable de Railway)* |
-| `JWT_SECRET` | Genera una cadena aleatoria segura de 32+ caracteres |
-| `JWT_EXPIRES_IN_SECONDS` | `28800` |
-| `DASHBOARD_ORIGIN` | Dominio HTTPS público del panel, sin ruta final |
-| `S3_ENDPOINT` | Endpoint del proveedor S3; puede omitirse con AWS S3 estándar |
-| `S3_REGION` | Región del bucket privado |
-| `S3_BUCKET` | Nombre del bucket privado |
-| `S3_ACCESS_KEY_ID` | Clave del bucket S3 |
-| `S3_SECRET_ACCESS_KEY` | Secreto del bucket S3 |
-| `S3_FORCE_PATH_STYLE` | `false`, o `true` si tu proveedor lo exige |
-| `S3_CREATE_BUCKET` | `false`; crea previamente un bucket privado en el proveedor |
-| `WHATSAPP_VERIFY_TOKEN` | Token privado elegido para validar el webhook |
-| `WHATSAPP_ACCESS_TOKEN` | Token de usuario del sistema de Meta |
-| `WHATSAPP_PHONE_NUMBER_ID` | Identificador del número de WhatsApp |
-| `WHATSAPP_APP_SECRET` | Secreto de la aplicación de Meta |
-| `WHATSAPP_API_VERSION` | `v22.0` o la versión vigente que hayas validado |
-| `NODE_ENV` | `production` |
+1. En Railway, haz clic sobre el servicio **Postgres**.
+2. Ve a la pestaña **Data** o **Query**.
+3. Abre el archivo [`deploy/railway_database_init.sql`](file:///f:/Proyecto%20Formularios%20EPS/deploy/railway_database_init.sql) de este repositorio.
+4. Copia todo su contenido y pégalo en el editor de consultas **Query** de Railway.
+5. Haz clic en **Run Query**.
+6. ¡Listo! Todas las tablas, índices, enums y datos iniciales quedan creados en segundos.
 
-Sella en Railway `JWT_SECRET`, las claves S3 y los secretos/tokens de WhatsApp. La API se negará a iniciar en producción si falta una configuración crítica, evitando un despliegue aparentemente sano pero inseguro.
+---
 
-### Paso 4: Migraciones automáticas de Base de Datos
-El contenedor de la API (`deploy/api.Dockerfile`) ya está configurado para ejecutar automáticamente las migraciones de Prisma en cada inicio antes de arrancar NestJS. No necesitas ejecutar comandos manuales en la consola de Railway.
+## 🔌 Paso 3: Administrar la Base de Datos con SQL de Escritorio
 
-### Paso 5: Crear el primer usuario del panel
-Configura temporalmente `ADMIN_EMAIL` y `ADMIN_PASSWORD` en la API y ejecuta una sola vez en la consola del servicio:
+Puedes conectarte desde cualquier cliente SQL (como **DBeaver**, **TablePlus** o **pgAdmin**):
 
-```text
-node apps/api/dist/prisma/seed.js
+1. En el servicio **Postgres** de Railway, ve a **Settings** > **Networking** y activa **Public Networking**.
+2. Copia la URL que aparece en `DATABASE_PUBLIC_URL`.
+3. Abre tu cliente SQL (por ejemplo, TablePlus o DBeaver) y selecciona **"New Connection from URL"**.
+4. Pega la URL y conéctate.
+
+### Consultas SQL más comunes para administración:
+
+```sql
+-- 1. Ver todas las empresas registradas
+SELECT "id", "legalName", "documentType", "documentNumber", "email", "phone"
+FROM "Company"
+ORDER BY "createdAt" DESC;
+
+-- 2. Ver todos los empleados / cotizantes con su empresa
+SELECT e."firstName", e."firstSurname", e."documentNumber", e."epsName", c."legalName" as "empresa"
+FROM "Employee" e
+LEFT JOIN "Company" c ON e."companyId" = c."id";
+
+-- 3. Ver beneficiarios por empleado
+SELECT b."firstName", b."firstSurname", b."relationship", b."documentNumber", e."firstName" as "cotizante"
+FROM "Beneficiary" b
+JOIN "Employee" e ON b."employeeId" = e."id";
+
+-- 4. Ver documentos soporte subidos
+SELECT "id", "nombre", "categoria", "tipo_archivo", "tamano_bytes", "created_at"
+FROM "soporte_documentos"
+ORDER BY "created_at" DESC;
+
+-- 5. Ver usuarios del sistema
+SELECT "id", "email", "role", "createdAt"
+FROM "User";
+
+-- 6. Ver plantillas activas de formularios EPS/ARL
+SELECT "name", "entityName", "entityType", "applicationType", "version", "active"
+FROM "FormTemplate";
 ```
 
-Después elimina `ADMIN_PASSWORD` de las variables. Este usuario pertenece al panel NestJS y es independiente del usuario de Supabase utilizado por Validum.
+---
+
+## 🚀 Paso 4: Despliegue de la API Backend (`apps/api`)
+
+La API NestJS conecta la aplicación con PostgreSQL y procesa formularios y documentos.
+
+1. En el mismo proyecto de Railway, haz clic en **"+ New"** > **GitHub Repo** y selecciona este repositorio.
+2. En la tarjeta del nuevo servicio:
+   - **Settings** > **Service Name**: cámbialo a `api`.
+   - **Settings** > **Build**:
+     - Agrega variable de entorno: `RAILWAY_DOCKERFILE_PATH=/deploy/api.Dockerfile`
+     - **Root Directory**: `/`
+3. En la pestaña **Variables**:
+   - `DATABASE_URL`: Vincula la variable de PostgreSQL: selecciona **Add Reference** y elige `${{Postgres.DATABASE_URL}}`.
+   - `REDIS_URL`: Si agregaste Redis en Railway, vincula `${{Redis.REDIS_URL}}`. Si no, la API usará el fallback automático.
+   - `JWT_SECRET`: Ingresa una clave secreta segura (ej: `validum-production-super-secure-jwt-key-2026-eps-forms`).
+   - `NODE_ENV`: `production`
+4. En **Settings** > **Networking**: Haz clic en **"Generate Domain"** para obtener la URL pública de la API (ej: `https://api-production-xxxx.up.railway.app`).
+
+Al iniciar, el contenedor ejecutará automáticamente `prisma migrate deploy` asegurando que PostgreSQL tenga todas las tablas sincronizadas.
 
 ---
 
-## 🖥️ Despliegue del Dashboard Next.js *(Opcional)*
+## 🌐 Paso 5: Despliegue de Validum (`apps/validum`)
 
-Si deseas desplegar el panel operativo Next.js (`apps/dashboard`):
+1. En Railway, haz clic en **"+ New"** > **GitHub Repo** y selecciona este repositorio.
+2. En la tarjeta del servicio:
+   - **Settings** > **Service Name**: nómbralo `validum`.
+   - **Settings** > **Build**:
+     - Agrega variable: `RAILWAY_DOCKERFILE_PATH=/deploy/validum.Dockerfile`
+     - **Root Directory**: `/`
+3. En la pestaña **Variables**:
+   - `VITE_API_URL`: La URL pública de tu API (ej: `https://api-production-xxxx.up.railway.app/api`).
+4. En **Settings** > **Networking**: Haz clic en **"Generate Domain"**.
+5. ¡Validum estará disponible de inmediato en su dominio público HTTPS!
 
-1. En el mismo proyecto de Railway: haz clic en **"+ New"** > **GitHub Repo**.
-2. En **Settings**:
+---
+
+## 📊 Paso 6: Despliegue del Dashboard Operativo (`apps/dashboard`) (Opcional)
+
+1. En Railway: **"+ New"** > **GitHub Repo**.
+2. **Settings**:
    - **Service Name**: `dashboard`
-   - Agrega `RAILWAY_DOCKERFILE_PATH=/deploy/dashboard.Dockerfile` en las variables del servicio.
+   - Agrega `RAILWAY_DOCKERFILE_PATH=/deploy/dashboard.Dockerfile`
    - **Root Directory**: `/`
-3. En **Variables**:
-   - `NEXT_PUBLIC_API_URL`: La URL pública de tu servicio `api` (ej: `https://api-production-xxxx.up.railway.app/api`).
-4. En **Networking**: Genera el dominio público.
+3. **Variables**:
+   - `NEXT_PUBLIC_API_URL`: `https://api-production-xxxx.up.railway.app/api`
+4. **Networking**: Haz clic en **"Generate Domain"**.
 
 ---
 
-## 🔍 Verificación Post-Despliegue
+## ✅ Resumen de URLs y Verificación
 
-| Servicio | URL de Verificación | Respuesta Esperada |
+| Componente | Tipo | URL de Verificación |
 |---|---|---|
-| **Validum** | `https://tu-validum.up.railway.app/health.json` | `{"application":"validum","status":"ok"}` |
-| **API** | `https://tu-api.up.railway.app/api/health` | `{"status":"ok","service":"api",...}` |
-| **API Raíz** | `https://tu-api.up.railway.app/api` | `{"application":"whatsapp-document-automation-api","status":"running"}` |
-
-### Checklist de Validación:
-1. **Validum**:
-   - Iniciar sesión con tu cuenta de Supabase.
-   - Abrir la biblioteca de plantillas y abrir el editor con Sura / SOS / Sanitas.
-   - Generar y descargar un PDF diligenciado.
-2. **API**:
-   - Al abrir `/api/health` responde con código 200 y status `ok`.
-   - Si creaste las bases de datos PostgreSQL y Redis, los registros de log en Railway muestran `Nest application successfully started`.
-3. **Panel**:
-   - Inicia sesión con el usuario creado mediante el seed.
-   - Comprueba que la tabla carga casos sin respuestas `401` en la consola del navegador.
+| **PostgreSQL** | Base de Datos | Administrable vía pestaña **Data/Query** en Railway o clientes SQL |
+| **API Backend** | Servicio Web | `https://tu-api.up.railway.app/api/health` |
+| **Validum** | Web App | `https://tu-validum.up.railway.app/health.json` |
+| **Dashboard** | Panel Operativo | `https://tu-dashboard.up.railway.app` |

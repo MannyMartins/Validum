@@ -392,3 +392,130 @@ model AuditLog {
   createdAt DateTime @default(now())
   @@index([entityType, entityId])
 }
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  createdBy String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  members           OrganizationMember[]
+  userPreferences   UserPreference[]
+  soporteDocumentos SoporteDocumento[]
+  stampPresets      StampPreset[]
+  generatedForms    GeneratedForm[]
+  novelties         Novelty[]
+  pilaForms         PilaForm[]
+
+  @@map("organizations")
+}
+
+model OrganizationMember {
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  role           String       @default("analyst")
+  active         Boolean      @default(true)
+  createdAt      DateTime     @default(now())
+
+  @@id([organizationId, userId])
+  @@index([userId, active])
+  @@map("organization_members")
+}
+
+model UserPreference {
+  userId          String        @id
+  organizationId  String?
+  organization    Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  activeCompanyId String?
+  updatedAt       DateTime      @updatedAt
+
+  @@map("user_preferences")
+}
+
+model SoporteDocumento {
+  id             String        @id @default(uuid())
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  ownerId        String?
+  employeeId     String?
+  nombre         String
+  categoria      String        @default("Otro")
+  tipoArchivo    String        @map("tipo_archivo")
+  tamanoBytes    BigInt        @default(0) @map("tamano_bytes")
+  storagePath    String        @map("storage_path")
+  metadata       Json?         @default("{}")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId, createdAt])
+  @@map("soporte_documentos")
+}
+
+model StampPreset {
+  id             String        @id @default(uuid())
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  stampId        String        @map("stamp_id")
+  name           String
+  definition     Json
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId, stampId])
+  @@map("stamp_presets")
+}
+
+model GeneratedForm {
+  id                String        @id @default(uuid())
+  organizationId    String?
+  organization      Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  generatedFormId   String        @map("generated_form_id")
+  templateId        String?       @map("template_id")
+  employeeId        String?       @map("employee_id")
+  templateName      String        @map("template_name")
+  employeeName      String        @map("employee_name")
+  pdfStoragePath    String        @map("pdf_storage_path")
+  manualFields      Json?         @default("{}") @map("manual_fields")
+  procedureFields   Json?         @default("{}") @map("procedure_fields")
+  sourcePdfFileName String?       @map("source_pdf_file_name")
+  generatedAt       DateTime      @default(now()) @map("generated_at")
+
+  @@index([organizationId, generatedAt])
+  @@map("generated_forms")
+}
+
+model Novelty {
+  id             String        @id @default(uuid())
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  noveltyId      String        @map("novelty_id")
+  employeeId     String        @map("employee_id")
+  noveltyType    String        @map("novelty_type")
+  startDate      DateTime      @map("start_date")
+  endDate        DateTime?     @map("end_date")
+  status         String
+  data           Json?         @default("{}")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId, employeeId])
+  @@map("novelties")
+}
+
+model PilaForm {
+  id             String        @id @default(uuid())
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  formId         String        @map("form_id")
+  period         String
+  formNumber     String        @map("form_number")
+  paymentStatus  String        @map("payment_status")
+  data           Json?         @default("{}")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  updatedAt      DateTime      @updatedAt @map("updated_at")
+
+  @@index([organizationId, formId])
+  @@map("pila_forms")
+}

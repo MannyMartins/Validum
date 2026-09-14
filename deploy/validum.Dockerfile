@@ -1,8 +1,10 @@
 FROM node:22-alpine AS build
 RUN corepack enable
 WORKDIR /app
+ARG VITE_API_URL
 ARG VITE_SUPABASE_URL
 ARG VITE_SUPABASE_PUBLISHABLE_KEY
+ENV VITE_API_URL=${VITE_API_URL}
 ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
 ENV VITE_SUPABASE_PUBLISHABLE_KEY=${VITE_SUPABASE_PUBLISHABLE_KEY}
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
@@ -11,7 +13,6 @@ COPY apps/dashboard/package.json apps/dashboard/package.json
 COPY apps/validum/package.json apps/validum/package.json
 RUN pnpm install --frozen-lockfile
 COPY apps/validum apps/validum
-RUN test -n "$VITE_SUPABASE_URL" && test -n "$VITE_SUPABASE_PUBLISHABLE_KEY"
 RUN pnpm --filter @mvp/validum build
 
 FROM nginx:1.27-alpine
