@@ -10,7 +10,7 @@ output/
 outputs/
 tmp/
 work/
-data/
+/data/
 .pnpm-store/
 .turbo/
 *.log
