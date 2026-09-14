@@ -9,6 +9,6 @@ import { DocumentAiService } from './document-ai.service';
   imports: [BullModule.registerQueue({ name: 'document-processing' })],
   controllers: [DocumentsController],
   providers: [DocumentsService, StorageService, DocumentProcessor, DocumentAiService],
-  exports: [DocumentsService],
+  exports: [DocumentsService, StorageService],
 })
 export class DocumentsModule {}

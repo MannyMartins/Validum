@@ -11,7 +11,7 @@ $distPath = Join-Path $repositoryRoot "apps/validum/dist"
 $archivePath = "$outputPath.zip"
 
 if (-not (Test-Path -LiteralPath $environmentPath)) {
-  throw "Falta $EnvironmentFile. Copie apps/validum/.env.production.example y agregue la clave pública de Supabase."
+  throw "Falta $EnvironmentFile. Copie apps/validum/.env.production.example y agregue la URL pública del API."
 }
 
 $configuration = @{}
@@ -23,7 +23,7 @@ Get-Content -LiteralPath $environmentPath | ForEach-Object {
   }
 }
 
-foreach ($requiredName in @("VITE_SUPABASE_URL", "VITE_SUPABASE_PUBLISHABLE_KEY")) {
+foreach ($requiredName in @("VITE_API_URL")) {
   if (-not $configuration.ContainsKey($requiredName) -or
       [string]::IsNullOrWhiteSpace($configuration[$requiredName]) -or
       $configuration[$requiredName] -match "REEMPLAZAR") {

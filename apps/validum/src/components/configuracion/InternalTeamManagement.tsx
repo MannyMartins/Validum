@@ -165,7 +165,7 @@ export const InternalTeamManagement: React.FC = () => {
             <ShieldCheck className="theme-accent h-5 w-5" />
             <div>
               <p className="theme-text text-xs font-extrabold">Aislamiento por organización</p>
-              <p className="theme-muted text-[10px]">Supabase Auth + RLS activo</p>
+              <p className="theme-muted text-[10px]">API privada + PostgreSQL aislado</p>
             </div>
           </div>
         </div>
@@ -186,7 +186,7 @@ export const InternalTeamManagement: React.FC = () => {
         <form onSubmit={submitInvite} className="theme-surface h-fit space-y-5 rounded-3xl border p-6">
           <div>
             <div className="flex items-center gap-2"><MailPlus className="theme-accent h-5 w-5" /><h2 className="theme-text text-base font-extrabold">Invitar usuario</h2></div>
-            <p className="theme-muted mt-1 text-[11px] leading-5">Supabase enviará un enlace para que la persona establezca su acceso de forma segura.</p>
+            <p className="theme-muted mt-1 text-[11px] leading-5">Validum enviará un enlace de un solo uso para crear la contraseña.</p>
           </div>
 
           {!canManage && !loading && (

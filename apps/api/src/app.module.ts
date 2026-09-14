@@ -9,6 +9,8 @@ import { WhatsAppModule } from './whatsapp/whatsapp.module';
 import { CasesModule } from './cases/cases.module';
 import { ApplicationsModule } from './applications/applications.module';
 import { AffiliatesModule } from './affiliates/affiliates.module';
+import { WorkspaceModule } from './workspace/workspace.module';
+import { TeamModule } from './team/team.module';
 
 import { AppController } from './app.controller';
 
@@ -41,6 +43,9 @@ export function validateEnvironment(config: Record<string, unknown>) {
       'WHATSAPP_ACCESS_TOKEN',
       'WHATSAPP_PHONE_NUMBER_ID',
       'WHATSAPP_APP_SECRET',
+      'RESEND_API_KEY',
+      'EMAIL_FROM',
+      'APP_URL',
     ];
     for (const name of productionRequired) {
       const value = String(config[name] || '').trim();
@@ -64,7 +69,7 @@ export function validateEnvironment(config: Record<string, unknown>) {
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
     BullModule.forRootAsync({ inject: [ConfigService], useFactory: (c: ConfigService) => ({ connection: { url: c.getOrThrow('REDIS_URL') } }) }),
-    PrismaModule, AuthModule, AuditModule, DocumentsModule, WhatsAppModule, CasesModule, ApplicationsModule, AffiliatesModule,
+    PrismaModule, AuthModule, AuditModule, DocumentsModule, WhatsAppModule, CasesModule, ApplicationsModule, AffiliatesModule, WorkspaceModule, TeamModule,
   ],
   controllers: [AppController],
 })

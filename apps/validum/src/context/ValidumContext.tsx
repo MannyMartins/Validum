@@ -8,12 +8,12 @@ import {
   loadActiveCompanyId,
   loadCompanies,
   loadEmployees,
-  migrateLocalWorkspaceToSupabase,
+  migrateLocalWorkspaceToApi,
   saveActiveCompanyId,
   saveCompanies,
   saveEmployees,
 } from '../lib/backendRepository';
-import { clearActiveOrganizationCache, getActiveOrganizationId, isSupabaseConfigured, supabase } from '../lib/supabaseClient';
+import { clearApiSession, completeApiPasswordSetup, currentApiUser, hasApiSession, isApiConfigured, loginApi, requestApiPasswordReset } from '../lib/apiClient';
 
 export type ActiveTab = 
   | 'landing'
@@ -74,21 +74,15 @@ const emptyCompany = (): Empresa => ({
 });
 
 export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!isSupabaseConfigured);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(hasApiSession());
   const [needsPasswordSetup, setNeedsPasswordSetup] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
-    const flowType = new URLSearchParams(window.location.hash.replace(/^#/, '')).get('type');
-    return flowType === 'invite' || flowType === 'recovery';
+    return Boolean(new URLSearchParams(window.location.search).get('setupToken'));
   });
-  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(isSupabaseConfigured);
+  const [isAuthLoading, setIsAuthLoading] = useState<boolean>(hasApiSession());
   const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
   const [dataError, setDataError] = useState<string | null>(null);
-  const [userSession, setUserSession] = useState<UserSession | null>(isSupabaseConfigured ? null : {
-    nombre: 'Johan Manuel',
-    email: 'johan.manuel@validum.com.co',
-    rol: 'Administrador',
-    empresaActual: mockEmpresa,
-  });
+  const [userSession, setUserSession] = useState<UserSession | null>(null);
   const [activeTab, setActiveTab] = useState<ActiveTab>('autofill');
   const [empresas, setEmpresas] = useState<Empresa[]>(mockEmpresas);
   const empresasRef = useRef<Empresa[]>(mockEmpresas);
@@ -101,46 +95,26 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [searchTerm, setSearchTerm] = useState<string>('');
 
   useEffect(() => {
-    if (!supabase || !isSupabaseConfigured) {
+    if (!isApiConfigured() || !hasApiSession()) {
+      setIsAuthenticated(false);
       setIsAuthLoading(false);
       return;
     }
-
     let active = true;
-    const applyUser = (user: { email?: string; user_metadata?: Record<string, unknown> } | null) => {
-      if (!active) return;
-      setIsAuthenticated(Boolean(user));
-      setUserSession(user ? {
-        nombre: String(user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario'),
-        email: user.email || '',
-        rol: 'Administrador',
-        empresaActual: empresa,
-      } : null);
-      setIsAuthLoading(false);
-    };
-
-    void supabase.auth.getSession()
-      .then(({ data, error }) => {
-        if (error) throw error;
-        applyUser(data.session?.user || null);
+    void currentApiUser()
+      .then(user => {
+        if (!active) return;
+        const roles: Record<string, UserSession['rol']> = { owner: 'Propietario', admin: 'Administrador', operator: 'Operador', analyst: 'Operador', auditor: 'Auditor', viewer: 'Auditor' };
+        setIsAuthenticated(true);
+        setUserSession({ nombre: user.fullName, email: user.email, rol: roles[user.role] || 'Auditor', empresaActual: empresa });
       })
       .catch(error => {
-        console.error('No se pudo restaurar la sesion de Supabase:', error);
-        applyUser(null);
-      });
-
-    const { data: listener } = supabase.auth.onAuthStateChange((event, session) => {
-      clearActiveOrganizationCache();
-      const flowType = new URLSearchParams(window.location.hash.replace(/^#/, '')).get('type');
-      if (event === 'PASSWORD_RECOVERY' || flowType === 'invite' || flowType === 'recovery') {
-        setNeedsPasswordSetup(Boolean(session));
-      }
-      applyUser(session?.user || null);
-    });
-    return () => {
-      active = false;
-      listener.subscription.unsubscribe();
-    };
+        console.error('No se pudo restaurar la sesión del API:', error);
+        clearApiSession();
+        if (active) { setIsAuthenticated(false); setUserSession(null); }
+      })
+      .finally(() => { if (active) setIsAuthLoading(false); });
+    return () => { active = false; };
   // La empresa activa se sincroniza por separado para no reinstalar el listener.
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -154,29 +128,10 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
     void (async () => {
       try {
         await migrateLegacyLocalStorage();
-        await migrateLocalWorkspaceToSupabase();
+        await migrateLocalWorkspaceToApi();
         const [storedCompanies, activeCompanyId, storedEmployees] = await Promise.all([loadCompanies(), loadActiveCompanyId(), loadEmployees()]);
         if (!active) return;
 
-        if (supabase && isSupabaseConfigured) {
-          const organizationId = await getActiveOrganizationId();
-          const { data: authData } = await supabase.auth.getUser();
-          const { data: membership } = authData.user
-            ? await supabase.from('organization_members').select('role').eq('organization_id', organizationId).eq('user_id', authData.user.id).maybeSingle()
-            : { data: null };
-          const roleNames: Record<string, UserSession['rol']> = {
-            owner: 'Propietario',
-            admin: 'Administrador',
-            operator: 'Operador',
-            analyst: 'Operador',
-            auditor: 'Auditor',
-            viewer: 'Auditor',
-          };
-          if (membership?.role) {
-            setUserSession(current => current ? { ...current, rol: roleNames[membership.role] || 'Auditor' } : current);
-          }
-        }
-        
         let currentCompanies: Empresa[] = storedCompanies && storedCompanies.length > 0 ? [...storedCompanies] : [...mockEmpresas];
 
         // Asegurar que NEXUS ENLACE SAS esté registrada en la lista de empresas para rellenar formularios
@@ -282,45 +237,32 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const login = async (email: string, contrasena: string) => {
-    if (supabase && isSupabaseConfigured) {
-      const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: contrasena });
-      if (error) {
-        console.warn('Inicio de sesion rechazado por Supabase:', error.message);
-        return false;
-      }
+    try {
+      const user = await loginApi(email.trim(), contrasena);
+      const roles: Record<string, UserSession['rol']> = { owner: 'Propietario', admin: 'Administrador', operator: 'Operador', analyst: 'Operador', auditor: 'Auditor', viewer: 'Auditor' };
+      setUserSession({ nombre: user.fullName, email: user.email, rol: roles[user.role] || 'Auditor', empresaActual: empresa });
+      setIsAuthenticated(true);
       return true;
-    }
-    setIsAuthenticated(true);
-    setUserSession({
-      nombre: 'Johan Manuel',
-      email: email,
-      rol: 'Administrador',
-      empresaActual: empresa,
-    });
-    return true;
+    } catch (error) { console.warn('Inicio de sesión rechazado por el API:', error); return false; }
   };
 
   const requestPasswordReset = async (email: string) => {
-    if (!supabase || !isSupabaseConfigured) throw new Error('Supabase no está configurado.');
-    const redirectTo = new URL('/', window.location.origin).toString();
-    const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), { redirectTo });
-    if (error) throw error;
+    await requestApiPasswordReset(email.trim());
   };
 
   const completePasswordSetup = async (password: string) => {
-    if (!supabase || !isSupabaseConfigured) throw new Error('Supabase no está configurado.');
-    const { error } = await supabase.auth.updateUser({ password });
-    if (error) throw error;
+    const token = new URLSearchParams(window.location.search).get('setupToken');
+    if (!token) throw new Error('El enlace de configuración no contiene un token válido.');
+    const user = await completeApiPasswordSetup(token, password);
+    const roles: Record<string, UserSession['rol']> = { owner: 'Propietario', admin: 'Administrador', operator: 'Operador', analyst: 'Operador', auditor: 'Auditor', viewer: 'Auditor' };
     setNeedsPasswordSetup(false);
-    window.history.replaceState({}, document.title, `${window.location.pathname}${window.location.search}`);
+    setIsAuthenticated(true);
+    setUserSession({ nombre: user.fullName, email: user.email, rol: roles[user.role] || 'Auditor', empresaActual: empresa });
+    window.history.replaceState({}, document.title, window.location.pathname);
   };
 
   const logout = async () => {
-    if (supabase && isSupabaseConfigured) {
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
-      clearActiveOrganizationCache();
-    }
+    clearApiSession();
     setIsAuthenticated(false);
     setUserSession(null);
   };

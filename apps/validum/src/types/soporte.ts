@@ -32,7 +32,7 @@ export interface SoporteDocumento {
   metadata: MetadataSoporte;
   created_at: string;
   updated_at: string;
-  // URL local temporal o firmada de Supabase
+  // URL temporal generada por el API o copia local en memoria.
   publicUrl?: string;
   blobData?: Blob;
 }

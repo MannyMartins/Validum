@@ -25,12 +25,12 @@ const MainLayout: React.FC = () => {
     );
   }
 
-  if (!isAuthenticated) {
-    return <LoginView />;
-  }
-
   if (needsPasswordSetup) {
     return <SetPasswordView />;
+  }
+
+  if (!isAuthenticated) {
+    return <LoginView />;
   }
 
   if (isDataLoading) {
@@ -50,7 +50,7 @@ const MainLayout: React.FC = () => {
         <div className="w-full max-w-xl rounded-2xl border border-red-500/40 bg-slate-950/70 p-6 shadow-2xl">
           <h1 className="text-xl font-bold text-white">No se pudo abrir el repositorio seguro</h1>
           <p className="mt-2 text-sm text-slate-300">
-            Verifica que la migración SQL de Validum esté ejecutada en Supabase y que este usuario tenga una organización asignada.
+            Verifica la conexión con el API de Validum y que PostgreSQL, Redis y el almacenamiento privado estén disponibles en Railway.
           </p>
           <pre className="mt-4 overflow-auto rounded-xl bg-black/30 p-3 text-xs text-red-200 whitespace-pre-wrap">{dataError}</pre>
           <div className="mt-5 flex gap-3">

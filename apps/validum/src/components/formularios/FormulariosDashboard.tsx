@@ -290,7 +290,7 @@ export const FormulariosDashboard: React.FC = () => {
             </div>
             <div className="font-bold text-slate-100 text-sm mb-1">📁 Documentos Soporte</div>
             <div className="text-[11px] text-slate-400 leading-relaxed">
-              Repositorio de cédulas, RUT y certificados en Supabase.
+              Repositorio privado de cédulas, RUT y certificados en Railway.
             </div>
           </div>
         </button>

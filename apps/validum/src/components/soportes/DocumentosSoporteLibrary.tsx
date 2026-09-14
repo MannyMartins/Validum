@@ -33,8 +33,8 @@ import {
   deleteDocumentoSoporte,
   updateDocumentoMetadata,
   getDocumentoBlob,
-  isSupabaseConfigured
-} from '../../lib/supabaseClient';
+  isApiConfigured
+} from '../../lib/documentRepository';
 import { LookScannedStudio } from '../scanner/LookScannedStudio';
 
 const CATEGORIAS: ('Todas' | CategoriaSoporte)[] = [
@@ -217,7 +217,7 @@ export const DocumentosSoporteLibrary: React.FC = () => {
   const handleDelete = async (doc: SoporteDocumento) => {
     if (!confirm(`¿Estás seguro de eliminar "${doc.nombre}"?`)) return;
     try {
-      await deleteDocumentoSoporte(doc.id, doc.storage_path);
+      await deleteDocumentoSoporte(doc.id);
       setDocumentos(prev => prev.filter(d => d.id !== doc.id));
     } catch (err) {
       console.error('Error eliminando documento:', err);
@@ -287,14 +287,14 @@ export const DocumentosSoporteLibrary: React.FC = () => {
             Biblioteca de Documentos Soporte
           </h1>
           <p className="text-xs text-slate-400 mt-1">
-            Gestiona identificaciones, certificados, RUT y formularios digitalizados con almacenamiento seguro en Supabase.
+            Gestiona identificaciones, certificados, RUT y formularios digitalizados en el almacenamiento privado de Validum.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-[#070e1a] px-3.5 py-2 text-xs text-slate-300">
-            <span className={`h-2.5 w-2.5 rounded-full ${isSupabaseConfigured ? 'bg-emerald-400' : 'bg-amber-400'}`} />
-            <span>{isSupabaseConfigured ? 'Supabase configurado' : 'Almacén Local Activo'}</span>
+            <span className={`h-2.5 w-2.5 rounded-full ${isApiConfigured() ? 'bg-emerald-400' : 'bg-rose-400'}`} />
+            <span>{isApiConfigured() ? 'Railway conectado' : 'API sin configurar'}</span>
           </div>
 
           <button

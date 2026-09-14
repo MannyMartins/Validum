@@ -25,7 +25,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import { PDFDocument } from 'pdf-lib';
 import { useScanEffect, applyScanFiltersToCanvas } from '../../hooks/useScanEffect';
 import type { ScanColorMode, ScanFilterOptions } from '../../types/soporte';
-import { uploadDocumentoSoporte } from '../../lib/supabaseClient';
+import { uploadDocumentoSoporte } from '../../lib/documentRepository';
 
 export interface LookScannedStudioProps {
   sourceFile?: File | Blob | string;

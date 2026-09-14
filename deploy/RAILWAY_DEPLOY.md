@@ -8,7 +8,7 @@
 - **Redis**: colas de procesamiento de documentos y WhatsApp.
 - **Object Storage compatible con S3**: PDFs, firmas e imágenes. PostgreSQL conserva únicamente sus metadatos y claves privadas.
 
-> Importante: Railway PostgreSQL sustituye la base de datos de Supabase, pero no sustituye automáticamente Supabase Auth, Storage ni su API REST. Antes de retirar Supabase del entorno de producción, la interfaz debe consumir los endpoints equivalentes del API de Validum.
+El navegador nunca se conecta directamente a PostgreSQL. Toda autenticación, autorización, lectura y escritura pasa por el API de Validum.
 
 ## 1. PostgreSQL
 
@@ -17,7 +17,7 @@
 3. El servicio API debe recibir `DATABASE_URL` mediante una referencia a `${{Postgres.DATABASE_URL}}`.
 4. No ejecutes scripts SQL manuales para crear el esquema. El contenedor del API ejecuta `prisma migrate deploy` al iniciar y aplica solamente las migraciones pendientes.
 
-Para crear el primer administrador, configura temporalmente `ADMIN_EMAIL` y `ADMIN_PASSWORD` y ejecuta el seed de Prisma desde un entorno administrativo. No existen usuarios ni contraseñas predeterminados en el repositorio.
+Para crear el primer administrador, configura temporalmente `ADMIN_NAME`, `ADMIN_EMAIL` y `ADMIN_PASSWORD` (mínimo 12 caracteres) en el servicio API. Al arrancar, el contenedor crea la cuenta de forma idempotente. Comprueba que puedes iniciar sesión y elimina después esas tres variables de Railway. No existen usuarios ni contraseñas predeterminados en el repositorio.
 
 ## 2. Redis
 
@@ -40,7 +40,7 @@ S3_FORCE_PATH_STYLE=false
 S3_CREATE_BUCKET=false
 ```
 
-No guardes PDFs ni firmas como Base64 dentro de PostgreSQL. El API genera enlaces de lectura de corta duración (15 minutos).
+No guardes PDFs ni firmas como Base64 dentro de PostgreSQL. El API conserva claves privadas y entrega el contenido únicamente a usuarios autenticados de la misma organización.
 
 ## 4. API
 
@@ -54,6 +54,12 @@ REDIS_URL=${{Redis.REDIS_URL}}
 JWT_SECRET=<secreto aleatorio de al menos 32 caracteres>
 JWT_EXPIRES_IN_SECONDS=28800
 DASHBOARD_ORIGIN=https://<dominio-validum>
+APP_URL=https://<dominio-validum>
+RESEND_API_KEY=<clave privada de Resend>
+EMAIL_FROM=Validum <no-reply@su-dominio.com>
+ADMIN_NAME=<nombre del primer administrador; temporal>
+ADMIN_EMAIL=<correo del primer administrador; temporal>
+ADMIN_PASSWORD=<clave de al menos 12 caracteres; temporal>
 ```
 
 Añade también las variables S3 anteriores y las credenciales reales de WhatsApp descritas en `apps/api/.env.example`. Genera un dominio público y verifica:
@@ -75,9 +81,7 @@ VITE_API_URL=https://<dominio-api>/api
 
 Después de generar el dominio de Validum, coloca ese origen HTTPS exacto en `DASHBOARD_ORIGIN` del API y vuelve a desplegarlo.
 
-## 6. Estado de la migración desde Supabase
-
-El esquema PostgreSQL y el API base están preparados, pero el frontend actual todavía contiene llamadas de Supabase para autenticación, equipos, plantillas y archivos. Por seguridad no se debe eliminar Supabase de producción hasta sustituir esas llamadas por endpoints NestJS y completar estas pruebas:
+## 6. Pruebas obligatorias antes de producción
 
 - inicio y cierre de sesión;
 - recuperación e invitación de usuarios;
@@ -87,4 +91,4 @@ El esquema PostgreSQL y el API base están preparados, pero el frontend actual t
 - carga y descarga privada de PDFs, firmas y soportes;
 - generación de formularios y auditoría.
 
-Configurar solamente `VITE_API_URL` no migra esos datos. Esta comprobación evita publicar una interfaz que parezca funcionar mientras conserva información únicamente en IndexedDB del navegador.
+Las invitaciones y recuperaciones usan enlaces de un solo uso emitidos por el API. Configura el dominio remitente en Resend antes de probar esos flujos.
