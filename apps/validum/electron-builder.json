@@ -1,0 +1,46 @@
+{
+  "appId": "co.com.validum.formularios",
+  "productName": "Validum Formularios EPS",
+  "copyright": "Copyright © 2026 Validum Grupo Empresarial S.A.S.",
+  "directories": {
+    "output": "release"
+  },
+  "files": [
+    "dist/**/*",
+    "electron/**/*",
+    "package.json"
+  ],
+  "extraResources": [
+    {
+      "from": "public/templates",
+      "to": "templates",
+      "filter": ["**/*"]
+    }
+  ],
+  "win": {
+    "target": [
+      {
+        "target": "nsis",
+        "arch": ["x64"]
+      },
+      {
+        "target": "portable",
+        "arch": ["x64"]
+      }
+    ],
+    "artifactName": "${productName}-Setup-${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "allowToChangeInstallationDirectory": true,
+    "createDesktopShortcut": true,
+    "createStartMenuShortcut": true,
+    "shortcutName": "Validum Formularios EPS"
+  },
+  "publish": {
+    "provider": "github",
+    "owner": "validum-co",
+    "repo": "validum-formularios-eps",
+    "private": false
+  }
+}

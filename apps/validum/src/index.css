@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --theme-bg: #071926;
+    --theme-surface: #0f182a;
+    --theme-surface-soft: #0a1824;
+    --theme-surface-raised: #14243a;
+    --theme-text: #f1f5f9;
+    --theme-muted: #94a3b8;
+    --theme-border: #243247;
+    --theme-accent: #c4d600;
+    --theme-accent-hover: #d2e300;
+    --theme-accent-soft: rgba(196, 214, 0, 0.13);
+    --theme-accent-contrast: #0f2537;
+    --theme-radius: 0.9rem;
+    --theme-shadow: 0 18px 42px -22px rgba(0, 0, 0, 0.78);
+    --theme-city-overlay: linear-gradient(to bottom, rgba(7, 25, 38, 0.78), rgba(15, 37, 55, 0.9));
+  }
+
+  :root[data-theme-mode='light'] {
+    --theme-bg: #f4f7fb;
+    --theme-surface: #ffffff;
+    --theme-surface-soft: #eef3f8;
+    --theme-surface-raised: #ffffff;
+    --theme-text: #172033;
+    --theme-muted: #5d6b80;
+    --theme-border: #d5dde8;
+    --theme-shadow: 0 18px 38px -24px rgba(15, 23, 42, 0.28);
+    --theme-city-overlay: linear-gradient(to bottom, rgba(244, 247, 251, 0.93), rgba(232, 238, 246, 0.96));
+  }
+
+  :root[data-theme-variant='corporate'] {
+    --theme-accent: #3b82f6;
+    --theme-accent-hover: #60a5fa;
+    --theme-accent-soft: rgba(59, 130, 246, 0.14);
+    --theme-accent-contrast: #ffffff;
+    --theme-radius: 0.45rem;
+  }
+
+  :root[data-theme-variant='minimal'] {
+    --theme-accent: #a1a1aa;
+    --theme-accent-hover: #d4d4d8;
+    --theme-accent-soft: rgba(161, 161, 170, 0.14);
+    --theme-accent-contrast: #18181b;
+    --theme-radius: 1.5rem;
+  }
+
+  :root[data-theme-mode='light'][data-theme-variant='minimal'] {
+    --theme-bg: #f4f4f5;
+    --theme-surface: #ffffff;
+    --theme-surface-soft: #e4e4e7;
+    --theme-text: #18181b;
+    --theme-muted: #52525b;
+    --theme-border: #d4d4d8;
+    --theme-accent: #3f3f46;
+    --theme-accent-hover: #27272a;
+    --theme-accent-contrast: #ffffff;
+  }
+
+  :root[data-theme-variant='vibrant'] {
+    --theme-accent: #10b981;
+    --theme-accent-hover: #34d399;
+    --theme-accent-soft: rgba(16, 185, 129, 0.15);
+    --theme-accent-contrast: #03251b;
+    --theme-surface-raised: #21143a;
+  }
+
+  body {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+}
+
+/* Prominent Corporate City Background Overlay */
+.bg-city-overlay {
+  background-image: 
+    var(--theme-city-overlay),
+    url('/city-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.bg-mesh-pattern {
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(196, 214, 0, 0.22) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(15, 37, 55, 0.90) 0px, transparent 50%),
+    linear-gradient(to bottom, rgba(10, 24, 36, 0.72), rgba(15, 37, 55, 0.84)),
+    url('/city-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.bg-texture-dots {
+  background-image: radial-gradient(color-mix(in srgb, var(--theme-accent) 17%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Glassmorphism styling with Validum Lime border glow */
+.glass-panel {
+  background: rgba(15, 37, 55, 0.82);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(196, 214, 0, 0.3);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 20px -3px rgba(196, 214, 0, 0.2);
+}
+
+.glass-card-light {
+  background: #f7f5ed;
+  box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(196, 214, 0, 0.4);
+}
+
+/* Primary Lime Action Button styling */
+.btn-validum-lime {
+  background-color: #c4d600;
+  color: #0f2537;
+  font-weight: 800;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 10px 25px -5px rgba(196, 214, 0, 0.4);
+  border: 1px solid #c4d600;
+}
+
+.btn-validum-lime:hover {
+  background-color: #d2e300;
+  transform: translateY(-1px);
+  box-shadow: 0 15px 30px -5px rgba(196, 214, 0, 0.6);
+}
+
+/* Secondary Navy Action Button styling */
+.btn-validum-navy {
+  background-color: #0f2537;
+  color: #ffffff;
+  border: 1px solid rgba(196, 214, 0, 0.4);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-validum-navy:hover {
+  background-color: #16324a;
+  border-color: #c4d600;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-surface-soft);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-accent);
+}
+
+/* Semantic theme primitives used by new modules and progressively by the
+   existing PDF/form designer. They deliberately avoid coupling components to
+   any particular palette. */
+.theme-app-shell {
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.theme-navbar,
+.theme-sidebar,
+.theme-surface,
+.theme-popover {
+  background-color: color-mix(in srgb, var(--theme-surface) 96%, transparent);
+  border-color: var(--theme-border);
+  color: var(--theme-text);
+}
+
+.theme-popover,
+.theme-surface {
+  box-shadow: var(--theme-shadow);
+}
+
+.theme-surface-soft {
+  background-color: var(--theme-surface-soft);
+  border-color: var(--theme-border);
+}
+
+.theme-text { color: var(--theme-text); }
+.theme-muted { color: var(--theme-muted); }
+.theme-accent { color: var(--theme-accent); }
+.theme-accent-soft { background-color: var(--theme-accent-soft); color: var(--theme-accent); }
+
+.theme-control,
+.theme-input {
+  background-color: var(--theme-surface-soft);
+  border-color: var(--theme-border);
+  color: var(--theme-text);
+}
+
+.theme-input::placeholder { color: var(--theme-muted); opacity: 0.72; }
+.theme-input:focus { border-color: var(--theme-accent); box-shadow: 0 0 0 2px var(--theme-accent-soft); }
+.theme-control:hover,
+.theme-row:hover { background-color: var(--theme-accent-soft); }
+
+.theme-accent-button {
+  background-color: var(--theme-accent);
+  color: var(--theme-accent-contrast);
+  box-shadow: 0 10px 26px -14px var(--theme-accent);
+}
+
+.theme-accent-button:hover { background-color: var(--theme-accent-hover); }
+.theme-selected-card { background-color: var(--theme-accent-soft); border-color: var(--theme-accent); }
+
+[data-theme-variant='corporate'] :where(.rounded-xl, .rounded-2xl, .rounded-3xl) {
+  border-radius: var(--theme-radius);
+}
+
+[data-theme-variant='minimal'] :where(.rounded-xl, .rounded-2xl, .rounded-3xl) {
+  border-radius: var(--theme-radius);
+}
+
+/* Compatibility bridge for the existing designer, which was built with fixed
+   Tailwind navy/lime utilities. This lets every current screen participate in
+   light/dark mode while components migrate toward semantic theme classes. */
+[data-theme-mode='light'] .bg-\[\#0f182a\],
+[data-theme-mode='light'] .bg-\[\#0f182a\]\/95,
+[data-theme-mode='light'] .bg-\[\#060e18\],
+[data-theme-mode='light'] .bg-\[\#060c18\],
+[data-theme-mode='light'] .bg-\[\#050a14\],
+[data-theme-mode='light'] .bg-\[\#070e18\],
+[data-theme-mode='light'] .bg-\[\#070e18\]\/95,
+[data-theme-mode='light'] .bg-\[\#070e1a\],
+[data-theme-mode='light'] .bg-\[\#070e1c\],
+[data-theme-mode='light'] .bg-\[\#070e17\],
+[data-theme-mode='light'] .bg-\[\#070d17\],
+[data-theme-mode='light'] .bg-\[\#08101e\],
+[data-theme-mode='light'] .bg-\[\#091220\],
+[data-theme-mode='light'] .bg-\[\#091322\],
+[data-theme-mode='light'] .bg-\[\#091424\]\/90,
+[data-theme-mode='light'] .bg-\[\#091522\],
+[data-theme-mode='light'] .bg-\[\#0a1526\]\/80,
+[data-theme-mode='light'] .bg-\[\#0a1828\],
+[data-theme-mode='light'] .bg-\[\#0b1724\]\/90,
+[data-theme-mode='light'] .bg-\[\#0b1725\],
+[data-theme-mode='light'] .bg-\[\#0b172a\],
+[data-theme-mode='light'] .bg-\[\#0c1424\],
+[data-theme-mode='light'] .bg-\[\#0c1524\],
+[data-theme-mode='light'] .bg-\[\#0c1825\],
+[data-theme-mode='light'] .bg-slate-950,
+[data-theme-mode='light'] .bg-slate-950\/70,
+[data-theme-mode='light'] .bg-slate-900 {
+  background-color: var(--theme-surface) !important;
+}
+
+[data-theme-mode='light'] .bg-\[\#0a1824\],
+[data-theme-mode='light'] .bg-\[\#0e2136\],
+[data-theme-mode='light'] .bg-\[\#0f2537\],
+[data-theme-mode='light'] .bg-\[\#0f2537\]\/90,
+[data-theme-mode='light'] .bg-\[\#16324a\],
+[data-theme-mode='light'] .bg-slate-900\/60,
+[data-theme-mode='light'] .bg-slate-800 {
+  background-color: var(--theme-surface-soft) !important;
+}
+
+[data-theme-mode='light'] :where(.text-white, .text-slate-100, .text-slate-200, .text-slate-300) {
+  color: var(--theme-text) !important;
+}
+
+[data-theme-mode='light'] :where(.text-slate-400, .text-slate-500, .text-slate-600) {
+  color: var(--theme-muted) !important;
+}
+
+[data-theme-mode='light'] :where(.border-slate-700, .border-slate-800, .border-slate-800\/80) {
+  border-color: var(--theme-border) !important;
+}
+
+[data-theme-variant]:not([data-theme-variant='validum']) .bg-\[\#c4d600\] {
+  background-color: var(--theme-accent) !important;
+  border-color: var(--theme-accent) !important;
+  color: var(--theme-accent-contrast) !important;
+}
+
+[data-theme-variant]:not([data-theme-variant='validum']) :where(
+  .bg-\[\#c4d600\]\/5,
+  .bg-\[\#c4d600\]\/10,
+  .bg-\[\#c4d600\]\/15,
+  .bg-\[\#c4d600\]\/20,
+  .bg-\[\#c4d600\]\/30
+) {
+  background-color: var(--theme-accent-soft) !important;
+}
+
+[data-theme-variant]:not([data-theme-variant='validum']) .text-\[\#c4d600\] {
+  color: var(--theme-accent) !important;
+}
+
+[data-theme-variant]:not([data-theme-variant='validum']) .border-\[\#c4d600\] {
+  border-color: var(--theme-accent) !important;
+}
+
+
+[data-theme-variant]:not([data-theme-variant='validum']) :where(
+  .border-\[\#c4d600\]\/20,
+  .border-\[\#c4d600\]\/30,
+  .border-\[\#c4d600\]\/40,
+  .border-\[\#c4d600\]\/50,
+  .border-\[\#c4d600\]\/60,
+  .border-\[\#c4d600\]\/70
+) {
+  border-color: color-mix(in srgb, var(--theme-accent) 45%, transparent) !important;
+}
+
+[data-theme-mode='light'] .glass-panel {
+  background: color-mix(in srgb, var(--theme-surface) 92%, transparent);
+  border-color: var(--theme-border);
+  box-shadow: var(--theme-shadow);
+}
+
+[data-theme-variant]:not([data-theme-variant='validum']) :where(.btn-validum-lime, .btn-validum-navy) {
+  background-color: var(--theme-accent);
+  border-color: var(--theme-accent);
+  color: var(--theme-accent-contrast);
+}

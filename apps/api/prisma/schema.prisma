@@ -1,0 +1,394 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  ADMIN
+  ANALYST
+}
+
+enum CaseStatus {
+  RECEIVED
+  PROCESSING
+  REVIEW_REQUIRED
+  READY
+  DELIVERED
+  FAILED
+}
+
+enum DocumentStatus {
+  RECEIVED
+  STORED
+  PROCESSING
+  PROCESSED
+  REVIEW_REQUIRED
+  FAILED
+}
+
+enum AffiliateDocumentCategory {
+  CONTRIBUTOR_IDENTITY
+  SPOUSE_IDENTITY
+  BENEFICIARY_IDENTITY
+  CIVIL_REGISTRY
+  OTHER
+}
+
+enum Channel {
+  WHATSAPP
+  DASHBOARD
+  API
+}
+
+enum TemplateEntityType {
+  EPS
+  ARL
+  AFP
+  CCF
+  IPS
+  OTHER
+}
+
+enum ApplicationType {
+  AFFILIATION
+  CHANGE
+  DISABILITY
+  TRANSFER
+  OTHER
+}
+
+enum ApplicationStatus {
+  DRAFT
+  DATA_PENDING
+  READY_FOR_REVIEW
+  APPROVED
+  GENERATED
+  SUBMITTED
+  REJECTED
+}
+
+enum ConversationState {
+  NEW
+  AWAITING_APPLICATION_TYPE
+  AWAITING_DOCUMENT
+  AWAITING_FULL_NAME
+  AWAITING_EPS
+  COMPLETED
+}
+
+model User {
+  id String @id @default(uuid())
+  email String @unique
+  passwordHash String
+  role UserRole @default(ANALYST)
+  createdAt DateTime @default(now())
+  auditLogs AuditLog[]
+}
+
+model Company {
+  id                    String   @id @default(uuid())
+  legalName             String
+  documentType          String   @default("NIT")
+  documentNumber        String
+  verificationDigit     String?
+  department            String?
+  city                  String?
+  address               String?
+  phone                 String?
+  email                 String?
+  humanResourcesContact String?
+  tradeName             String?
+  legalRepresentative   String?
+  representativeDocument String?
+  economicActivity      String?
+  payerType             String?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  employees             Employee[]
+  applications          Application[]
+  @@unique([documentType, documentNumber])
+}
+
+model Employee {
+  id                    String   @id @default(uuid())
+  companyId             String?
+  company               Company? @relation(fields: [companyId], references: [id])
+  documentType          String
+  documentNumber        String   @unique
+  firstName             String
+  middleName            String?
+  firstSurname          String
+  secondSurname         String?
+  birthDate             DateTime?
+  sex                   String?
+  genderIdentity        String?
+  maritalStatus         String?
+  nationality           String?
+  birthCountry          String   @default("CO")
+  birthDepartment       String?
+  birthCity             String?
+  issueCountry          String   @default("CO")
+  issueDepartment       String?
+  issueCity             String?
+  issueDate             DateTime?
+  residenceDepartment   String?
+  residenceCity         String?
+  residenceType         String?
+  address               String?
+  neighborhood          String?
+  municipalityCode      String?
+  departmentCode        String?
+  mobilePhone           String?
+  landlinePhone         String?
+  localityCommune       String?
+  email                 String?
+  epsName               String?
+  epsCode               String?
+  arlName               String?
+  arlRiskLevel          Int?
+  pensionFund           String?
+  compensationFund      String?
+  affiliationType       String?
+  affiliationMode       String?
+  healthRegime          String?
+  affiliateType         String?
+  epsRegistrationCode   String?
+  noveltyType           String?
+  mobilityRegime        String?
+  transferRegime        String?
+  noveltyDate           DateTime?
+  previousEps           String?
+  transferReason        String?
+  previousCompensationFund String?
+  contributorType       String?
+  contributorTypeCode   String?
+  contributorSubtype    String?
+  satRequest             String?
+  ethnicity             String?
+  disability            String?
+  sisbenScore            Decimal? @db.Decimal(8, 2)
+  specialGroup           String?
+  condition              String?
+  salary                Decimal? @db.Decimal(14, 2)
+  position              String?
+  workDepartment        String?
+  selectedIps           String?
+  ipsCode               String?
+  startDate             DateTime?
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  beneficiaries         Beneficiary[]
+  documents             AffiliateDocument[]
+  applications          Application[]
+}
+
+model AffiliateDocument {
+  id            String                    @id @default(uuid())
+  employeeId    String
+  employee      Employee                  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  beneficiaryId String?
+  category      AffiliateDocumentCategory
+  originalName  String
+  contentType   String
+  storageKey    String                    @unique
+  createdAt     DateTime                  @default(now())
+  @@index([employeeId, category])
+}
+
+model Beneficiary {
+  id             String   @id @default(uuid())
+  employeeId     String
+  employee       Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  relationship   String
+  documentType   String
+  documentNumber String
+  firstName      String
+  middleName     String?
+  firstSurname   String
+  secondSurname  String?
+  birthDate      DateTime?
+  sex            String?
+  nationality    String?
+  birthCountry   String?
+  birthDepartment String?
+  birthCity      String?
+  ethnicity      String?
+  disability     String?
+  condition      String?
+  residenceCity  String?
+  residenceZone  String?
+  residenceDepartment String?
+  phone           String?
+  upcValue        Decimal? @db.Decimal(14, 2)
+  selectedIps     String?
+  ipsCode         String?
+  createdAt      DateTime @default(now())
+  @@unique([employeeId, documentType, documentNumber])
+}
+
+model FormTemplate {
+  id             String             @id @default(uuid())
+  name           String
+  entityName     String
+  entityType     TemplateEntityType
+  applicationType ApplicationType
+  description    String?
+  storageKey     String
+  thumbnailKey   String?
+  pageCount      Int
+  pageSizes      Json?
+  layoutFingerprint String?
+  version        Int                @default(1)
+  active         Boolean            @default(true)
+  mappingStatus  String             @default("draft")
+  fields         TemplateField[]
+  applications   Application[]
+  createdAt      DateTime           @default(now())
+  updatedAt      DateTime           @updatedAt
+  @@unique([entityName, applicationType, version])
+}
+
+model TemplateField {
+  id                   String       @id @default(uuid())
+  templateId           String
+  template             FormTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+  page                 Int
+  x                    Float
+  y                    Float
+  width                Float
+  height               Float
+  dataSource           String
+  fieldKey             String
+  label                String
+  fieldType            String       @default("text")
+  fontSize             Float        @default(10)
+  fontFamily           String       @default("helvetica")
+  alignment            String       @default("left")
+  verticalAlignment    String       @default("middle")
+  bold                 Boolean      @default(false)
+  uppercase            Boolean      @default(false)
+  color                String       @default("#000000")
+  checkboxCharacter    String?
+  checkboxMatchValue   String?
+  checkboxRule         Json?
+  dateFormat           String?
+  numberFormat         String?
+  stampText            String?
+  stampSubtext         String?
+  stampShape           String?
+  stampBorderColor     String?
+  stampFillColor       String?
+  stampBorderWidth     Float?
+  stampOpacity         Float?
+  characterByCharacter Boolean      @default(false)
+  characterSpacing     Float?
+  characterCount       Int?
+  padding              Float        @default(1)
+  overflowPolicy       String       @default("error")
+  minFontSize          Float        @default(6)
+  maxLength            Int?
+  acroFieldName        String?
+  required             Boolean      @default(false)
+  defaultValue         String?
+  @@index([templateId, page])
+}
+
+model Application {
+  id                String            @id @default(uuid())
+  reference         String            @unique
+  type              ApplicationType
+  status            ApplicationStatus @default(DRAFT)
+  employeeId        String
+  employee          Employee          @relation(fields: [employeeId], references: [id])
+  companyId         String?
+  company           Company?          @relation(fields: [companyId], references: [id])
+  templateId        String?
+  template          FormTemplate?     @relation(fields: [templateId], references: [id])
+  caseId            String?           @unique
+  case              Case?             @relation(fields: [caseId], references: [id])
+  formData          Json?
+  missingFields     Json?
+  generatedFileKey  String?
+  approvedById      String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+}
+
+model Contact {
+  id String @id @default(uuid())
+  whatsappId String @unique
+  displayName String?
+  cases Case[]
+  conversation ConversationSession?
+  whatsappMessages WhatsAppMessage[]
+  createdAt DateTime @default(now())
+}
+
+model ConversationSession {
+  id        String            @id @default(uuid())
+  contactId String            @unique
+  contact   Contact           @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  state     ConversationState @default(NEW)
+  caseId    String?
+  context   Json?
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+}
+
+model WhatsAppMessage {
+  id            String   @id @default(uuid())
+  contactId     String
+  contact       Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  metaMessageId String   @unique
+  direction     String
+  messageType   String
+  content       String?
+  createdAt     DateTime @default(now())
+  @@index([contactId, createdAt])
+}
+
+model Case {
+  id String @id @default(uuid())
+  reference String @unique
+  status CaseStatus @default(RECEIVED)
+  epsName String?
+  contactId String
+  contact Contact @relation(fields: [contactId], references: [id])
+  documents Document[]
+  extractedData Json?
+  application Application?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Document {
+  id String @id @default(uuid())
+  caseId String
+  case Case @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  originalName String
+  contentType String
+  storageKey String @unique
+  sourceMessageId String? @unique
+  status DocumentStatus @default(RECEIVED)
+  extractedText String?
+  extraction Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AuditLog {
+  id String @id @default(uuid())
+  actorId String?
+  actor User? @relation(fields: [actorId], references: [id])
+  action String
+  entityType String
+  entityId String
+  channel Channel @default(API)
+  metadata Json?
+  createdAt DateTime @default(now())
+  @@index([entityType, entityId])
+}
