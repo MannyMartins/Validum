@@ -13,6 +13,7 @@ COPY apps/dashboard/package.json apps/dashboard/package.json
 COPY apps/validum/package.json apps/validum/package.json
 RUN pnpm install --frozen-lockfile
 COPY apps/validum apps/validum
+RUN test -n "$VITE_SUPABASE_URL" && test -n "$VITE_SUPABASE_PUBLISHABLE_KEY"
 RUN pnpm --filter @mvp/validum build
 
 FROM nginx:1.27-alpine

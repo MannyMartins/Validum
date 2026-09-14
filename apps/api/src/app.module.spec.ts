@@ -11,6 +11,16 @@ describe('validateEnvironment', () => {
     expect(() => validateEnvironment({ ...baseEnvironment, DATABASE_URL: '' })).toThrow('DATABASE_URL es obligatorio');
   });
 
+  it('rejects a missing Redis connection', () => {
+    expect(() => validateEnvironment({ ...baseEnvironment, REDIS_URL: '' })).toThrow('REDIS_URL es obligatorio');
+  });
+
+  it('rejects a weak JWT secret', () => {
+    expect(() => validateEnvironment({ ...baseEnvironment, JWT_SECRET: 'public-secret' })).toThrow(
+      'JWT_SECRET es obligatorio y debe contener al menos 32 caracteres',
+    );
+  });
+
   it('rejects an insecure production origin', () => {
     expect(() => validateEnvironment({
       ...baseEnvironment,
