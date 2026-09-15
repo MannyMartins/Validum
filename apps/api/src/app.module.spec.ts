@@ -11,12 +11,6 @@ const productionServices = {
   S3_BUCKET: 'private-documents',
   S3_ACCESS_KEY_ID: 'access-key',
   S3_SECRET_ACCESS_KEY: 'secret-key',
-  WHATSAPP_VERIFY_TOKEN: 'verify-token',
-  WHATSAPP_ACCESS_TOKEN: 'access-token',
-  WHATSAPP_PHONE_NUMBER_ID: '123456',
-  WHATSAPP_APP_SECRET: 'meta-secret',
-  RESEND_API_KEY: 'resend-key',
-  EMAIL_FROM: 'Validum <no-reply@example.com>',
   APP_URL: 'https://dashboard.example.com',
 };
 
@@ -45,6 +39,17 @@ describe('validateEnvironment', () => {
   });
 
   it('accepts a complete production configuration', () => {
+    const environment = {
+      ...baseEnvironment,
+      ...productionServices,
+      NODE_ENV: 'production',
+      DASHBOARD_ORIGIN: 'https://dashboard.example.com',
+    };
+
+    expect(validateEnvironment(environment)).toBe(environment);
+  });
+
+  it('permite arrancar sin integraciones opcionales de correo y WhatsApp', () => {
     const environment = {
       ...baseEnvironment,
       ...productionServices,

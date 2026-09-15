@@ -55,14 +55,12 @@ JWT_SECRET=<secreto aleatorio de al menos 32 caracteres>
 JWT_EXPIRES_IN_SECONDS=28800
 DASHBOARD_ORIGIN=https://<dominio-validum>
 APP_URL=https://<dominio-validum>
-RESEND_API_KEY=<clave privada de Resend>
-EMAIL_FROM=Validum <no-reply@su-dominio.com>
 ADMIN_NAME=<nombre del primer administrador; temporal>
 ADMIN_EMAIL=<correo del primer administrador; temporal>
 ADMIN_PASSWORD=<clave de al menos 12 caracteres; temporal>
 ```
 
-Añade también las variables S3 anteriores y las credenciales reales de WhatsApp descritas en `apps/api/.env.example`. Genera un dominio público y verifica:
+Genera un dominio público y verifica:
 
 ```text
 https://<dominio-api>/api/health
@@ -91,4 +89,17 @@ Después de generar el dominio de Validum, coloca ese origen HTTPS exacto en `DA
 - carga y descarga privada de PDFs, firmas y soportes;
 - generación de formularios y auditoría.
 
-Las invitaciones y recuperaciones usan enlaces de un solo uso emitidos por el API. Configura el dominio remitente en Resend antes de probar esos flujos.
+## 7. Integraciones opcionales
+
+El API principal puede arrancar sin correo ni WhatsApp. Para habilitarlos añade después:
+
+```text
+RESEND_API_KEY=<clave privada de Resend>
+EMAIL_FROM=Validum <no-reply@su-dominio.com>
+WHATSAPP_VERIFY_TOKEN=<token de verificacion elegido por la empresa>
+WHATSAPP_ACCESS_TOKEN=<token de sistema de Meta>
+WHATSAPP_PHONE_NUMBER_ID=<id del numero en Meta>
+WHATSAPP_APP_SECRET=<secreto de la aplicacion de Meta>
+```
+
+Sin Resend, las invitaciones y recuperaciones responden con un error claro y no aparentan haber enviado correo. Sin las credenciales de Meta, el webhook de WhatsApp permanece bloqueado. Las invitaciones y recuperaciones usan enlaces de un solo uso emitidos por el API; configura y verifica el dominio remitente en Resend antes de probar esos flujos.

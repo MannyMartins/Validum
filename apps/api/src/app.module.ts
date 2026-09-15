@@ -39,12 +39,6 @@ export function validateEnvironment(config: Record<string, unknown>) {
       'S3_BUCKET',
       'S3_ACCESS_KEY_ID',
       'S3_SECRET_ACCESS_KEY',
-      'WHATSAPP_VERIFY_TOKEN',
-      'WHATSAPP_ACCESS_TOKEN',
-      'WHATSAPP_PHONE_NUMBER_ID',
-      'WHATSAPP_APP_SECRET',
-      'RESEND_API_KEY',
-      'EMAIL_FROM',
       'APP_URL',
     ];
     for (const name of productionRequired) {
