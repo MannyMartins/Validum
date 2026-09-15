@@ -7,7 +7,9 @@ import { DEFAULT_SCAN_OPTIONS } from '../types/soporte';
 
 // Asegurar configuración de PDF.js worker
 if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+  // Mantener esta versión sincronizada con pdfEngine.ts para invalidar
+  // respuestas del worker que hayan quedado cacheadas con un MIME incorrecto.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `${pdfWorkerUrl}?v=20260915-1`;
 }
 
 /**

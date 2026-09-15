@@ -10,8 +10,9 @@ import type { FormTemplate, PDFMappedField } from '../types/formularios';
 import type { Empleado, Empresa } from '../types/validum';
 import { normalizeSexValue, resolveFieldValue as resolveMappedFieldValue } from './mappingUtils';
 
-// Configurar el worker de PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
+// La versión en la URL evita reutilizar respuestas antiguas cacheadas con un
+// MIME incorrecto después de actualizar la configuración del servidor.
+pdfjsLib.GlobalWorkerOptions.workerSrc = `${pdfWorkerUrl}?v=20260915-1`;
 
 // ============================================================
 // RENDERIZADO DE PDF → IMAGEN (para el diseñador visual)
