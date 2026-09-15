@@ -1,4 +1,5 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Res } from '@nestjs/common';
+import type { Response } from 'express';
 
 @Controller()
 export class AppController {
@@ -13,10 +14,7 @@ export class AppController {
   }
 
   @Get()
-  getRoot() {
-    return {
-      application: 'whatsapp-document-automation-api',
-      status: 'running',
-    };
+  getRoot(@Res() response: Response) {
+    return response.redirect(302, process.env.APP_URL || 'http://localhost:3000');
   }
 }

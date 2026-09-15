@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
@@ -6,7 +6,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { rawBody: true });
   app.useBodyParser('json', { limit: '40mb' });
-  app.setGlobalPrefix('api');
+  // Keep the public website entry point outside the API prefix. Railway assigns
+  // a domain to this service and users occasionally open it directly; sending
+  // them to the dashboard is friendlier than exposing a framework 404.
+  app.setGlobalPrefix('api', {
+    exclude: [{ path: '', method: RequestMethod.GET }],
+  });
 
   const configuredOrigins = (process.env.DASHBOARD_ORIGIN || '')
     .split(',')
