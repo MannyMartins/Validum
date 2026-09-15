@@ -109,7 +109,10 @@ export class WorkspaceService {
     const state = await this.state(organizationId);
     const records = this.array(state[collection]);
     const existing = records.find((item) => String(item.id) === id);
-    if (!existing) throw new NotFoundException();
+    // El cliente limpia identificadores históricos durante cada arranque. La
+    // eliminación debe ser idempotente para que un tenant recién creado no
+    // falle antes de importar sus plantillas predeterminadas.
+    if (!existing) return { success: true };
     const keys = ['_pdfStorageKey', '_thumbnailStorageKey'].map((key) => existing[key]).filter((value): value is string => typeof value === 'string');
     await this.prisma.workspaceState.update({ where: { organizationId },
       data: { [collection]: records.filter((item) => String(item.id) !== id) as Prisma.InputJsonValue } });
