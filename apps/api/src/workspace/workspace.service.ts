@@ -50,7 +50,13 @@ export class WorkspaceService {
   async bootstrap(organizationId: string) {
     const state = await this.state(organizationId);
     const templates = await Promise.all(this.array(state.templates).map(async (item) => {
-      let hydrated = await this.hydrateAsset(item, 'pdfBase64', '_pdfStorageKey');
+      // Las plantillas incluidas en el frontend ya tienen un pdfAssetPath
+      // versionado. No descargamos su copia de S3 en cada bootstrap: hacerlo
+      // agregaba ~11 MB a toda respuesta y bloqueaba la interfaz durante varios
+      // segundos. Los PDF personalizados continúan hidratándose normalmente.
+      let hydrated = typeof item.pdfAssetPath === 'string' && item.pdfAssetPath
+        ? item
+        : await this.hydrateAsset(item, 'pdfBase64', '_pdfStorageKey');
       hydrated = await this.hydrateAsset(hydrated, 'thumbnailBase64', '_thumbnailStorageKey');
       return hydrated;
     }));

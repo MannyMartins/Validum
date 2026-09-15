@@ -319,6 +319,11 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
         }
       } catch (err) {
         console.error('Error rendering PDF:', err);
+        if (isActive) {
+          setBasePdfError(err instanceof Error
+            ? `El visor no pudo dibujar el PDF: ${err.message}`
+            : 'El visor no pudo dibujar el PDF guardado.');
+        }
       }
     };
 
@@ -1177,7 +1182,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
         <h2 className="text-xl font-bold">No se pudo abrir el formulario guardado</h2>
         <p className="mt-2 max-w-lg text-sm text-slate-400">{basePdfError}</p>
         <div className="mt-6 flex gap-3">
-          <button type="button" onClick={() => { setBasePdfError(''); setBasePdfLoadAttempt((current) => current + 1); }} className="rounded-xl bg-[#c4d600] px-4 py-2 text-xs font-bold text-slate-950">
+          <button type="button" onClick={() => { setBasePdfError(''); setPdfData(null); setBasePdfLoadAttempt((current) => current + 1); }} className="rounded-xl bg-[#c4d600] px-4 py-2 text-xs font-bold text-slate-950">
             Reintentar
           </button>
           <button type="button" onClick={onCancel} className="rounded-xl border border-slate-700 px-4 py-2 text-xs font-bold text-slate-300">

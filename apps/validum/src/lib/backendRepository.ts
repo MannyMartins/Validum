@@ -1,6 +1,5 @@
 import type { FormTemplate, GeneratedForm, StampPreset } from '../types/formularios';
 import type { Empleado, Empresa } from '../types/validum';
-import { DEFAULT_TEMPLATES } from '../data/defaultTemplates';
 import {
   generatedFormRepository as localGeneratedForms,
   loadActiveCompanyId as loadLocalActiveCompanyId,
@@ -13,29 +12,6 @@ import {
 import { hasApiSession, loadApiWorkspace, removeApiRecord, replaceApiCollection, saveApiRecord, setApiActiveCompany } from './apiClient';
 
 function requireSession() { if (!hasApiSession()) throw new Error('Debes iniciar sesión para acceder a PostgreSQL.'); }
-
-export async function syncBundledTemplatePdfs(): Promise<void> {
-  requireSession();
-  const existing = await templateRepository.list();
-  const byId = new Map(existing.map((item) => [item.id, item]));
-  for (const bundled of DEFAULT_TEMPLATES) {
-    const current = byId.get(bundled.id);
-    if (current?.pdfBase64 || !bundled.pdfAssetPath) continue;
-    const response = await fetch(bundled.pdfAssetPath);
-    if (!response.ok) throw new Error(`No se pudo cargar el PDF base de ${bundled.name}.`);
-    const pdfBase64 = await blobToDataUrl(await response.blob());
-    await templateRepository.save({ ...(current || bundled), pdfBase64 });
-  }
-}
-
-function blobToDataUrl(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(String(reader.result || ''));
-    reader.onerror = () => reject(reader.error || new Error('No se pudo leer el archivo.'));
-    reader.readAsDataURL(blob);
-  });
-}
 
 export async function loadCompanies(): Promise<Empresa[]> {
   requireSession(); return (await loadApiWorkspace()).companies as Empresa[];

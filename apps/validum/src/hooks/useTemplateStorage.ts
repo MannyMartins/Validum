@@ -5,7 +5,6 @@ import { normalizeTemplate, parseImportedTemplate, validateFormTemplate } from '
 import { migrateLegacyLocalStorage } from '../lib/validumStorage';
 import {
   generatedFormRepository,
-  syncBundledTemplatePdfs,
   templateRepository,
 } from '../lib/backendRepository';
 import type { FormTemplate, GeneratedForm } from '../types/formularios';
@@ -113,9 +112,6 @@ export function useTemplateStorage() {
           stored[defaultIndex] = nextTemplate;
         }
       }
-      // Las filas deben existir antes de vincular sus PDF empaquetados. Esto
-      // permite inicializar correctamente una organizacion nueva en una sola carga.
-      await syncBundledTemplatePdfs();
       setTemplates(stored.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt)));
       setGeneratedForms(await generatedFormRepository.list());
       setStorageError(null);
