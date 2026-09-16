@@ -78,6 +78,34 @@ export class WorkspaceService {
     return { success: true };
   }
 
+  /**
+   * Conserva empresa y expediente en una sola escritura. Esto evita que una
+   * radicacion quede a medias si la empresa se guarda pero falla el afiliado.
+   */
+  async saveAffiliationFolio(organizationId: string, company: JsonRecord, employee: JsonRecord) {
+    const companyId = String(company.id || '');
+    const employeeId = String(employee.id || '');
+    if (!companyId || !employeeId) {
+      throw new BadRequestException('La empresa y el expediente deben tener un identificador.');
+    }
+
+    const state = await this.state(organizationId);
+    const companies = this.array(state.companies);
+    const employees = this.array(state.employees);
+    const nextCompanies = [company, ...companies.filter((item) => String(item.id) !== companyId)];
+    const nextEmployees = [employee, ...employees.filter((item) => String(item.id) !== employeeId)];
+
+    await this.prisma.workspaceState.update({
+      where: { organizationId },
+      data: {
+        companies: nextCompanies as Prisma.InputJsonValue,
+        employees: nextEmployees as Prisma.InputJsonValue,
+        activeCompanyId: companyId,
+      },
+    });
+    return { success: true, company, employee };
+  }
+
   async saveRecord(organizationId: string, collection: Exclude<WorkspaceCollection, 'companies' | 'employees'>, record: JsonRecord) {
     this.assertCollection(collection);
     const id = String(record.id || '');

@@ -10,6 +10,7 @@ import {
   loadEmployees,
   migrateLocalWorkspaceToApi,
   saveActiveCompanyId,
+  saveAffiliationFolio as persistAffiliationFolio,
   saveCompanies,
   saveEmployees,
 } from '../lib/backendRepository';
@@ -51,6 +52,7 @@ interface ValidumContextType {
   addEmpleado: (empleado: Empleado) => Promise<void>;
   addEmpleados: (empleados: Empleado[]) => Promise<void>;
   updateEmpleado: (id: string, empleado: Partial<Empleado>) => Promise<void>;
+  saveAffiliationFolio: (company: Empresa, employee: Empleado) => Promise<void>;
   deleteEmpleado: (id: string) => Promise<void>;
   novedades: Novedad[];
   addNovedad: (novedad: Novedad) => void;
@@ -225,6 +227,18 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setEmpleados(next);
   };
 
+  const saveAffiliationFolio = async (company: Empresa, employee: Empleado) => {
+    await persistAffiliationFolio(company, employee);
+    const nextCompanies = [company, ...empresasRef.current.filter(item => item.id !== company.id)];
+    const nextEmployees = [employee, ...empleadosRef.current.filter(item => item.id !== employee.id)];
+    empresasRef.current = nextCompanies;
+    empleadosRef.current = nextEmployees;
+    setEmpresas(nextCompanies);
+    setEmpleados(nextEmployees);
+    setEmpresaState(company);
+    setUserSession(current => current ? { ...current, empresaActual: company } : current);
+  };
+
   const deleteEmpleado = async (id: string) => {
     const next = empleadosRef.current.filter(emp => emp.id !== id);
     await deleteEmployee(id);
@@ -285,6 +299,7 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
       addEmpleado,
       addEmpleados,
       updateEmpleado,
+      saveAffiliationFolio,
       deleteEmpleado,
       novedades,
       addNovedad,

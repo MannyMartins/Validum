@@ -6,6 +6,10 @@ import { WorkspaceService } from './workspace.service';
 class ItemsDto { @IsArray() items!: unknown[]; }
 class ActiveCompanyDto { @IsOptional() @IsString() activeCompanyId!: string | null; }
 class RecordDto { @IsObject() record!: Record<string, unknown>; }
+class AffiliationFolioDto {
+  @IsObject() company!: Record<string, unknown>;
+  @IsObject() employee!: Record<string, unknown>;
+}
 @UseGuards(JwtAuthGuard)
 @Controller('workspace')
 export class WorkspaceController {
@@ -19,6 +23,10 @@ export class WorkspaceController {
   @Put('companies') companies(@Req() req: { user: SessionPayload }, @Body() body: ItemsDto) { this.assertCanWrite(req.user.membershipRole); return this.workspace.replace(req.user.organizationId, 'companies', body.items); }
   @Put('employees') employees(@Req() req: { user: SessionPayload }, @Body() body: ItemsDto) { this.assertCanWrite(req.user.membershipRole); return this.workspace.replace(req.user.organizationId, 'employees', body.items); }
   @Put('active-company') activeCompany(@Req() req: { user: SessionPayload }, @Body() body: ActiveCompanyDto) { this.assertCanWrite(req.user.membershipRole); return this.workspace.setActiveCompany(req.user.organizationId, body.activeCompanyId); }
+  @Post('affiliation-folios') affiliationFolio(@Req() req: { user: SessionPayload }, @Body() body: AffiliationFolioDto) {
+    this.assertCanWrite(req.user.membershipRole);
+    return this.workspace.saveAffiliationFolio(req.user.organizationId, body.company, body.employee);
+  }
   @Put('records/:collection/:id') save(@Req() req: { user: SessionPayload }, @Param('collection') collection: 'templates' | 'generatedForms' | 'stampPresets', @Param('id') id: string, @Body() body: RecordDto) {
     this.assertCanWrite(req.user.membershipRole); return this.workspace.saveRecord(req.user.organizationId, collection, { ...body.record, id });
   }

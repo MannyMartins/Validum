@@ -9,7 +9,7 @@ import {
   stampPresetRepository as localStampPresets,
   templateRepository as localTemplates,
 } from './validumStorage';
-import { hasApiSession, loadApiWorkspace, removeApiRecord, replaceApiCollection, saveApiRecord, setApiActiveCompany } from './apiClient';
+import { hasApiSession, loadApiWorkspace, removeApiRecord, replaceApiCollection, saveApiAffiliationFolio, saveApiRecord, setApiActiveCompany } from './apiClient';
 
 function requireSession() { if (!hasApiSession()) throw new Error('Debes iniciar sesión para acceder a PostgreSQL.'); }
 
@@ -36,6 +36,10 @@ export async function saveEmployees(employees: Empleado[]): Promise<void> {
 }
 export async function deleteEmployee(employeeId: string): Promise<void> {
   await saveEmployees((await loadEmployees()).filter((employee) => employee.id !== employeeId));
+}
+export async function saveAffiliationFolio(company: Empresa, employee: Empleado): Promise<void> {
+  requireSession();
+  await saveApiAffiliationFolio(company, employee);
 }
 
 export const templateRepository = {

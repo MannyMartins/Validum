@@ -67,6 +67,11 @@ export function replaceApiCollection(collection: 'companies' | 'employees', item
 export function setApiActiveCompany(activeCompanyId: string | null): Promise<void> {
   return apiRequest('/workspace/active-company', { method: 'PUT', body: JSON.stringify({ activeCompanyId }) });
 }
+export function saveApiAffiliationFolio(company: unknown, employee: unknown): Promise<void> {
+  return apiRequest('/workspace/affiliation-folios', {
+    method: 'POST', body: JSON.stringify({ company, employee }),
+  });
+}
 export function saveApiRecord(collection: 'templates' | 'generatedForms' | 'stampPresets', record: Record<string, unknown>): Promise<void> {
   return apiRequest(`/workspace/records/${collection}/${encodeURIComponent(String(record.id))}`, { method: 'PUT', body: JSON.stringify({ record }) });
 }

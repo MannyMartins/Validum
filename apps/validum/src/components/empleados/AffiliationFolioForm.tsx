@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   User,
@@ -27,6 +27,7 @@ import {
 import { useValidum } from '../../context/ValidumContext';
 import { Empleado, Empresa, Beneficiario, DocumentoAdjunto } from '../../types/validum';
 import { eliminarSoporte, guardarSoporte } from '../../lib/documentStorage';
+import { loadAffiliationDraft, removeAffiliationDraft, saveAffiliationDraft } from '../../lib/validumStorage';
 import { InteractiveFolioLayout } from '../folio/InteractiveFolioLayout';
 import { EnhancedSignatureField } from '../folio/EnhancedSignatureField';
 
@@ -161,10 +162,14 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
   onClose,
   onSuccess
 }) => {
-  const { empresa, empresas, empleados, addEmpleado, updateEmpleado, setEmpresa } = useValidum();
+  const { empresa, empresas, empleados, saveAffiliationFolio } = useValidum();
   const [activeSection, setActiveSection] = useState<number>(0);
   const [direction, setDirection] = useState<number>(1);
   const [isSaving, setIsSaving] = useState(false);
+  const [draftReady, setDraftReady] = useState(false);
+  const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
+  const draftKey = initialEmployeeId || 'new';
+  const draftEmployeeIdRef = useRef(initialEmployeeId || crypto.randomUUID());
 
   // Documentos adjuntos
   const [documentos, setDocumentos] = useState<DocumentoAdjunto[]>(initialData?.documentos || []);
@@ -230,6 +235,56 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     firmaDigitalCotizante: initialData?.firmaDigitalCotizante || '',
     firmaDigitalEmpresa: initialData?.firmaDigitalEmpresa || ''
   }));
+
+  useEffect(() => {
+    let active = true;
+    void loadAffiliationDraft<FolioFormData>(draftKey)
+      .then(draft => {
+        if (!active || !draft) return;
+        draftEmployeeIdRef.current = draft.employeeId;
+        setForm(current => ({ ...current, ...draft.form }));
+        setDocumentos(draft.form.documentos || []);
+        setDraftStatus('saved');
+      })
+      .catch(error => console.warn('No se pudo recuperar el borrador del folio:', error))
+      .finally(() => { if (active) setDraftReady(true); });
+    return () => { active = false; };
+  }, [draftKey]);
+
+  const saveCurrentDraft = async () => {
+    setDraftStatus('saving');
+    try {
+      // Los archivos se guardan en IndexedDB con el mismo identificador usado
+      // por el expediente, de modo que sobrevivan a un cierre o error de red.
+      await Promise.all(pendientes.map(item => guardarSoporte(item.meta.id, item.file)));
+      await saveAffiliationDraft(draftKey, {
+        form: { ...form, documentos },
+        employeeId: draftEmployeeIdRef.current,
+        savedAt: new Date().toISOString(),
+      });
+      setDraftStatus('saved');
+    } catch (error) {
+      setDraftStatus('error');
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (!draftReady) return;
+    setDraftStatus('saving');
+    const timer = window.setTimeout(() => {
+      void saveCurrentDraft().catch(error => console.warn('No se pudo autoguardar el folio:', error));
+    }, 800);
+    return () => window.clearTimeout(timer);
+    // El autoguardado debe reaccionar al contenido, documentos y archivos nuevos.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form, documentos, pendientes, draftReady, draftKey]);
+
+  const handleClose = () => {
+    void saveCurrentDraft()
+      .catch(error => console.warn('No se pudo guardar el borrador antes de cerrar:', error))
+      .finally(() => onClose?.());
+  };
 
   const update = <K extends keyof FolioFormData>(key: K, value: FolioFormData[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
@@ -437,6 +492,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     let employeeCommitted = false;
     try {
       let resolvedEmpresaId = form.empresaId;
+      let companyToSave: Empresa | undefined;
       if (form.empresaNumeroDoc.trim()) {
         const nitClean = form.empresaNumeroDoc.trim();
         const existingComp = empresas.find(e => e.id === form.empresaId) || empresas.find(e => e.nit === nitClean);
@@ -465,11 +521,11 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
           totalEmpleados: existingComp?.totalEmpleados,
         };
 
-        await setEmpresa(compPayload);
+        companyToSave = compPayload;
         resolvedEmpresaId = compPayload.id;
       }
 
-      const empleadoId = initialEmployeeId || crypto.randomUUID();
+      const empleadoId = draftEmployeeIdRef.current;
       const existingEmployee = initialEmployeeId ? empleados.find(item => item.id === initialEmployeeId) : undefined;
 
       // Los archivos deben existir antes de que el expediente los referencie. Si algo
@@ -546,14 +602,12 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
         estadoEps: existingEmployee?.estadoEps || 'RADICADO'
       };
 
-      if (initialEmployeeId) {
-        await updateEmpleado(initialEmployeeId, empleadoPayload);
-      } else {
-        await addEmpleado(empleadoPayload);
-      }
+      if (!companyToSave) throw new Error('No fue posible preparar la empresa aportante.');
+      await saveAffiliationFolio(companyToSave, empleadoPayload);
       employeeCommitted = true;
 
       await Promise.allSettled(removedDocumentIds.map(id => eliminarSoporte(id)));
+      await removeAffiliationDraft(draftKey);
 
       if (onSuccess) {
         onSuccess(empleadoPayload);
@@ -565,7 +619,20 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
       if (!employeeCommitted) {
         await Promise.allSettled(savedPendingIds.map(id => eliminarSoporte(id)));
       }
-      alert('Ocurrió un error al guardar el expediente.');
+      let draftSaved = false;
+      try {
+        await saveCurrentDraft();
+        draftSaved = true;
+      } catch (draftError) {
+        console.error('Tampoco se pudo guardar el borrador:', draftError);
+      }
+      const reason = error instanceof Error ? error.message : 'Error desconocido.';
+      alert(
+        `No se pudo radicar el expediente: ${reason}` +
+        (draftSaved
+          ? '\n\nLa afiliación quedó guardada como borrador y se recuperará al volver a abrirla.'
+          : '\n\nNo fue posible guardar el borrador. Mantén esta ventana abierta e inténtalo nuevamente.')
+      );
     } finally {
       setIsSaving(false);
     }
@@ -586,7 +653,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
       activeTab={activeSection}
       onTabChange={goToSection}
       sectionProgress={sectionProgress}
-      onClose={onClose}
+      onClose={handleClose}
       summaryCard={
         <div className="rounded-2xl border border-slate-800/80 bg-[#070e17] p-3.5 text-xs">
           <div className="flex items-center justify-between text-[11px] text-slate-400">
@@ -600,6 +667,12 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
           <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
             <span>Beneficiarios:</span>
             <span className="font-mono font-bold text-white">{form.beneficiarios.length}</span>
+          </div>
+          <div className="mt-2 flex items-center justify-between border-t border-slate-800 pt-2 text-[10px]">
+            <span className="text-slate-500">Protección del avance:</span>
+            <span className={draftStatus === 'error' ? 'font-bold text-rose-400' : 'font-bold text-emerald-400'}>
+              {draftStatus === 'saving' ? 'Guardando…' : draftStatus === 'error' ? 'Error de borrador' : 'Borrador protegido'}
+            </span>
           </div>
         </div>
       }
@@ -615,6 +688,15 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
           </button>
 
           <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              disabled={isSaving || draftStatus === 'saving'}
+              onClick={() => void saveCurrentDraft().catch(() => alert('No se pudo guardar el borrador en este equipo.'))}
+              className="flex items-center gap-1.5 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-xs font-bold text-slate-700 shadow-sm hover:bg-slate-50 disabled:opacity-50 transition-all"
+            >
+              <FileText className="h-4 w-4" />
+              {draftStatus === 'saving' ? 'Guardando…' : 'Guardar borrador'}
+            </button>
             {activeSection < SECTIONS.length - 1 ? (
               <button
                 type="button"

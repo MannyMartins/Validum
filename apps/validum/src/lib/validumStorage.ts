@@ -174,3 +174,28 @@ export async function loadEmployees(): Promise<Empleado[] | undefined> {
 export async function saveEmployees(employees: Empleado[]): Promise<void> {
   await put(PROFILE, employees, 'employees');
 }
+
+export interface AffiliationDraft<T> {
+  form: T;
+  employeeId: string;
+  savedAt: string;
+}
+
+export async function loadAffiliationDraft<T>(key: string): Promise<AffiliationDraft<T> | undefined> {
+  const db = await database();
+  try {
+    return await requestResult(
+      db.transaction(PROFILE, 'readonly').objectStore(PROFILE).get(`affiliationDraft:${key}`)
+    ) as AffiliationDraft<T> | undefined;
+  } finally {
+    db.close();
+  }
+}
+
+export async function saveAffiliationDraft<T>(key: string, draft: AffiliationDraft<T>): Promise<void> {
+  await put(PROFILE, draft, `affiliationDraft:${key}`);
+}
+
+export async function removeAffiliationDraft(key: string): Promise<void> {
+  await remove(PROFILE, `affiliationDraft:${key}`);
+}
