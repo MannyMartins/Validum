@@ -32,6 +32,25 @@ function restorePrunedFields(template: FormTemplate, factory: FormTemplate): For
   return { ...template, fields };
 }
 
+function upgradeFactoryTypography(template: FormTemplate, factory: FormTemplate): FormTemplate {
+  const factoryFields = new Map(factory.fields.map(field => [field.id, field]));
+  return {
+    ...template,
+    version: factory.version,
+    fields: template.fields.map(field => {
+      const factoryField = factoryFields.get(field.id);
+      if (!factoryField) return field;
+      const legacyLimit = field.fieldType === 'checkbox' ? 7 : 6;
+      if (field.fontSize > legacyLimit) return field;
+      return {
+        ...field,
+        fontSize: factoryField.fontSize,
+        minFontSize: Math.max(field.minFontSize || 0, factoryField.minFontSize || 5),
+      };
+    }),
+  };
+}
+
 function announceChange() {
   window.dispatchEvent(new Event(STORAGE_EVENT));
 }
@@ -106,7 +125,7 @@ export function useTemplateStorage() {
           const existing = stored[defaultIndex];
           const wasCustomized = existing.updatedAt !== existing.createdAt;
           const nextTemplate = wasCustomized
-            ? { ...existing, version: factory.version }
+            ? upgradeFactoryTypography(existing, factory)
             : factory;
           await templateRepository.save(nextTemplate);
           stored[defaultIndex] = nextTemplate;
