@@ -9,7 +9,14 @@ import {
   stampPresetRepository as localStampPresets,
   templateRepository as localTemplates,
 } from './validumStorage';
-import { loadApiWorkspace, removeApiRecord, replaceApiCollection, requireApiSession, saveApiAffiliationFolio, saveApiRecord, setApiActiveCompany } from './apiClient';
+import { loadApiAffiliationDrafts, loadApiWorkspace, removeApiAffiliationDraft, removeApiRecord, replaceApiCollection, requireApiSession, saveApiAffiliationDraft, saveApiAffiliationFolio, saveApiRecord, setApiActiveCompany } from './apiClient';
+
+export interface AffiliationDraftRecord<T> {
+  id: string;
+  employeeId: string;
+  form: T;
+  savedAt: string;
+}
 
 function requireSession() { requireApiSession(); }
 
@@ -40,6 +47,18 @@ export async function deleteEmployee(employeeId: string): Promise<void> {
 export async function saveAffiliationFolio(company: Empresa, employee: Empleado): Promise<void> {
   requireSession();
   await saveApiAffiliationFolio(company, employee);
+}
+export async function loadAffiliationDrafts<T>(): Promise<AffiliationDraftRecord<T>[]> {
+  requireSession();
+  return loadApiAffiliationDrafts<AffiliationDraftRecord<T>>();
+}
+export async function saveAffiliationDraftRecord<T>(draft: AffiliationDraftRecord<T>): Promise<void> {
+  requireSession();
+  await saveApiAffiliationDraft(draft.id, draft as unknown as Record<string, unknown>);
+}
+export async function removeAffiliationDraftRecord(id: string): Promise<void> {
+  requireSession();
+  await removeApiAffiliationDraft(id);
 }
 
 export const templateRepository = {

@@ -63,7 +63,49 @@ export class WorkspaceService {
     const generatedForms = await Promise.all(this.array(state.generatedForms)
       .map((item) => this.hydrateAsset(item, 'pdfResultBase64', '_pdfStorageKey')));
     return { companies: this.array(state.companies), employees: this.array(state.employees), templates,
-      generatedForms, stampPresets: this.array(state.stampPresets), activeCompanyId: state.activeCompanyId };
+      generatedForms, stampPresets: this.array(state.stampPresets), affiliationDrafts: this.array(state.affiliationDrafts),
+      activeCompanyId: state.activeCompanyId };
+  }
+
+  async listAffiliationDrafts(organizationId: string) {
+    const state = await this.state(organizationId);
+    return this.array(state.affiliationDrafts).sort((left, right) =>
+      String(right.savedAt || '').localeCompare(String(left.savedAt || '')));
+  }
+
+  async saveAffiliationDraft(organizationId: string, draft: JsonRecord) {
+    const id = String(draft.id || '');
+    if (!id) throw new BadRequestException('El borrador debe tener un identificador.');
+    const stored = { ...draft, id, savedAt: new Date().toISOString() };
+    await this.updateDraftsSerializable(organizationId, drafts =>
+      [stored, ...drafts.filter(item => String(item.id) !== id)]);
+    return stored;
+  }
+
+  async removeAffiliationDraft(organizationId: string, id: string) {
+    await this.updateDraftsSerializable(organizationId, drafts =>
+      drafts.filter(item => String(item.id) !== id));
+    return { success: true };
+  }
+
+  private async updateDraftsSerializable(organizationId: string, update: (drafts: JsonRecord[]) => JsonRecord[]) {
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      try {
+        await this.prisma.$transaction(async tx => {
+          const state = await tx.workspaceState.upsert({
+            where: { organizationId }, update: {}, create: { organizationId },
+          });
+          await tx.workspaceState.update({
+            where: { organizationId },
+            data: { affiliationDrafts: update(this.array(state.affiliationDrafts)) as Prisma.InputJsonValue },
+          });
+        }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+        return;
+      } catch (error) {
+        const retryable = error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2034';
+        if (!retryable || attempt === 3) throw error;
+      }
+    }
   }
 
   async replace(organizationId: string, collection: 'companies' | 'employees', items: unknown[]) {
@@ -88,6 +130,13 @@ export class WorkspaceService {
     if (!companyId || !employeeId) {
       throw new BadRequestException('La empresa y el expediente deben tener un identificador.');
     }
+    const affiliationType = String(employee.tipoAfiliacion || '');
+    if (!['NUEVO', 'NOVEDAD', 'TRASLADO', 'INCLUSION'].includes(affiliationType)) {
+      throw new BadRequestException('Debes definir claramente el tipo de afiliación antes de radicar.');
+    }
+    if (affiliationType === 'NOVEDAD' && !String(employee.tipoNovedad || '').trim()) {
+      throw new BadRequestException('Debes definir el tipo específico de novedad antes de radicar.');
+    }
 
     // El estado se guarda como JSON por organización. Una transacción serializable
     // evita que dos operadores que radiquen al mismo tiempo se sobrescriban entre sí.
@@ -108,6 +157,8 @@ export class WorkspaceService {
               companies: nextCompanies as Prisma.InputJsonValue,
               employees: nextEmployees as Prisma.InputJsonValue,
               activeCompanyId: companyId,
+              affiliationDrafts: this.array(state.affiliationDrafts)
+                .filter(item => String(item.employeeId) !== employeeId) as Prisma.InputJsonValue,
             },
           });
         }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });

@@ -17,6 +17,7 @@ export interface WorkspaceSnapshot {
   templates: unknown[];
   generatedForms: unknown[];
   stampPresets: unknown[];
+  affiliationDrafts: unknown[];
   activeCompanyId?: string | null;
 }
 
@@ -89,6 +90,17 @@ export function saveApiAffiliationFolio(company: unknown, employee: unknown): Pr
   return apiRequest('/workspace/affiliation-folios', {
     method: 'POST', body: JSON.stringify({ company, employee }),
   });
+}
+export function loadApiAffiliationDrafts<T>(): Promise<T[]> {
+  return apiRequest('/workspace/affiliation-drafts');
+}
+export function saveApiAffiliationDraft(id: string, record: Record<string, unknown>): Promise<void> {
+  return apiRequest(`/workspace/affiliation-drafts/${encodeURIComponent(id)}`, {
+    method: 'PUT', body: JSON.stringify({ record }),
+  });
+}
+export function removeApiAffiliationDraft(id: string): Promise<void> {
+  return apiRequest(`/workspace/affiliation-drafts/${encodeURIComponent(id)}`, { method: 'DELETE' });
 }
 export function saveApiRecord(collection: 'templates' | 'generatedForms' | 'stampPresets', record: Record<string, unknown>): Promise<void> {
   return apiRequest(`/workspace/records/${collection}/${encodeURIComponent(String(record.id))}`, { method: 'PUT', body: JSON.stringify({ record }) });

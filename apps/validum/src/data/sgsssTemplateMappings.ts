@@ -63,7 +63,7 @@ interface TemplateProfile {
   extraFields?: ExtraField[];
 }
 
-const CURRENT_VERSION = 13;
+const CURRENT_VERSION = 14;
 
 function inside(region: Box, x: number, top: number, width: number, height: number): Box {
   return {
@@ -100,7 +100,7 @@ function buildTemplate(profile: TemplateProfile): FormTemplate {
       dataSource: source,
       fieldKey: key,
       label,
-      fontSize: fieldType === 'checkbox' ? 7 : pageSize.height > 1050 ? 5.6 : 6,
+      fontSize: fieldType === 'checkbox' ? 9 : pageSize.height > 1050 ? 7.5 : 8,
       fontFamily: 'helvetica',
       alignment: fieldType === 'checkbox' ? 'center' : 'left',
       verticalAlignment: 'middle',
@@ -115,7 +115,7 @@ function buildTemplate(profile: TemplateProfile): FormTemplate {
       isCharacterByCharacter: false,
       padding: fieldType === 'checkbox' ? 0 : 0.8,
       overflowPolicy: 'shrink',
-      minFontSize: 3.8,
+      minFontSize: 5,
       ...options,
     });
   };

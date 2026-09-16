@@ -27,6 +27,17 @@ export class WorkspaceController {
     this.assertCanWrite(req.user.membershipRole);
     return this.workspace.saveAffiliationFolio(req.user.organizationId, body.company, body.employee);
   }
+  @Get('affiliation-drafts') affiliationDrafts(@Req() req: { user: SessionPayload }) {
+    return this.workspace.listAffiliationDrafts(req.user.organizationId);
+  }
+  @Put('affiliation-drafts/:id') saveAffiliationDraft(@Req() req: { user: SessionPayload }, @Param('id') id: string, @Body() body: RecordDto) {
+    this.assertCanWrite(req.user.membershipRole);
+    return this.workspace.saveAffiliationDraft(req.user.organizationId, { ...body.record, id });
+  }
+  @Delete('affiliation-drafts/:id') removeAffiliationDraft(@Req() req: { user: SessionPayload }, @Param('id') id: string) {
+    this.assertCanWrite(req.user.membershipRole);
+    return this.workspace.removeAffiliationDraft(req.user.organizationId, id);
+  }
   @Put('records/:collection/:id') save(@Req() req: { user: SessionPayload }, @Param('collection') collection: 'templates' | 'generatedForms' | 'stampPresets', @Param('id') id: string, @Body() body: RecordDto) {
     this.assertCanWrite(req.user.membershipRole); return this.workspace.saveRecord(req.user.organizationId, collection, { ...body.record, id });
   }

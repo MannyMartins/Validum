@@ -28,6 +28,12 @@ import { useValidum } from '../../context/ValidumContext';
 import { Empleado, Empresa, Beneficiario, DocumentoAdjunto } from '../../types/validum';
 import { eliminarSoporte, guardarSoporte } from '../../lib/documentStorage';
 import { loadAffiliationDraft, removeAffiliationDraft, saveAffiliationDraft } from '../../lib/validumStorage';
+import {
+  AffiliationDraftRecord,
+  loadAffiliationDrafts,
+  removeAffiliationDraftRecord,
+  saveAffiliationDraftRecord,
+} from '../../lib/backendRepository';
 import { InteractiveFolioLayout } from '../folio/InteractiveFolioLayout';
 import { EnhancedSignatureField } from '../folio/EnhancedSignatureField';
 
@@ -103,7 +109,7 @@ export interface FolioFormData {
   codigoIps: string;
 
   // Sección 3: Datos Laborales
-  tipoAfiliacion: 'NUEVO' | 'NOVEDAD' | 'TRASLADO' | 'INCLUSION';
+  tipoAfiliacion: '' | 'NUEVO' | 'NOVEDAD' | 'TRASLADO' | 'INCLUSION';
   tipoNovedad: string;
   tipoCotizante: 'DEPENDIENTE' | 'INDEPENDIENTE';
   solicitudSat: 'NO' | 'SÍ';
@@ -167,9 +173,12 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
   const [direction, setDirection] = useState<number>(1);
   const [isSaving, setIsSaving] = useState(false);
   const [draftReady, setDraftReady] = useState(false);
-  const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
-  const draftKey = initialEmployeeId || 'new';
-  const draftEmployeeIdRef = useRef(initialEmployeeId || crypto.randomUUID());
+  const [draftStatus, setDraftStatus] = useState<'idle' | 'saving' | 'saved' | 'local' | 'error'>('idle');
+  const initialDraftId = useRef(initialEmployeeId || crypto.randomUUID());
+  const [draftKey, setDraftKey] = useState(initialDraftId.current);
+  const draftEmployeeIdRef = useRef(initialEmployeeId || initialDraftId.current);
+  const [availableDrafts, setAvailableDrafts] = useState<AffiliationDraftRecord<FolioFormData>[]>([]);
+  const [draftPanelOpen, setDraftPanelOpen] = useState(false);
 
   // Documentos adjuntos
   const [documentos, setDocumentos] = useState<DocumentoAdjunto[]>(initialData?.documentos || []);
@@ -207,8 +216,8 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     ipsSeleccionada: initialData?.ipsSeleccionada || '',
     codigoIps: initialData?.codigoIps || '',
 
-    tipoAfiliacion: initialData?.tipoAfiliacion || 'NUEVO',
-    tipoNovedad: initialData?.tipoNovedad || 'MODIFICACION_DATOS',
+    tipoAfiliacion: initialData?.tipoAfiliacion || '',
+    tipoNovedad: initialData?.tipoNovedad || '',
     tipoCotizante: initialData?.tipoCotizante || 'DEPENDIENTE',
     solicitudSat: initialData?.solicitudSat || 'NO',
     arl: initialData?.arl || empresa?.arl || 'Positiva',
@@ -251,18 +260,33 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     return () => { active = false; };
   }, [draftKey]);
 
+  useEffect(() => {
+    void loadAffiliationDrafts<FolioFormData>()
+      .then(setAvailableDrafts)
+      .catch(error => console.warn('No se pudo consultar el panel de borradores:', error));
+  }, []);
+
   const saveCurrentDraft = async () => {
     setDraftStatus('saving');
     try {
       // Los archivos se guardan en IndexedDB con el mismo identificador usado
       // por el expediente, de modo que sobrevivan a un cierre o error de red.
       await Promise.all(pendientes.map(item => guardarSoporte(item.meta.id, item.file)));
-      await saveAffiliationDraft(draftKey, {
+      const draft: AffiliationDraftRecord<FolioFormData> = {
+        id: draftKey,
         form: { ...form, documentos },
         employeeId: draftEmployeeIdRef.current,
         savedAt: new Date().toISOString(),
-      });
-      setDraftStatus('saved');
+      };
+      const [localResult, remoteResult] = await Promise.allSettled([
+        saveAffiliationDraft(draftKey, draft),
+        saveAffiliationDraftRecord(draft),
+      ]);
+      if (localResult.status === 'rejected' && remoteResult.status === 'rejected') {
+        throw remoteResult.reason || localResult.reason;
+      }
+      setAvailableDrafts(current => [draft, ...current.filter(item => item.id !== draft.id)]);
+      setDraftStatus(remoteResult.status === 'fulfilled' ? 'saved' : 'local');
     } catch (error) {
       setDraftStatus('error');
       throw error;
@@ -274,7 +298,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     setDraftStatus('saving');
     const timer = window.setTimeout(() => {
       void saveCurrentDraft().catch(error => console.warn('No se pudo autoguardar el folio:', error));
-    }, 800);
+    }, 1500);
     return () => window.clearTimeout(timer);
     // El autoguardado debe reaccionar al contenido, documentos y archivos nuevos.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -290,11 +314,30 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     setForm(prev => ({ ...prev, [key]: value }));
   };
 
+  const resumeDraft = (draft: AffiliationDraftRecord<FolioFormData>) => {
+    setDraftReady(false);
+    draftEmployeeIdRef.current = draft.employeeId;
+    setDraftKey(draft.id);
+    setForm(current => ({ ...current, ...draft.form }));
+    setDocumentos(draft.form.documentos || []);
+    setPendientes([]);
+    setRemovedDocumentIds([]);
+    setDraftStatus('saved');
+    setDraftPanelOpen(false);
+  };
+
+  const deleteDraft = async (id: string) => {
+    await Promise.allSettled([removeAffiliationDraft(id), removeAffiliationDraftRecord(id)]);
+    setAvailableDrafts(current => current.filter(item => item.id !== id));
+  };
+
   // Cálculo de progreso de cada sección
   const sectionProgress = useMemo(() => {
     const p1Valid = Boolean(form.cedula && form.primerNombre && form.primerApellido && form.fechaNacimiento);
     const p2Valid = Boolean(form.eps && form.direccion && form.telefonoCotizante && form.emailCotizante);
-    const p3Valid = Boolean(form.cargo && form.salarioBase > 0 && form.fechaIngreso && (form.tipoAfiliacion !== 'TRASLADO' || form.epsAnterior));
+    const p3Valid = Boolean(form.tipoAfiliacion && form.cargo && form.salarioBase > 0 && form.fechaIngreso
+      && (form.tipoAfiliacion !== 'TRASLADO' || form.epsAnterior)
+      && (form.tipoAfiliacion !== 'NOVEDAD' || form.tipoNovedad));
     const p4Valid = Boolean(form.empresaNumeroDoc && form.empresaRazonSocial);
     // Los beneficiarios son opcionales; una lista vacía también es una sección válida.
     const p5Valid = true;
@@ -309,6 +352,12 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
       p6Valid ? 100 : form.firmaDigitalCotizante ? 50 : 0
     ];
   }, [form]);
+
+  const draftsForPerson = useMemo(() => availableDrafts.filter(draft => {
+    if (initialEmployeeId) return draft.employeeId === initialEmployeeId;
+    if (form.cedula.trim()) return draft.form.cedula?.trim() === form.cedula.trim() || draft.id === draftKey;
+    return true;
+  }), [availableDrafts, draftKey, form.cedula, initialEmployeeId]);
 
   // Selección de empresa guardada
   const handleCompanySelect = (id: string) => {
@@ -449,6 +498,16 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     }
 
     // 3. Validación Solapa 3: Datos Laborales
+    if (!form.tipoAfiliacion) {
+      alert('⚠️ Debes seleccionar claramente el tipo de afiliación antes de radicar. Puedes guardar el expediente como borrador mientras confirmas este dato.');
+      setActiveSection(2);
+      return;
+    }
+    if (form.tipoAfiliacion === 'NOVEDAD' && !form.tipoNovedad) {
+      alert('⚠️ Debes seleccionar el tipo específico de novedad antes de radicar.');
+      setActiveSection(2);
+      return;
+    }
     if (!form.cargo.trim()) {
       alert('⚠️ Campo requerido: Ingrese el cargo u ocupación en la solapa "Datos Laborales".');
       setActiveSection(2);
@@ -648,7 +707,70 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
   };
 
   return (
-    <InteractiveFolioLayout
+    <>
+      <AnimatePresence>
+        {draftPanelOpen && (
+          <motion.div
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onMouseDown={event => { if (event.target === event.currentTarget) setDraftPanelOpen(false); }}
+          >
+            <motion.section
+              initial={{ opacity: 0, y: 18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              className="max-h-[82vh] w-full max-w-3xl overflow-hidden rounded-3xl border border-slate-700 bg-[#0b1724] text-slate-100 shadow-2xl"
+            >
+              <header className="flex items-start justify-between border-b border-slate-700 px-6 py-5">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c4d600]">Expedientes sin radicar</p>
+                  <h2 className="mt-1 text-2xl font-black">Borradores de afiliación</h2>
+                  <p className="mt-1 text-sm text-slate-400">Retoma el último avance de la persona sin volver a digitar la información.</p>
+                </div>
+                <button type="button" onClick={() => setDraftPanelOpen(false)} className="rounded-xl border border-slate-700 p-2 text-slate-300 hover:bg-slate-800" aria-label="Cerrar panel de borradores">
+                  <X className="h-5 w-5" />
+                </button>
+              </header>
+              <div className="max-h-[60vh] space-y-3 overflow-y-auto p-5">
+                {draftsForPerson.length === 0 ? (
+                  <div className="rounded-2xl border border-dashed border-slate-700 px-6 py-12 text-center">
+                    <FileText className="mx-auto h-9 w-9 text-slate-600" />
+                    <p className="mt-3 font-bold text-slate-300">No hay borradores para esta persona.</p>
+                  </div>
+                ) : draftsForPerson.map(draft => {
+                  const personName = [draft.form.primerNombre, draft.form.segundoNombre, draft.form.primerApellido, draft.form.segundoApellido]
+                    .filter(Boolean).join(' ').trim() || 'Persona sin nombre';
+                  return (
+                    <article key={draft.id} className="flex flex-col gap-3 rounded-2xl border border-slate-700 bg-slate-900/70 p-4 sm:flex-row sm:items-center sm:justify-between">
+                      <div className="min-w-0">
+                        <p className="truncate text-base font-black text-white">{personName}</p>
+                        <p className="mt-1 text-xs text-slate-400">
+                          {draft.form.tipoDocumento || 'Documento'} {draft.form.cedula || 'sin número'} · {draft.form.eps || 'EPS sin definir'}
+                        </p>
+                        <p className="mt-1 text-[11px] text-slate-500">
+                          Guardado {new Date(draft.savedAt).toLocaleString('es-CO')}
+                          {' · '}{draft.form.tipoAfiliacion || 'tipo de afiliación pendiente'}
+                        </p>
+                      </div>
+                      <div className="flex shrink-0 gap-2">
+                        <button type="button" onClick={() => resumeDraft(draft)} className="rounded-xl bg-[#c4d600] px-4 py-2 text-xs font-black text-slate-950 hover:bg-[#d6e800]">
+                          Retomar
+                        </button>
+                        <button type="button" onClick={() => void deleteDraft(draft.id)} className="rounded-xl border border-rose-900/70 px-3 py-2 text-rose-300 hover:bg-rose-950/40" aria-label={`Eliminar borrador de ${personName}`}>
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </motion.section>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <InteractiveFolioLayout
       title="Documento folio"
       subtitle={`Sección ${activeSection + 1} de ${SECTIONS.length}: ${SECTIONS[activeSection].label} — ${SECTIONS[activeSection].desc}`}
       documentCode={`EXP-SGSSS-${new Date().getFullYear()}`}
@@ -662,7 +784,9 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
         <div className="rounded-2xl border border-slate-800/80 bg-[#070e17] p-3.5 text-xs">
           <div className="flex items-center justify-between text-[11px] text-slate-400">
             <span>Trámite actual:</span>
-            <span className="font-bold text-cyan-300">{form.tipoAfiliacion}</span>
+            <span className={`font-bold ${form.tipoAfiliacion ? 'text-cyan-300' : 'text-amber-300'}`}>
+              {form.tipoAfiliacion || 'SIN DEFINIR'}
+            </span>
           </div>
           <div className="mt-1 flex items-center justify-between text-[11px] text-slate-400">
             <span>EPS seleccionada:</span>
@@ -674,10 +798,17 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
           </div>
           <div className="mt-2 flex items-center justify-between border-t border-slate-800 pt-2 text-[10px]">
             <span className="text-slate-500">Protección del avance:</span>
-            <span className={draftStatus === 'error' ? 'font-bold text-rose-400' : 'font-bold text-emerald-400'}>
-              {draftStatus === 'saving' ? 'Guardando…' : draftStatus === 'error' ? 'Error de borrador' : 'Borrador protegido'}
+            <span className={draftStatus === 'error' ? 'font-bold text-rose-400' : draftStatus === 'local' ? 'font-bold text-amber-300' : 'font-bold text-emerald-400'}>
+              {draftStatus === 'saving' ? 'Guardando…' : draftStatus === 'error' ? 'Error de borrador' : draftStatus === 'local' ? 'Guardado en este equipo' : 'Borrador protegido'}
             </span>
           </div>
+          <button
+            type="button"
+            onClick={() => setDraftPanelOpen(true)}
+            className="mt-2 w-full rounded-lg border border-cyan-900/60 bg-cyan-950/30 px-3 py-2 text-[11px] font-bold text-cyan-200 transition hover:bg-cyan-950/60"
+          >
+            Ver borradores guardados ({draftsForPerson.length})
+          </button>
         </div>
       }
       footer={
@@ -712,8 +843,9 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
             ) : (
               <button
                 type="button"
-                disabled={isSaving}
+                disabled={isSaving || !form.tipoAfiliacion || (form.tipoAfiliacion === 'NOVEDAD' && !form.tipoNovedad)}
                 onClick={handleSaveFolio}
+                title={!form.tipoAfiliacion ? 'Selecciona primero el tipo de afiliación en Datos Laborales.' : undefined}
                 className="flex items-center gap-2 rounded-xl bg-[#c4d600] px-7 py-3 text-xs font-black text-[#0b132b] shadow-xl hover:bg-[#d6e800] transition-all active:scale-95 disabled:opacity-50"
               >
                 <Sparkles className="h-4 w-4" />
@@ -1191,6 +1323,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                                   onChange={e => update('tipoNovedad', e.target.value)}
                                   className="mt-1 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-slate-800 outline-none focus:border-cyan-500"
                                 >
+                                  <option value="">Seleccione la novedad...</option>
                                   {NOVEDADES_SGSSS.map(([value, label]) => (
                                     <option key={value} value={value}>{label}</option>
                                   ))}
@@ -1698,7 +1831,8 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                     )}
                   </motion.div>
                 </AnimatePresence>
-    </InteractiveFolioLayout>
+      </InteractiveFolioLayout>
+    </>
   );
 };
 export default AffiliationFolioForm;
