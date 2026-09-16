@@ -14,7 +14,7 @@ import {
   saveCompanies,
   saveEmployees,
 } from '../lib/backendRepository';
-import { clearApiSession, completeApiPasswordSetup, currentApiUser, hasApiSession, isApiConfigured, loginApi, requestApiPasswordReset } from '../lib/apiClient';
+import { API_SESSION_EXPIRED_EVENT, clearApiSession, completeApiPasswordSetup, currentApiUser, hasApiSession, isApiConfigured, loginApi, requestApiPasswordReset } from '../lib/apiClient';
 
 export type ActiveTab = 
   | 'landing'
@@ -95,6 +95,17 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
   const [planillas] = useState<PlanillaPILA[]>(mockPlanillas);
   const [inconsistencias] = useState<InconsistenciaPILA[]>(mockInconsistencias);
   const [searchTerm, setSearchTerm] = useState<string>('');
+
+  useEffect(() => {
+    const handleExpiredSession = () => {
+      setIsAuthenticated(false);
+      setUserSession(null);
+      setIsDataLoading(false);
+      setDataError('Tu sesión venció. Inicia sesión nuevamente para continuar; los borradores locales permanecen protegidos.');
+    };
+    window.addEventListener(API_SESSION_EXPIRED_EVENT, handleExpiredSession);
+    return () => window.removeEventListener(API_SESSION_EXPIRED_EVENT, handleExpiredSession);
+  }, []);
 
   useEffect(() => {
     if (!isApiConfigured() || !hasApiSession()) {
@@ -255,6 +266,7 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
       const user = await loginApi(email.trim(), contrasena);
       const roles: Record<string, UserSession['rol']> = { owner: 'Propietario', admin: 'Administrador', operator: 'Operador', analyst: 'Operador', auditor: 'Auditor', viewer: 'Auditor' };
       setUserSession({ nombre: user.fullName, email: user.email, rol: roles[user.role] || 'Auditor', empresaActual: empresa });
+      setDataError(null);
       setIsAuthenticated(true);
       return true;
     } catch (error) { console.warn('Inicio de sesión rechazado por el API:', error); return false; }

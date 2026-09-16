@@ -1,5 +1,6 @@
 const API_URL = (import.meta.env.VITE_API_URL || '').trim().replace(/\/$/, '');
 const TOKEN_KEY = 'validum-api-token';
+export const API_SESSION_EXPIRED_EVENT = 'validum:api-session-expired';
 
 export interface ApiUser {
   id: string;
@@ -22,6 +23,15 @@ export interface WorkspaceSnapshot {
 export function isApiConfigured(): boolean { return /^https?:\/\//.test(API_URL); }
 export function hasApiSession(): boolean { return Boolean(localStorage.getItem(TOKEN_KEY)); }
 export function clearApiSession(): void { localStorage.removeItem(TOKEN_KEY); }
+export function expireApiSession(): void {
+  clearApiSession();
+  window.dispatchEvent(new CustomEvent(API_SESSION_EXPIRED_EVENT));
+}
+export function requireApiSession(): void {
+  if (hasApiSession()) return;
+  expireApiSession();
+  throw new Error('Tu sesión venció. Inicia sesión nuevamente; el borrador está protegido.');
+}
 
 export async function apiRequest<T>(path: string, init: RequestInit = {}, authenticated = true): Promise<T> {
   if (!isApiConfigured()) throw new Error('VITE_API_URL no está configurada.');
@@ -29,13 +39,16 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}, authen
   if (!headers.has('Content-Type') && init.body) headers.set('Content-Type', 'application/json');
   if (authenticated) {
     const token = localStorage.getItem(TOKEN_KEY);
-    if (!token) throw new Error('La sesión no está disponible.');
+    if (!token) {
+      expireApiSession();
+      throw new Error('Tu sesión venció. Inicia sesión nuevamente; el borrador está protegido.');
+    }
     headers.set('Authorization', `Bearer ${token}`);
   }
   const response = await fetch(`${API_URL}${path}`, { ...init, headers });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) {
-    if (response.status === 401 && authenticated) clearApiSession();
+    if (response.status === 401 && authenticated) expireApiSession();
     const message = Array.isArray(payload?.message) ? payload.message.join(' ') : payload?.message;
     throw new Error(message || `El API respondió con estado ${response.status}.`);
   }
