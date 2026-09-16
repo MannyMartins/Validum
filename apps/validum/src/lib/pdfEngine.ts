@@ -303,6 +303,14 @@ function resolveFieldValue(
     value = manualFields[field.fieldKey] || field.defaultValue || '';
   }
 
+  // Si no es trámite ni novedad de traslado, el motivo de traslado no aplica y debe estar vacío
+  if (field.fieldKey === 'motivoTraslado') {
+    const tipoTramite = (tramiteData['tipoTramite'] || empleado.tipoAfiliacion || '').toUpperCase();
+    const subTipo = (tramiteData['subTipoTramite'] || empleado.tipoNovedad || '').toUpperCase();
+    const isTraslado = tipoTramite === 'TRASLADO' || subTipo === 'TRASLADO';
+    if (!isTraslado) value = '';
+  }
+
   // Aplicar transformaciones
   if (field.uppercase && value) {
     value = value.toUpperCase();
@@ -714,10 +722,9 @@ export async function fillPDFTemplate(
         issues.push(`${field.label}: el valor no cabe a ${field.fontSize} pt. Amplía el campo o habilita ajuste automático.`);
         continue;
       }
-      const minimum = field.minFontSize ?? 6;
+      const minimum = field.minFontSize ?? 5;
       if (fontSize < minimum) {
-        issues.push(`${field.label}: necesitaría ${fontSize.toFixed(1)} pt, menos del mínimo de ${minimum} pt.`);
-        continue;
+        fontSize = Math.max(3.5, minimum);
       }
     }
     drawingPlan.push({ field, value, font, fontSize: Math.min(field.fontSize, fontSize) });

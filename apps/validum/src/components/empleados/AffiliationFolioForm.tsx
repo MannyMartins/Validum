@@ -225,8 +225,8 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     salarioBase: initialData?.salarioBase || 1750905,
     cargo: initialData?.cargo || '',
     fechaIngreso: initialData?.fechaIngreso || new Date().toISOString().split('T')[0],
-    epsAnterior: initialData?.epsAnterior || '',
-    motivoTraslado: initialData?.motivoTraslado || MOTIVOS_TRASLADO[0],
+    epsAnterior: initialData?.tipoAfiliacion === 'TRASLADO' ? (initialData?.epsAnterior || '') : '',
+    motivoTraslado: initialData?.tipoAfiliacion === 'TRASLADO' ? (initialData?.motivoTraslado || MOTIVOS_TRASLADO[0]) : '',
 
     empresaId: initialData?.empresaId || empresa?.id || '',
     empresaTipoDoc: initialData?.empresaTipoDoc || empresa?.tipoDocumento || 'NIT',
@@ -638,8 +638,8 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
         ibc: Number(form.salarioBase) || 1750905,
         cargo: form.cargo,
         fechaIngreso: form.fechaIngreso,
-        epsAnterior: form.epsAnterior,
-        motivoTraslado: form.motivoTraslado,
+        epsAnterior: form.tipoAfiliacion === 'TRASLADO' ? form.epsAnterior : '',
+        motivoTraslado: form.tipoAfiliacion === 'TRASLADO' ? form.motivoTraslado : '',
         tipoNovedad: form.tipoAfiliacion === 'TRASLADO'
           ? 'TRASLADO'
           : form.tipoAfiliacion === 'INCLUSION'

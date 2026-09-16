@@ -349,9 +349,9 @@ function buildTemplate(profile: TemplateProfile): FormTemplate {
   addCheck(p2.page, updated, 0.45, 0.58, 'sexoFemenino', 'Actualizado - sexo femenino', 'cotizante');
   addCheck(p2.page, updated, 0.51, 0.58, 'sexoMasculino', 'Actualizado - sexo masculino', 'cotizante');
   addDate(p2.page, inside(updated, 0.80, 0.55, 0.195, 0.20), 'fechaNacimiento', 'Actualizado - fecha nacimiento', 'cotizante');
-  add(p2.page, inside(updated, 0.005, 0.80, 0.30, 0.17), 'epsAnterior', 'EPS anterior', 'tramite');
+  add(p2.page, inside(updated, 0.005, 0.80, 0.30, 0.17), 'epsAnterior', 'EPS anterior', 'tramite', 'text', { minFontSize: 4, overflowPolicy: 'shrink' });
   addDate(p2.page, inside(updated, 0.31, 0.80, 0.20, 0.17), 'fechaNovedad', 'Fecha de novedad', 'tramite');
-  add(p2.page, inside(updated, 0.52, 0.80, 0.22, 0.17), 'motivoTraslado', 'Motivo de traslado', 'tramite');
+  add(p2.page, inside(updated, 0.52, 0.80, 0.22, 0.17), 'motivoTraslado', 'Motivo de traslado', 'tramite', 'text', { minFontSize: 3.5, overflowPolicy: 'shrink' });
   add(p2.page, inside(updated, 0.75, 0.80, 0.245, 0.17), 'cajaCompensacionAnterior', 'Caja de compensación o pagador', 'tramite');
 
   // VII. Declaraciones y autorizaciones.

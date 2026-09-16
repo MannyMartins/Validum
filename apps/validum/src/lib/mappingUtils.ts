@@ -99,7 +99,10 @@ export function resolveEmpleadoField(key: string, emp: Empleado): string {
     correo: () => emp.emailCotizante || '',
     correoElectronico: () => emp.emailCotizante || '',
     epsAnterior: () => emp.epsAnterior || '',
-    motivoTraslado: () => emp.motivoTraslado || '',
+    motivoTraslado: () => {
+      const isTraslado = (emp.tipoAfiliacion || '').toUpperCase() === 'TRASLADO' || (emp.tipoNovedad || '').toUpperCase() === 'TRASLADO';
+      return isTraslado ? (emp.motivoTraslado || '') : '';
+    },
     fechaNovedad: () => emp.fechaNovedad || '',
     cajaCompensacionAnterior: () => emp.cajaCompensacionAnterior || '',
     firmaDigitalCotizante: () => emp.firmaDigitalCotizante || '',

@@ -197,6 +197,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
   // Sincronizar tramiteValues cuando cambia el empleado
   useEffect(() => {
     if (!selectedEmpleado) return;
+    const isTraslado = (selectedEmpleado.tipoAfiliacion || '').toUpperCase() === 'TRASLADO' || (selectedEmpleado.tipoNovedad || '').toUpperCase() === 'TRASLADO';
     setTramiteValues(current => ({
       ...current,
       tipoTramite: (selectedEmpleado.tipoAfiliacion === 'NUEVO' || selectedEmpleado.tipoAfiliacion === 'AFILIACION')
@@ -209,8 +210,8 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       tipoAfiliado: selectedEmpleado.tipoAfiliado || 'COTIZANTE',
       subTipoTramite: selectedEmpleado.tipoNovedad || (selectedEmpleado.tipoAfiliacion === 'TRASLADO' ? 'TRASLADO' : (selectedEmpleado.tipoAfiliacion === 'INCLUSION' ? 'INCLUSION_BENEFICIARIOS' : 'INICIO_RELACION')),
       solicitudSat: selectedEmpleado.solicitudSat || 'NO',
-      epsAnterior: selectedEmpleado.epsAnterior || '',
-      motivoTraslado: selectedEmpleado.motivoTraslado || '',
+      epsAnterior: isTraslado ? (selectedEmpleado.epsAnterior || '') : '',
+      motivoTraslado: isTraslado ? (selectedEmpleado.motivoTraslado || '') : '',
       cajaCompensacionAnterior: selectedEmpleado.cajaCompensacionAnterior || '',
       codigoRegistroEpsTramite: selectedEmpleado.codigoRegistroEps || '',
     }));
@@ -339,12 +340,23 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         pdfFileName: currentPdfName || currentTemplate.pdfFileName,
       } : currentTemplate;
 
+      const isTraslado = (tramiteValues.tipoTramite || '').toUpperCase() === 'TRASLADO' || (tramiteValues.subTipoTramite || '').toUpperCase() === 'TRASLADO';
+      const effectiveTramiteValues = {
+        ...tramiteValues,
+        epsAnterior: isTraslado ? (tramiteValues.epsAnterior || '') : '',
+        motivoTraslado: isTraslado ? (tramiteValues.motivoTraslado || '') : '',
+      };
+      const effectiveManualValues = {
+        ...manualValues,
+        ...(isTraslado ? {} : { motivoTraslado: '', epsAnterior: '' }),
+      };
+
       let base64Pdf = await fillPDFTemplate(
         activeTemplate,
         selectedEmpleado,
         selectedEmpresa,
-        manualValues,
-        tramiteValues
+        effectiveManualValues,
+        effectiveTramiteValues
       );
 
       const registros = ordenDocumentos(selectedEmpleado.documentos || []);
@@ -804,6 +816,8 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
                     setTramiteValues(current => ({
                       ...current,
                       tipoTramite,
+                      epsAnterior: tipoTramite === 'TRASLADO' ? current.epsAnterior : '',
+                      motivoTraslado: tipoTramite === 'TRASLADO' ? current.motivoTraslado : '',
                       subTipoTramite: tipoTramite === 'TRASLADO'
                         ? 'TRASLADO'
                         : tipoTramite === 'INCLUSION'
