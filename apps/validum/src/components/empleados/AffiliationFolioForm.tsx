@@ -607,7 +607,11 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
       employeeCommitted = true;
 
       await Promise.allSettled(removedDocumentIds.map(id => eliminarSoporte(id)));
-      await removeAffiliationDraft(draftKey);
+      await removeAffiliationDraft(draftKey).catch(error => {
+        // El expediente ya quedo radicado en PostgreSQL. Una falla limpiando el
+        // borrador local no debe convertir una radicacion exitosa en un error.
+        console.warn('El expediente se radico, pero no se pudo limpiar su borrador local:', error);
+      });
 
       if (onSuccess) {
         onSuccess(empleadoPayload);
