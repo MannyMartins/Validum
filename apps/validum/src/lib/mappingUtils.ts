@@ -78,14 +78,30 @@ export function resolveEmpleadoField(key: string, emp: Empleado): string {
     riesgoArl: () => ['', 'I', 'II', 'III', 'IV', 'V'][emp.riesgoArl] || '',
     riesgoArlNumero: () => emp.riesgoArl?.toString() || '',
     cargo: () => emp.cargo || '',
+    salario: () => emp.salarioBase?.toString() || '',
     departamentoLaboral: () => emp.departamento || '',
     fechaIngreso: () => emp.fechaIngreso || '',
     salarioBase: () => emp.salarioBase?.toString() || '',
     salarioBaseFormateado: () => emp.salarioBase ? new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(emp.salarioBase) : '',
     administradoraPensiones: () => emp.afp || '',
+    pensionFund: () => emp.afp || '',
+    cajaCompensacion: () => emp.ccf || '',
     ipsSeleccionada: () => emp.ipsSeleccionada || '',
+    ips: () => emp.ipsSeleccionada || '',
     codigoIps: () => emp.codigoIps || '',
     codigoRegistroEps: () => emp.codigoRegistroEps || '',
+    lugarNacimiento: () => [emp.ciudadNacimiento, emp.departamentoNacimiento].filter(Boolean).join(', '),
+    lugarExpedicion: () => [emp.ciudadExpedicion, emp.departamentoExpedicion].filter(Boolean).join(', '),
+    municipio: () => emp.ciudadResidencia || emp.ciudadNacimiento || '',
+    departamento: () => emp.departamentoResidencia || emp.departamentoNacimiento || '',
+    celular: () => emp.telefonoCotizante || '',
+    telefonoCelular: () => emp.telefonoCotizante || '',
+    correo: () => emp.emailCotizante || '',
+    correoElectronico: () => emp.emailCotizante || '',
+    epsAnterior: () => emp.epsAnterior || '',
+    motivoTraslado: () => emp.motivoTraslado || '',
+    fechaNovedad: () => emp.fechaNovedad || '',
+    cajaCompensacionAnterior: () => emp.cajaCompensacionAnterior || '',
     firmaDigitalCotizante: () => emp.firmaDigitalCotizante || '',
     firmaCotizante: () => emp.firmaDigitalCotizante || '',
   };
@@ -95,22 +111,31 @@ export function resolveEmpleadoField(key: string, emp: Empleado): string {
 export function resolveEmpresaField(key: string, emp: Empresa): string {
   const map: Record<string, () => string> = {
     razonSocial: () => emp.razonSocial || '',
+    nombreEmpresa: () => emp.razonSocial || '',
     nit: () => emp.nit || '',
     dv: () => emp.dv || '',
     nitCompleto: () => [emp.nit, emp.dv].filter(Boolean).join('-'),
     tipoDocumentoEmpresa: () => emp.tipoDocumento || 'NIT',
+    tipoDocumento: () => emp.tipoDocumento || 'NIT',
     direccionEmpresa: () => emp.direccion || '',
+    direccion: () => emp.direccion || '',
     ciudadEmpresa: () => emp.ciudad || '',
+    ciudad: () => emp.ciudad || '',
     departamentoEmpresa: () => emp.departamento || '',
+    departamento: () => emp.departamento || '',
     telefonoEmpresa: () => emp.telefono || '',
+    telefono: () => emp.telefono || '',
     emailEmpresa: () => emp.email || emp.emailContacto || '',
+    email: () => emp.email || emp.emailContacto || '',
+    correoEmpresa: () => emp.email || emp.emailContacto || '',
     representanteLegal: () => emp.representanteLegal || '',
     cedulaRepresentante: () => emp.cedulaRepresentante || '',
     operadorPila: () => emp.operadorPila || '',
     actividadEconomica: () => emp.actividadEconomica || '',
     nombreComercial: () => emp.nombreComercial || emp.razonSocial || '',
     contactoRecursosHumanos: () => emp.contactoRecursosHumanos || '',
-    tipoAportantePagador: () => emp.tipoAportantePagador || '',
+    tipoAportantePagador: () => emp.tipoAportantePagador || '01',
+    tipoAportante: () => emp.tipoAportantePagador || '01',
     firmaDigitalEmpresa: () => '',
     firmaEmpresa: () => '',
   };
@@ -159,11 +184,14 @@ export function resolveFamiliarField(key: string, empleado: Empleado): string {
   const spouseMatch = key.match(/^conyuge(.+)$/);
   if (spouseMatch) return beneficiaryValue(spouse, spouseMatch[1]);
 
+  const nonSpouse = relatives.filter(item => !/CONYUGE|COMPANER[OA]/.test(normalizeComparable(item.parentesco)));
+  const list = spouse && nonSpouse.length > 0 ? nonSpouse : relatives;
+
   const indexed = key.match(/^beneficiario(\d+)(.+)$/);
-  if (indexed) return beneficiaryValue(relatives[Number(indexed[1]) - 1], indexed[2]);
+  if (indexed) return beneficiaryValue(list[Number(indexed[1]) - 1], indexed[2]);
 
   const relationship = key.match(/^parentesco(\d+)$/);
-  if (relationship) return beneficiaryValue(relatives[Number(relationship[1]) - 1], 'Parentesco');
+  if (relationship) return beneficiaryValue(list[Number(relationship[1]) - 1], 'Parentesco');
   return '';
 }
 
@@ -344,10 +372,12 @@ export function resolveCheckboxValue(
 
 function parseDateParts(value: string): { day: string; month: string; year: string } | null {
   const text = value.trim();
-  let match = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/);
+  let match = text.match(/^(\d{4})[-/.](\d{1,2})[-/.](\d{1,2})/);
   if (match) return { year: match[1], month: match[2].padStart(2, '0'), day: match[3].padStart(2, '0') };
   match = text.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
   if (match) return { day: match[1].padStart(2, '0'), month: match[2].padStart(2, '0'), year: match[3] };
+  match = text.match(/^(\d{2})(\d{2})(\d{4})$/);
+  if (match) return { day: match[1], month: match[2], year: match[3] };
   return null;
 }
 
