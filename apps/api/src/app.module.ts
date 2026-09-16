@@ -31,6 +31,10 @@ export function validateEnvironment(config: Record<string, unknown>) {
   if (!Number.isInteger(tokenLifetime) || tokenLifetime <= 0) {
     throw new Error('JWT_EXPIRES_IN_SECONDS debe ser un entero positivo.');
   }
+  const rememberedTokenLifetime = Number(config.JWT_REMEMBER_EXPIRES_IN_SECONDS || 2_592_000);
+  if (!Number.isInteger(rememberedTokenLifetime) || rememberedTokenLifetime <= 0) {
+    throw new Error('JWT_REMEMBER_EXPIRES_IN_SECONDS debe ser un entero positivo.');
+  }
 
   if (String(config.NODE_ENV || '').toLowerCase() === 'production') {
     const productionRequired = [

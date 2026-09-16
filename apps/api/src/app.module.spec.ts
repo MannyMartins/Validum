@@ -29,6 +29,13 @@ describe('validateEnvironment', () => {
     );
   });
 
+  it('rejects an invalid remembered-session lifetime', () => {
+    expect(() => validateEnvironment({
+      ...baseEnvironment,
+      JWT_REMEMBER_EXPIRES_IN_SECONDS: 'not-a-number',
+    })).toThrow('JWT_REMEMBER_EXPIRES_IN_SECONDS debe ser un entero positivo');
+  });
+
   it('rejects an insecure production origin', () => {
     expect(() => validateEnvironment({
       ...baseEnvironment,

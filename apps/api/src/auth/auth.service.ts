@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { createHash, randomBytes } from 'node:crypto';
 import { PrismaService } from '../common/prisma.module';
@@ -16,7 +17,12 @@ export interface SessionPayload {
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwt: JwtService, private mail: MailService) {}
+  constructor(
+    private prisma: PrismaService,
+    private jwt: JwtService,
+    private mail: MailService,
+    private config: ConfigService,
+  ) {}
 
   private async ensureMembership(user: { id: string; email: string; fullName: string | null }) {
     const existing = await this.prisma.organizationMember.findFirst({
@@ -40,7 +46,7 @@ export class AuthService {
     });
   }
 
-  async login(email: string, password: string) {
+  async login(email: string, password: string, remember = true) {
     const user = await this.prisma.user.findUnique({ where: { email: email.trim().toLowerCase() } });
     if (!user?.active || !(await bcrypt.compare(password, user.passwordHash))) throw new UnauthorizedException('Credenciales no válidas.');
     const membership = await this.ensureMembership(user);
@@ -49,7 +55,11 @@ export class AuthService {
       membershipRole: membership.role, tokenVersion: user.tokenVersion,
     };
     return {
-      accessToken: await this.jwt.signAsync(payload),
+      accessToken: await this.jwt.signAsync(payload, {
+        expiresIn: remember
+          ? this.config.get<number>('JWT_REMEMBER_EXPIRES_IN_SECONDS', 2_592_000)
+          : this.config.get<number>('JWT_EXPIRES_IN_SECONDS', 28_800),
+      }),
       user: { id: user.id, email: user.email, fullName: user.fullName || user.email.split('@')[0], role: membership.role,
         organizationId: membership.organizationId, organizationName: membership.organization.name },
     };

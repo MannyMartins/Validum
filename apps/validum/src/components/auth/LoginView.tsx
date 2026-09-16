@@ -46,7 +46,7 @@ export const LoginView: React.FC = () => {
     setError('');
     setIsSubmitting(true);
     try {
-      const success = await login(usuario, contrasena);
+      const success = await login(usuario, contrasena, remember);
       if (!success) setError('Credenciales no válidas. Verifica el correo y la contraseña.');
     } catch (loginError) {
       console.error(loginError);

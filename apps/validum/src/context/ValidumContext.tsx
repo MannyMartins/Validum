@@ -58,7 +58,7 @@ interface ValidumContextType {
   addNovedad: (novedad: Novedad) => void;
   planillas: PlanillaPILA[];
   inconsistencias: InconsistenciaPILA[];
-  login: (email: string, contrasena: string) => Promise<boolean>;
+  login: (email: string, contrasena: string, remember?: boolean) => Promise<boolean>;
   needsPasswordSetup: boolean;
   requestPasswordReset: (email: string) => Promise<void>;
   completePasswordSetup: (password: string) => Promise<void>;
@@ -261,9 +261,9 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
     setNovedades(prev => [nueva, ...prev]);
   };
 
-  const login = async (email: string, contrasena: string) => {
+  const login = async (email: string, contrasena: string, remember = true) => {
     try {
-      const user = await loginApi(email.trim(), contrasena);
+      const user = await loginApi(email.trim(), contrasena, remember);
       const roles: Record<string, UserSession['rol']> = { owner: 'Propietario', admin: 'Administrador', operator: 'Operador', analyst: 'Operador', auditor: 'Auditor', viewer: 'Auditor' };
       setUserSession({ nombre: user.fullName, email: user.email, rol: roles[user.role] || 'Auditor', empresaActual: empresa });
       setDataError(null);

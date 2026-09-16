@@ -89,20 +89,34 @@ export class WorkspaceService {
       throw new BadRequestException('La empresa y el expediente deben tener un identificador.');
     }
 
-    const state = await this.state(organizationId);
-    const companies = this.array(state.companies);
-    const employees = this.array(state.employees);
-    const nextCompanies = [company, ...companies.filter((item) => String(item.id) !== companyId)];
-    const nextEmployees = [employee, ...employees.filter((item) => String(item.id) !== employeeId)];
+    // El estado se guarda como JSON por organización. Una transacción serializable
+    // evita que dos operadores que radiquen al mismo tiempo se sobrescriban entre sí.
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      try {
+        await this.prisma.$transaction(async (tx) => {
+          const state = await tx.workspaceState.upsert({
+            where: { organizationId }, update: {}, create: { organizationId },
+          });
+          const companies = this.array(state.companies);
+          const employees = this.array(state.employees);
+          const nextCompanies = [company, ...companies.filter((item) => String(item.id) !== companyId)];
+          const nextEmployees = [employee, ...employees.filter((item) => String(item.id) !== employeeId)];
 
-    await this.prisma.workspaceState.update({
-      where: { organizationId },
-      data: {
-        companies: nextCompanies as Prisma.InputJsonValue,
-        employees: nextEmployees as Prisma.InputJsonValue,
-        activeCompanyId: companyId,
-      },
-    });
+          await tx.workspaceState.update({
+            where: { organizationId },
+            data: {
+              companies: nextCompanies as Prisma.InputJsonValue,
+              employees: nextEmployees as Prisma.InputJsonValue,
+              activeCompanyId: companyId,
+            },
+          });
+        }, { isolationLevel: Prisma.TransactionIsolationLevel.Serializable });
+        break;
+      } catch (error) {
+        const retryable = error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2034';
+        if (!retryable || attempt === 3) throw error;
+      }
+    }
     return { success: true, company, employee };
   }
 

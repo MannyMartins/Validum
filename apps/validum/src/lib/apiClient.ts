@@ -21,8 +21,12 @@ export interface WorkspaceSnapshot {
 }
 
 export function isApiConfigured(): boolean { return /^https?:\/\//.test(API_URL); }
-export function hasApiSession(): boolean { return Boolean(localStorage.getItem(TOKEN_KEY)); }
-export function clearApiSession(): void { localStorage.removeItem(TOKEN_KEY); }
+function getApiToken(): string | null { return localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY); }
+export function hasApiSession(): boolean { return Boolean(getApiToken()); }
+export function clearApiSession(): void {
+  localStorage.removeItem(TOKEN_KEY);
+  sessionStorage.removeItem(TOKEN_KEY);
+}
 export function expireApiSession(): void {
   clearApiSession();
   window.dispatchEvent(new CustomEvent(API_SESSION_EXPIRED_EVENT));
@@ -38,7 +42,7 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}, authen
   const headers = new Headers(init.headers);
   if (!headers.has('Content-Type') && init.body) headers.set('Content-Type', 'application/json');
   if (authenticated) {
-    const token = localStorage.getItem(TOKEN_KEY);
+    const token = getApiToken();
     if (!token) {
       expireApiSession();
       throw new Error('Tu sesión venció. Inicia sesión nuevamente; el borrador está protegido.');
@@ -55,11 +59,12 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}, authen
   return payload as T;
 }
 
-export async function loginApi(email: string, password: string): Promise<ApiUser> {
+export async function loginApi(email: string, password: string, remember = true): Promise<ApiUser> {
   const result = await apiRequest<{ accessToken: string; user: ApiUser }>('/auth/login', {
-    method: 'POST', body: JSON.stringify({ email, password }),
+    method: 'POST', body: JSON.stringify({ email, password, remember }),
   }, false);
-  localStorage.setItem(TOKEN_KEY, result.accessToken);
+  clearApiSession();
+  (remember ? localStorage : sessionStorage).setItem(TOKEN_KEY, result.accessToken);
   return result.user;
 }
 export function currentApiUser(): Promise<ApiUser> { return apiRequest<ApiUser>('/auth/me'); }
