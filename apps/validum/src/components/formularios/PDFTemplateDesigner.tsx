@@ -127,6 +127,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     template ? normalizeTemplate(template).fields : []
   );
   const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
+  const [selectedFieldIds, setSelectedFieldIds] = useState<string[]>([]);
 
   // --- Grid & Smart Alignment State ---
   const [showGrid, setShowGrid] = useState<boolean>(true);
@@ -164,6 +165,9 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawStart, setDrawStart] = useState<{ x: number; y: number } | null>(null);
   const [drawCurrent, setDrawCurrent] = useState<{ x: number; y: number } | null>(null);
+  const [selectionStart, setSelectionStart] = useState<{ x: number; y: number } | null>(null);
+  const [selectionCurrent, setSelectionCurrent] = useState<{ x: number; y: number } | null>(null);
+  const [selectionBaseIds, setSelectionBaseIds] = useState<string[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
   // --- Dragging existing field on canvas ---
@@ -173,6 +177,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     mouseY: number;
     fieldX: number;
     fieldY: number;
+    fields: Array<{ id: string; x: number; y: number; width: number; height: number }>;
   } | null>(null);
   const [resizeState, setResizeState] = useState<{
     fieldId: string;
@@ -222,6 +227,21 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     document.addEventListener('keydown', handleEscapeFallback);
     return () => document.removeEventListener('keydown', handleEscapeFallback);
   }, [isFullscreen]);
+
+  // Mantiene compatibilidad con la edición individual existente: el último
+  // elemento elegido es el principal, pero puede formar parte de un grupo.
+  useEffect(() => {
+    if (!selectedFieldId) {
+      setSelectedFieldIds([]);
+      return;
+    }
+    setSelectedFieldIds((current) => current.includes(selectedFieldId) ? current : [selectedFieldId]);
+  }, [selectedFieldId]);
+
+  useEffect(() => {
+    setSelectedFieldId(null);
+    setSelectedFieldIds([]);
+  }, [currentPage]);
 
   // El ancho útil cambia al plegar el panel o entrar en pantalla completa.
   // Ajustamos el documento a ese ancho después de que termine la transición del layout.
@@ -336,7 +356,37 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     };
   }, [pdfData, currentPage, zoom]);
 
-  // --- KeyDown Listener for Delete and Arrow Nudges ---
+  const clearSelection = () => {
+    setSelectedFieldId(null);
+    setSelectedFieldIds([]);
+  };
+
+  const selectField = (fieldId: string, additive = false) => {
+    if (!additive) {
+      setSelectedFieldIds([fieldId]);
+      setSelectedFieldId(fieldId);
+      return [fieldId];
+    }
+
+    const alreadySelected = selectedFieldIds.includes(fieldId);
+    const next = alreadySelected
+      ? selectedFieldIds.filter((id) => id !== fieldId)
+      : [...selectedFieldIds, fieldId];
+    setSelectedFieldIds(next);
+    setSelectedFieldId(alreadySelected
+      ? (selectedFieldId === fieldId ? next[next.length - 1] || null : selectedFieldId)
+      : fieldId);
+    return next;
+  };
+
+  const deleteSelectedFields = () => {
+    if (!selectedFieldIds.length) return;
+    const ids = new Set(selectedFieldIds);
+    setFields((prev) => prev.filter((field) => !ids.has(field.id)));
+    clearSelection();
+  };
+
+  // --- KeyDown Listener for multi-selection, Delete and Arrow Nudges ---
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       const activeTag = document.activeElement?.tagName?.toLowerCase();
@@ -344,9 +394,22 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
         return;
       }
 
-      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedFieldId) {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'a') {
         e.preventDefault();
-        deleteField(selectedFieldId);
+        const pageIds = fields.filter((field) => field.page === currentPage).map((field) => field.id);
+        setSelectedFieldIds(pageIds);
+        setSelectedFieldId(pageIds[pageIds.length - 1] || null);
+        return;
+      }
+
+      if (e.key === 'Escape' && selectedFieldIds.length && !document.fullscreenElement) {
+        clearSelection();
+        return;
+      }
+
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedFieldIds.length) {
+        e.preventDefault();
+        deleteSelectedFields();
         return;
       }
 
@@ -373,31 +436,30 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
         return;
       }
 
-      if (selectedFieldId && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+      if (selectedFieldIds.length && ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         e.preventDefault();
         const step = e.shiftKey ? 1 : 0.25;
+        const selected = fields.filter((field) => selectedFieldIds.includes(field.id));
+        let deltaX = e.key === 'ArrowLeft' ? -step : e.key === 'ArrowRight' ? step : 0;
+        let deltaY = e.key === 'ArrowDown' ? -step : e.key === 'ArrowUp' ? step : 0;
+        if (selected.length) {
+          deltaX = Math.max(-Math.min(...selected.map((field) => field.x)), Math.min(deltaX,
+            pdfDim.width - Math.max(...selected.map((field) => field.x + field.width))));
+          deltaY = Math.max(-Math.min(...selected.map((field) => field.y)), Math.min(deltaY,
+            pdfDim.height - Math.max(...selected.map((field) => field.y + field.height))));
+        }
+        const ids = new Set(selectedFieldIds);
         setFields((prev) =>
-          prev.map((f) => {
-            if (f.id !== selectedFieldId) return f;
-            let newX = f.x;
-            let newY = f.y;
-            if (e.key === 'ArrowUp') newY += step;
-            if (e.key === 'ArrowDown') newY -= step;
-            if (e.key === 'ArrowLeft') newX -= step;
-            if (e.key === 'ArrowRight') newX += step;
-            return {
-              ...f,
-              x: Math.max(0, Math.min(pdfDim.width - f.width, newX)),
-              y: Math.max(0, Math.min(pdfDim.height - f.height, newY)),
-            };
-          })
+          prev.map((field) => ids.has(field.id)
+            ? { ...field, x: field.x + deltaX, y: field.y + deltaY }
+            : field)
         );
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [clipboardField, currentPage, fields, gridSize, pdfDim.height, pdfDim.width, selectedFieldId]);
+  }, [clipboardField, currentPage, fields, gridSize, pdfDim.height, pdfDim.width, selectedFieldId, selectedFieldIds]);
 
   // Helper: Snap to Canvas Grid from Top-Left (Exact alignment with CSS background grid)
   const snapValTop = (canvasCoordPx: number, stepPt: number = gridSize): number => {
@@ -416,9 +478,9 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
   // Delete a field by ID
   const deleteField = (fieldId: string) => {
     setFields((prev) => prev.filter((f) => f.id !== fieldId));
-    if (selectedFieldId === fieldId) {
-      setSelectedFieldId(null);
-    }
+    const next = selectedFieldIds.filter((id) => id !== fieldId);
+    setSelectedFieldIds(next);
+    if (selectedFieldId === fieldId) setSelectedFieldId(next[next.length - 1] || null);
   };
 
   // Clean all checkboxes across template
@@ -537,10 +599,18 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
 
   // Drawing Handlers
   const handleMouseDown = (e: React.MouseEvent) => {
-    if (activeTool !== 'draw' || !overlayRef.current) return;
+    if (!overlayRef.current) return;
     const rect = overlayRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
+    if (activeTool === 'select') {
+      setSelectionStart({ x, y });
+      setSelectionCurrent({ x, y });
+      setSelectionBaseIds((e.ctrlKey || e.metaKey || e.shiftKey) ? selectedFieldIds : []);
+      if (!(e.ctrlKey || e.metaKey || e.shiftKey)) clearSelection();
+      return;
+    }
+    if (activeTool !== 'draw') return;
     setDrawStart({ x, y });
     setDrawCurrent({ x, y });
     setIsDrawing(true);
@@ -548,6 +618,12 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!overlayRef.current) return;
+
+    if (selectionStart && activeTool === 'select') {
+      const rect = overlayRef.current.getBoundingClientRect();
+      setSelectionCurrent({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+      return;
+    }
 
     if (resizeState) {
       const deltaX = (e.clientX - resizeState.mouseX) / zoom;
@@ -610,15 +686,24 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
         newX = Math.round(newX / gridSize) * gridSize;
       }
 
-      const current = fields.find((f) => f.id === selectedFieldId);
+      const current = dragStartPos.fields.find((f) => f.id === selectedFieldId);
       if (current) {
-        newX = Math.max(0, Math.min(pdfDim.width - current.width, newX));
-        newY = Math.max(0, Math.min(pdfDim.height - current.height, newY));
+        let groupDeltaX = newX - current.x;
+        let groupDeltaY = newY - current.y;
+        groupDeltaX = Math.max(
+          -Math.min(...dragStartPos.fields.map((field) => field.x)),
+          Math.min(groupDeltaX, pdfDim.width - Math.max(...dragStartPos.fields.map((field) => field.x + field.width))),
+        );
+        groupDeltaY = Math.max(
+          -Math.min(...dragStartPos.fields.map((field) => field.y)),
+          Math.min(groupDeltaY, pdfDim.height - Math.max(...dragStartPos.fields.map((field) => field.y + field.height))),
+        );
+        const starts = new Map(dragStartPos.fields.map((field) => [field.id, field]));
+        setFields((prev) => prev.map((field) => {
+          const start = starts.get(field.id);
+          return start ? { ...field, x: start.x + groupDeltaX, y: start.y + groupDeltaY } : field;
+        }));
       }
-
-      setFields((prev) =>
-        prev.map((f) => (f.id === selectedFieldId ? { ...f, x: newX, y: newY } : f))
-      );
       return;
     }
 
@@ -637,6 +722,31 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     if (isDraggingField) {
       setIsDraggingField(false);
       setDragStartPos(null);
+    }
+
+    if (selectionStart && selectionCurrent) {
+      const left = Math.min(selectionStart.x, selectionCurrent.x);
+      const right = Math.max(selectionStart.x, selectionCurrent.x);
+      const top = Math.min(selectionStart.y, selectionCurrent.y);
+      const bottom = Math.max(selectionStart.y, selectionCurrent.y);
+      if (right - left > 3 || bottom - top > 3) {
+        const hits = fields.filter((field) => {
+          if (field.page !== currentPage) return false;
+          const canvasPos = pdfToCanvasCoords(
+            field.x, field.y + field.height, viewportDim.width, viewportDim.height,
+            pdfDim.width, pdfDim.height, zoom,
+          );
+          const fieldRight = canvasPos.x + (field.width / pdfDim.width) * viewportDim.width;
+          const fieldBottom = canvasPos.y + (field.height / pdfDim.height) * viewportDim.height;
+          return canvasPos.x <= right && fieldRight >= left && canvasPos.y <= bottom && fieldBottom >= top;
+        }).map((field) => field.id);
+        const next = Array.from(new Set([...selectionBaseIds, ...hits]));
+        setSelectedFieldIds(next);
+        setSelectedFieldId(next[next.length - 1] || null);
+      }
+      setSelectionStart(null);
+      setSelectionCurrent(null);
+      setSelectionBaseIds([]);
     }
 
     // Finish Drawing
@@ -892,6 +1002,70 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     } : field));
   };
 
+  type GroupAlignment = 'left' | 'centerX' | 'right' | 'top' | 'centerY' | 'bottom';
+
+  const alignSelectedGroup = (alignment: GroupAlignment) => {
+    if (!selectedField || selectedFieldIds.length < 2) return;
+    const ids = new Set(selectedFieldIds);
+    const anchor = selectedField;
+    setFields((prev) => prev.map((field) => {
+      if (!ids.has(field.id)) return field;
+      const clampX = (value: number) => Math.max(0, Math.min(pdfDim.width - field.width, value));
+      const clampY = (value: number) => Math.max(0, Math.min(pdfDim.height - field.height, value));
+      if (alignment === 'left') return { ...field, x: clampX(anchor.x) };
+      if (alignment === 'centerX') return { ...field, x: clampX(anchor.x + anchor.width / 2 - field.width / 2) };
+      if (alignment === 'right') return { ...field, x: clampX(anchor.x + anchor.width - field.width) };
+      if (alignment === 'bottom') return { ...field, y: clampY(anchor.y) };
+      if (alignment === 'centerY') return { ...field, y: clampY(anchor.y + anchor.height / 2 - field.height / 2) };
+      return { ...field, y: clampY(anchor.y + anchor.height - field.height) };
+    }));
+  };
+
+  const distributeSelectedGroup = (direction: 'horizontal' | 'vertical') => {
+    const selected = fields.filter((field) => selectedFieldIds.includes(field.id));
+    if (selected.length < 3) return;
+    const positions = new Map<string, number>();
+    if (direction === 'horizontal') {
+      const ordered = [...selected].sort((a, b) => a.x - b.x);
+      const first = ordered[0].x;
+      const lastEdge = ordered[ordered.length - 1].x + ordered[ordered.length - 1].width;
+      const totalWidth = ordered.reduce((sum, field) => sum + field.width, 0);
+      const gap = (lastEdge - first - totalWidth) / (ordered.length - 1);
+      let cursor = first;
+      ordered.forEach((field) => {
+        positions.set(field.id, cursor);
+        cursor += field.width + gap;
+      });
+    } else {
+      const ordered = [...selected].sort((a, b) => a.y - b.y);
+      const first = ordered[0].y;
+      const lastEdge = ordered[ordered.length - 1].y + ordered[ordered.length - 1].height;
+      const totalHeight = ordered.reduce((sum, field) => sum + field.height, 0);
+      const gap = (lastEdge - first - totalHeight) / (ordered.length - 1);
+      let cursor = first;
+      ordered.forEach((field) => {
+        positions.set(field.id, cursor);
+        cursor += field.height + gap;
+      });
+    }
+    setFields((prev) => prev.map((field) => positions.has(field.id)
+      ? { ...field, [direction === 'horizontal' ? 'x' : 'y']: positions.get(field.id)! }
+      : field));
+  };
+
+  const matchSelectedGroupSize = (dimension: 'width' | 'height' | 'both') => {
+    if (!selectedField || selectedFieldIds.length < 2) return;
+    const ids = new Set(selectedFieldIds);
+    setFields((prev) => prev.map((field) => {
+      if (!ids.has(field.id)) return field;
+      return {
+        ...field,
+        width: dimension === 'height' ? field.width : Math.min(selectedField.width, pdfDim.width - field.x),
+        height: dimension === 'width' ? field.height : Math.min(selectedField.height, pdfDim.height - field.y),
+      };
+    }));
+  };
+
   const createAlignedRow = () => {
     const current = fields.find((field) => field.id === selectedFieldId);
     if (!current) return;
@@ -969,16 +1143,18 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     if (!selectedFieldId) return;
     const current = fields.find((f) => f.id === selectedFieldId);
     if (!current) return;
-
-    const newField: PDFMappedField = {
-      ...current,
+    const selected = fields.filter((field) => selectedFieldIds.includes(field.id));
+    const groupRight = Math.max(...selected.map((field) => field.x + field.width));
+    const offset = Math.min(current.width + gridSize, Math.max(gridSize, pdfDim.width - groupRight));
+    const copies = selected.map((field) => ({
+      ...structuredClone(field),
       id: crypto.randomUUID(),
-      x: Math.min(pdfDim.width - current.width, current.x + current.width + gridSize),
-      label: `${current.label} (Copia)`,
-    };
-
-    setFields((prev) => [...prev, newField]);
-    setSelectedFieldId(newField.id);
+      x: Math.min(pdfDim.width - field.width, field.x + offset),
+      label: `${field.label} (Copia)`,
+    }));
+    setFields((prev) => [...prev, ...copies]);
+    setSelectedFieldIds(copies.map((field) => field.id));
+    setSelectedFieldId(copies[copies.length - 1].id);
   };
 
   const getEditableMappingDefinition = () => ({
@@ -1524,18 +1700,48 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
               <span>Snap</span>
             </button>
 
+            {selectedFieldIds.length > 1 && (
+              <>
+                <div className="w-px h-5 bg-slate-700 mx-0.5" />
+                <span className="rounded-lg border border-cyan-500/40 bg-cyan-500/15 px-2 py-1 text-[10px] font-bold text-cyan-200">
+                  {selectedFieldIds.length} seleccionados
+                </span>
+                <div className="flex items-center gap-0.5 rounded-xl border border-slate-700 bg-slate-900 p-0.5">
+                  <button onClick={() => alignSelectedGroup('left')} title="Alinear bordes izquierdos" className="rounded-lg p-1.5 text-slate-300 hover:bg-slate-700"><AlignLeft className="h-4 w-4" /></button>
+                  <button onClick={() => alignSelectedGroup('centerX')} title="Centrar horizontalmente" className="rounded-lg p-1.5 text-slate-300 hover:bg-slate-700"><AlignCenter className="h-4 w-4" /></button>
+                  <button onClick={() => alignSelectedGroup('right')} title="Alinear bordes derechos" className="rounded-lg p-1.5 text-slate-300 hover:bg-slate-700"><AlignRight className="h-4 w-4" /></button>
+                  <button onClick={() => alignSelectedGroup('top')} title="Alinear arriba" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">↑</button>
+                  <button onClick={() => alignSelectedGroup('centerY')} title="Centrar verticalmente" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">↕</button>
+                  <button onClick={() => alignSelectedGroup('bottom')} title="Alinear abajo" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">↓</button>
+                </div>
+                {selectedFieldIds.length > 2 && (
+                  <div className="flex items-center gap-0.5 rounded-xl border border-slate-700 bg-slate-900 p-0.5">
+                    <button onClick={() => distributeSelectedGroup('horizontal')} title="Distribuir horizontalmente con espacios iguales" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">Esp. H</button>
+                    <button onClick={() => distributeSelectedGroup('vertical')} title="Distribuir verticalmente con espacios iguales" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">Esp. V</button>
+                  </div>
+                )}
+                <div className="flex items-center gap-0.5 rounded-xl border border-slate-700 bg-slate-900 p-0.5">
+                  <button onClick={() => matchSelectedGroupSize('width')} title="Igualar anchos al elemento principal" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">Ancho</button>
+                  <button onClick={() => matchSelectedGroupSize('height')} title="Igualar alturas al elemento principal" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">Alto</button>
+                  <button onClick={() => matchSelectedGroupSize('both')} title="Igualar ancho y alto al elemento principal" className="rounded-lg px-2 py-1 text-[10px] font-bold text-slate-300 hover:bg-slate-700">Ambos</button>
+                </div>
+              </>
+            )}
+
             {/* Alignment Buttons for Selected Field */}
             {selectedField && (
               <>
                 <div className="w-px h-5 bg-slate-700 mx-0.5" />
-                <button
-                  onClick={alignSelectedRow}
-                  title="Alinear automáticamente toda la fila usando el campo seleccionado como guía"
-                  className="p-2 rounded-xl text-xs font-bold bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 border border-purple-500/40 flex items-center gap-1"
-                >
-                  <Rows3 className="w-4 h-4" />
-                  <span>Alinear Fila</span>
-                </button>
+                {selectedFieldIds.length === 1 && (
+                  <button
+                    onClick={alignSelectedRow}
+                    title="Alinear automáticamente toda la fila usando el campo seleccionado como guía"
+                    className="p-2 rounded-xl text-xs font-bold bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 border border-purple-500/40 flex items-center gap-1"
+                  >
+                    <Rows3 className="w-4 h-4" />
+                    <span>Alinear Fila</span>
+                  </button>
+                )}
 
                 <button
                   onClick={copySelectedField}
@@ -1548,7 +1754,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
 
                 <button
                   onClick={duplicateFieldHorizontally}
-                  title="Duplicar casilla hacia la derecha"
+                  title={selectedFieldIds.length > 1 ? 'Duplicar el grupo hacia la derecha' : 'Duplicar casilla hacia la derecha'}
                   className="p-2 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1"
                 >
                   <Copy className="w-4 h-4" />
@@ -1556,12 +1762,12 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                 </button>
 
                 <button
-                  onClick={() => deleteField(selectedField.id)}
-                  title="Eliminar casilla seleccionada (Tecla Supr / Backspace)"
+                  onClick={deleteSelectedFields}
+                  title="Eliminar selección (Tecla Supr / Backspace)"
                   className="p-2 rounded-xl text-xs font-bold bg-red-500/20 text-red-300 hover:bg-red-500/30 border border-red-500/40 flex items-center gap-1"
                 >
                   <Trash2 className="w-4 h-4" />
-                  <span>Eliminar</span>
+                  <span>{selectedFieldIds.length > 1 ? `Eliminar ${selectedFieldIds.length}` : 'Eliminar'}</span>
                 </button>
               </>
             )}
@@ -1643,7 +1849,8 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
 
                     const canvasW = (field.width / pdfDim.width) * viewportDim.width;
                     const canvasH = (field.height / pdfDim.height) * viewportDim.height;
-                    const isSelected = selectedFieldId === field.id;
+                    const isSelected = selectedFieldIds.includes(field.id);
+                    const isPrimarySelected = selectedFieldId === field.id;
                     const catalogField = findCatalogField(field.fieldKey);
                     const rawPreviewValue = field.fieldType === 'checkbox'
                       ? (field.checkboxCharacter || 'X')
@@ -1675,14 +1882,33 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                         key={field.id}
                         onMouseDown={(e) => {
                           e.stopPropagation();
+                          const additive = e.ctrlKey || e.metaKey || e.shiftKey;
+                          const wasSelected = selectedFieldIds.includes(field.id);
+                          if (additive && wasSelected) {
+                            selectField(field.id, true);
+                            return;
+                          }
+                          const nextSelection = additive
+                            ? selectField(field.id, true)
+                            : (wasSelected ? selectedFieldIds : selectField(field.id, false));
                           setSelectedFieldId(field.id);
                           if (activeTool === 'select') {
+                            const selectedStarts = fields
+                              .filter((candidate) => nextSelection.includes(candidate.id))
+                              .map((candidate) => ({
+                                id: candidate.id,
+                                x: candidate.x,
+                                y: candidate.y,
+                                width: candidate.width,
+                                height: candidate.height,
+                              }));
                             setIsDraggingField(true);
                             setDragStartPos({
                               mouseX: e.clientX,
                               mouseY: e.clientY,
                               fieldX: field.x,
                               fieldY: field.y,
+                              fields: selectedStarts,
                             });
                           }
                         }}
@@ -1705,14 +1931,14 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                           borderWidth: field.fieldType === 'stamp' ? `${Math.max(1, (field.stampBorderWidth ?? 1.5) * zoom)}px` : undefined,
                           borderRadius: field.fieldType === 'stamp' && field.stampShape === 'circle' ? '9999px' : undefined,
                           boxShadow: isSelected ? '0 0 0 2px #c4d600, 0 4px 12px rgba(0,0,0,0.5)' : 'none',
-                          zIndex: isSelected ? 30 : 10,
+                          zIndex: isPrimarySelected ? 31 : isSelected ? 30 : 10,
                           justifyContent: field.alignment === 'center' ? 'center' : field.alignment === 'right' ? 'flex-end' : 'flex-start',
                           alignItems: field.verticalAlignment === 'top' ? 'flex-start' : field.verticalAlignment === 'bottom' ? 'flex-end' : 'center',
                           padding: `${Math.max(0, field.padding ?? 1) * zoom}px`,
                         }}
                       >
                         {/* Floating Quick Delete Button on Canvas for selected field */}
-                        {isSelected && (
+                        {isPrimarySelected && (
                           <button
                             type="button"
                             title="Eliminar esta casilla (Tecla Supr / Backspace)"
@@ -1726,7 +1952,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                           </button>
                         )}
 
-                        {isSelected && (['nw', 'ne', 'sw', 'se'] as const).map((handle) => (
+                        {isPrimarySelected && selectedFieldIds.length === 1 && (['nw', 'ne', 'sw', 'se'] as const).map((handle) => (
                           <button
                             key={handle}
                             type="button"
@@ -1813,6 +2039,18 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                     }}
                   />
                 )}
+                {selectionStart && selectionCurrent && (
+                  <div
+                    className="pointer-events-none absolute border border-dashed border-cyan-300 bg-cyan-400/15"
+                    style={{
+                      left: `${Math.min(selectionStart.x, selectionCurrent.x)}px`,
+                      top: `${Math.min(selectionStart.y, selectionCurrent.y)}px`,
+                      width: `${Math.abs(selectionCurrent.x - selectionStart.x)}px`,
+                      height: `${Math.abs(selectionCurrent.y - selectionStart.y)}px`,
+                      zIndex: 60,
+                    }}
+                  />
+                )}
               </div>
             </div>
           </div>
@@ -1862,14 +2100,14 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
           <div className="flex-1 overflow-y-auto p-4 border-b border-slate-800 space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="font-serif font-bold text-sm text-amber-400 font-mono uppercase tracking-wider">
-                {selectedField ? 'Configuración del Campo' : 'Propiedades'}
+                {selectedFieldIds.length > 1 ? `${selectedFieldIds.length} campos seleccionados` : selectedField ? 'Configuración del Campo' : 'Propiedades'}
               </h3>
               <div className="flex items-center gap-1">
                 {selectedField && (
                 <button
                   type="button"
                   title="Eliminar casilla"
-                  onClick={() => deleteField(selectedField.id)}
+                  onClick={deleteSelectedFields}
                   className="p-1.5 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -1889,6 +2127,11 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
 
             {selectedField ? (
               <div className="space-y-4 text-xs">
+                {selectedFieldIds.length > 1 && (
+                  <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 p-3 text-[11px] leading-relaxed text-cyan-100">
+                    El campo con borde más intenso es la referencia. Arrastra cualquiera para mover el grupo; usa la barra superior para alinear, distribuir o igualar tamaños.
+                  </div>
+                )}
                 {/* Field Type Toggle (Text vs Checkbox) */}
                 <div>
                   <label className="block text-[10px] text-slate-400 font-mono uppercase font-bold mb-1">
@@ -2406,11 +2649,11 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                 {/* Delete Button */}
                 <button
                   type="button"
-                  onClick={() => deleteField(selectedField.id)}
+                  onClick={deleteSelectedFields}
                   className="w-full mt-3 flex items-center justify-center gap-1.5 py-2.5 rounded-xl border border-slate-700 bg-slate-800/40 hover:border-rose-500/40 hover:bg-rose-500/10 text-slate-300 hover:text-rose-300 font-bold transition-colors cursor-pointer"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
-                  <span>Eliminar Campo (Supr)</span>
+                  <span>{selectedFieldIds.length > 1 ? `Eliminar ${selectedFieldIds.length} Campos (Supr)` : 'Eliminar Campo (Supr)'}</span>
                 </button>
               </div>
             ) : (
@@ -2422,6 +2665,9 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                 <div className="text-[11px] text-slate-500 space-y-1 bg-slate-900/50 p-3 rounded-xl border border-slate-800 text-left font-mono">
                   <p className="font-bold text-slate-400">Atajos rápidos:</p>
                   <p>• Arrastra cualquier casilla con el ratón</p>
+                  <p>• Ctrl/Cmd + clic: sumar o quitar campos</p>
+                  <p>• Arrastra sobre un área vacía: selección por marco</p>
+                  <p>• Ctrl/Cmd + A: seleccionar toda la página</p>
                   <p>• Flechas: mover 0,25pt (Shift: 1pt)</p>
                   <p>• Tecla Supr / Backspace: borrar</p>
                 </div>
@@ -2462,9 +2708,9 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
                   .map((f) => (
                     <div
                       key={f.id}
-                      onClick={() => setSelectedFieldId(f.id)}
+                      onClick={(event) => selectField(f.id, event.ctrlKey || event.metaKey || event.shiftKey)}
                       className={`flex items-center justify-between gap-2 p-2 rounded-xl cursor-pointer text-xs transition-colors ${
-                        selectedFieldId === f.id
+                        selectedFieldIds.includes(f.id)
                           ? 'bg-[#c4d600]/15 text-white font-bold border border-[#c4d600]/40'
                           : 'hover:bg-slate-800 text-slate-300'
                       }`}
