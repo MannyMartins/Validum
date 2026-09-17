@@ -63,7 +63,7 @@ interface TemplateProfile {
   extraFields?: ExtraField[];
 }
 
-const CURRENT_VERSION = 15;
+const CURRENT_VERSION = 16;
 
 function inside(region: Box, x: number, top: number, width: number, height: number): Box {
   return {

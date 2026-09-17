@@ -40,12 +40,29 @@ function upgradeFactoryTypography(template: FormTemplate, factory: FormTemplate)
     fields: template.fields.map(field => {
       const factoryField = factoryFields.get(field.id);
       if (!factoryField) return field;
+      const isKnownSanitasPageError = template.id === 'default-sanitas-2026'
+        && field.page === 0
+        && Math.abs(field.y - 29.58) < 0.1
+        && (
+          (field.fieldKey === 'ejecutivoComercial' && Math.abs(field.x - 29) < 0.1 && Math.abs(field.width - 260) < 0.1)
+          || (field.fieldKey === 'fechaSelloRadicacion' && Math.abs(field.x - 300) < 0.1 && Math.abs(field.width - 130) < 0.1)
+        );
+      const repairedField = isKnownSanitasPageError
+        ? {
+            ...field,
+            page: factoryField.page,
+            x: factoryField.x,
+            y: factoryField.y,
+            width: factoryField.width,
+            height: factoryField.height,
+          }
+        : field;
       const legacyLimit = field.fieldType === 'checkbox' ? 7 : 6;
-      if (field.fontSize > legacyLimit) return field;
+      if (repairedField.fontSize > legacyLimit) return repairedField;
       return {
-        ...field,
+        ...repairedField,
         fontSize: factoryField.fontSize,
-        minFontSize: Math.max(field.minFontSize || 0, factoryField.minFontSize || 5),
+        minFontSize: Math.max(repairedField.minFontSize || 0, factoryField.minFontSize || 5),
       };
     }),
   };
