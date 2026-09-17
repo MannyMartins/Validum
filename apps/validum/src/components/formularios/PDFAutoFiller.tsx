@@ -340,7 +340,10 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         pdfFileName: currentPdfName || currentTemplate.pdfFileName,
       } : currentTemplate;
 
-      const isTraslado = (tramiteValues.tipoTramite || '').toUpperCase() === 'TRASLADO' || (tramiteValues.subTipoTramite || '').toUpperCase() === 'TRASLADO';
+      const primaryProcess = (tramiteValues.tipoTramite || '').trim().toUpperCase();
+      const isTraslado = primaryProcess
+        ? primaryProcess === 'TRASLADO'
+        : (tramiteValues.subTipoTramite || '').trim().toUpperCase() === 'TRASLADO';
       const effectiveTramiteValues = {
         ...tramiteValues,
         epsAnterior: isTraslado ? (tramiteValues.epsAnterior || '') : '',

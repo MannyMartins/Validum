@@ -8,7 +8,7 @@ import * as pdfjsLib from 'pdfjs-dist';
 import pdfWorkerUrl from 'pdfjs-dist/build/pdf.worker.min.mjs?url';
 import type { FormTemplate, PDFMappedField } from '../types/formularios';
 import type { Empleado, Empresa } from '../types/validum';
-import { normalizeSexValue, resolveFieldValue as resolveMappedFieldValue } from './mappingUtils';
+import { isTransferAffiliation, normalizeSexValue, resolveFieldValue as resolveMappedFieldValue } from './mappingUtils';
 
 // La versión en la URL evita reutilizar respuestas antiguas cacheadas con un
 // MIME incorrecto después de actualizar la configuración del servidor.
@@ -30,6 +30,29 @@ export async function loadPDFDocument(base64: string) {
     bytes[i] = binaryString.charCodeAt(i);
   }
   return pdfjsLib.getDocument({ data: bytes }).promise;
+}
+
+let previewPdfSource: string | null = null;
+let previewPdfPromise: ReturnType<typeof loadPDFDocument> | null = null;
+
+/** Reutiliza el documento ya interpretado al cambiar de página o zoom. */
+function loadPreviewPDFDocument(base64: string) {
+  if (previewPdfSource === base64 && previewPdfPromise) return previewPdfPromise;
+
+  const previous = previewPdfPromise;
+  previewPdfSource = base64;
+  const next = loadPDFDocument(base64);
+  previewPdfPromise = next.catch(error => {
+    if (previewPdfSource === base64) {
+      previewPdfSource = null;
+      previewPdfPromise = null;
+    }
+    throw error;
+  });
+  if (previous) {
+    void previous.then(document => document.destroy()).catch(() => undefined);
+  }
+  return previewPdfPromise;
 }
 
 /** Agrega soportes PDF o imágenes al final del formulario, manteniendo el orden indicado. */
@@ -200,7 +223,7 @@ export async function renderPDFPageToCanvas(
   pdfWidth: number;
   pdfHeight: number;
 }> {
-  const pdfDoc = await loadPDFDocument(base64);
+  const pdfDoc = await loadPreviewPDFDocument(base64);
   const page = await pdfDoc.getPage(pageNumber);
 
   const viewport = page.getViewport({ scale });
@@ -226,7 +249,7 @@ export async function renderPDFPageToCanvas(
  * Obtiene el número total de páginas de un PDF.
  */
 export async function getPDFPageCount(base64: string): Promise<number> {
-  const pdfDoc = await loadPDFDocument(base64);
+  const pdfDoc = await loadPreviewPDFDocument(base64);
   return pdfDoc.numPages;
 }
 
@@ -303,12 +326,11 @@ function resolveFieldValue(
     value = manualFields[field.fieldKey] || field.defaultValue || '';
   }
 
-  // Si no es trámite ni novedad de traslado, el motivo de traslado no aplica y debe estar vacío
-  if (field.fieldKey === 'motivoTraslado') {
-    const tipoTramite = (tramiteData['tipoTramite'] || empleado.tipoAfiliacion || '').toUpperCase();
-    const subTipo = (tramiteData['subTipoTramite'] || empleado.tipoNovedad || '').toUpperCase();
-    const isTraslado = tipoTramite === 'TRASLADO' || subTipo === 'TRASLADO';
-    if (!isTraslado) value = '';
+  // Estos campos nunca deben heredar valores de un traslado anterior.
+  if (field.fieldKey === 'motivoTraslado' || field.fieldKey === 'epsAnterior') {
+    const tipoTramite = tramiteData['tipoTramite'] || empleado.tipoAfiliacion;
+    const subTipo = tramiteData['subTipoTramite'] || empleado.tipoNovedad;
+    if (!isTransferAffiliation(tipoTramite, subTipo)) value = '';
   }
 
   // Aplicar transformaciones
@@ -570,7 +592,9 @@ export async function fillPDFTemplate(
     const cleanBase64 = template.pdfBase64.replace(/^data:application\/pdf;base64,/, '');
     pdfBytes = Uint8Array.from(atob(cleanBase64), c => c.charCodeAt(0));
   } else if (template.pdfAssetPath) {
-    const resp = await fetch(template.pdfAssetPath);
+    const separator = template.pdfAssetPath.includes('?') ? '&' : '?';
+    const assetUrl = `${template.pdfAssetPath}${separator}v=${template.version || 1}`;
+    const resp = await fetch(assetUrl, { cache: 'force-cache' });
     if (!resp.ok) throw new Error(`No se pudo cargar el PDF base (${resp.status}).`);
     const buffer = await resp.arrayBuffer();
     pdfBytes = new Uint8Array(buffer);
@@ -724,7 +748,8 @@ export async function fillPDFTemplate(
       }
       const minimum = field.minFontSize ?? 5;
       if (fontSize < minimum) {
-        fontSize = Math.max(3.5, minimum);
+        issues.push(`${field.label}: el valor solo cabría a ${fontSize.toFixed(1)} pt, por debajo del mínimo legible de ${minimum} pt. Amplía el campo o reduce el texto.`);
+        continue;
       }
     }
     drawingPlan.push({ field, value, font, fontSize: Math.min(field.fontSize, fontSize) });

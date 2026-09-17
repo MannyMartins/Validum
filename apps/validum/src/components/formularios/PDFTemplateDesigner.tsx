@@ -258,7 +258,10 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     setIsLoadingBasePdf(true);
     setBasePdfError('');
 
-    fetch(pdfAssetPath)
+    const separator = pdfAssetPath.includes('?') ? '&' : '?';
+    const versionedAssetPath = `${pdfAssetPath}${separator}v=${template?.version || 1}`;
+
+    fetch(versionedAssetPath, { cache: 'force-cache' })
       .then((response) => {
         if (!response.ok) throw new Error(`No se encontró el PDF base (${response.status}).`);
         return response.blob();
@@ -282,7 +285,7 @@ export const PDFTemplateDesigner: React.FC<PDFTemplateDesignerProps> = ({
     return () => {
       active = false;
     };
-  }, [pdfAssetPath, pdfData, basePdfLoadAttempt]);
+  }, [pdfAssetPath, pdfData, basePdfLoadAttempt, template?.version]);
 
   // Initialize Page Count
   useEffect(() => {

@@ -20,6 +20,16 @@ export function normalizeSexValue(value: unknown): 'F' | 'M' | '' {
   return '';
 }
 
+/**
+ * El tipo principal es autoritativo. Solo usamos el subtipo para expedientes
+ * antiguos donde todavía no se había guardado tipoAfiliacion.
+ */
+export function isTransferAffiliation(tipoAfiliacion: unknown, tipoNovedad?: unknown): boolean {
+  const primary = normalizeComparable(tipoAfiliacion);
+  if (primary) return primary === 'TRASLADO';
+  return normalizeComparable(tipoNovedad) === 'TRASLADO';
+}
+
 function splitName(value: string | undefined, index: number): string {
   return (value || '').trim().split(/\s+/)[index] || '';
 }
@@ -98,11 +108,8 @@ export function resolveEmpleadoField(key: string, emp: Empleado): string {
     telefonoCelular: () => emp.telefonoCotizante || '',
     correo: () => emp.emailCotizante || '',
     correoElectronico: () => emp.emailCotizante || '',
-    epsAnterior: () => emp.epsAnterior || '',
-    motivoTraslado: () => {
-      const isTraslado = (emp.tipoAfiliacion || '').toUpperCase() === 'TRASLADO' || (emp.tipoNovedad || '').toUpperCase() === 'TRASLADO';
-      return isTraslado ? (emp.motivoTraslado || '') : '';
-    },
+    epsAnterior: () => isTransferAffiliation(emp.tipoAfiliacion, emp.tipoNovedad) ? (emp.epsAnterior || '') : '',
+    motivoTraslado: () => isTransferAffiliation(emp.tipoAfiliacion, emp.tipoNovedad) ? (emp.motivoTraslado || '') : '',
     fechaNovedad: () => emp.fechaNovedad || '',
     cajaCompensacionAnterior: () => emp.cajaCompensacionAnterior || '',
     firmaDigitalCotizante: () => emp.firmaDigitalCotizante || '',

@@ -437,7 +437,10 @@ function buildTemplate(profile: TemplateProfile): FormTemplate {
     fields,
     mappingStatus: 'ready',
     createdAt: '2026-09-11T00:00:00.000Z',
-    updatedAt: '2026-09-16T17:25:00.000Z',
+    // Un valor idéntico a createdAt identifica una plantilla de fábrica aún sin
+    // personalizaciones. useTemplateStorage depende de esta distinción para no
+    // confundirla con una plantilla editada por el usuario en futuras migraciones.
+    updatedAt: '2026-09-11T00:00:00.000Z',
     version: CURRENT_VERSION,
   };
 }
@@ -747,8 +750,8 @@ const profiles: TemplateProfile[] = [
       observations: { x: 29, top: 688, width: 546, height: 36 }
     },
     extraFields: [
-      { page: 0, box: { x: 29, top: 736, width: 260, height: 16 }, key: 'ejecutivoComercial', label: 'Doc. y nombre del Ejecutivo Comercial', source: 'tramite' },
-      { page: 0, box: { x: 300, top: 736, width: 130, height: 16 }, key: 'fechaSelloRadicacion', label: 'Fecha en sello de radicación', source: 'tramite' },
+      { page: 1, box: { x: 29, top: 736, width: 260, height: 16 }, key: 'ejecutivoComercial', label: 'Doc. y nombre del Ejecutivo Comercial', source: 'tramite' },
+      { page: 1, box: { x: 300, top: 736, width: 130, height: 16 }, key: 'fechaSelloRadicacion', label: 'Fecha en sello de radicación', source: 'tramite' },
     ],
   },
   {
