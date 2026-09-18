@@ -240,16 +240,17 @@ export const EmpleadoList: React.FC = () => {
     const candidates = buildTestSubjects(empresa);
     const existingIds = new Set(empleados.map(item => item.id));
     const missing = candidates.filter(item => !existingIds.has(item.id));
-    if (!missing.length) {
-      alert('Los sujetos de prueba de las 10 EPS ya están creados. Búscalos por la palabra PRUEBA.');
-      return;
-    }
-    if (!window.confirm(`Se crearán ${missing.length} cotizantes sintéticos, cada uno con cónyuge, hijo e hija. ¿Continuar?`)) return;
+    const existing = candidates.filter(item => existingIds.has(item.id));
+    const message = missing.length
+      ? `Se crearán ${missing.length} cotizantes sintéticos y se actualizarán ${existing.length}, cada uno con cónyuge, hijo e hija.`
+      : `Se actualizarán los ${existing.length} sujetos sintéticos para usar la configuración de pruebas más reciente.`;
+    if (!window.confirm(`${message} ¿Continuar?`)) return;
     setIsCreatingTests(true);
     try {
+      await Promise.all(existing.map(item => updateEmpleado(item.id, item)));
       await addEmpleados(missing);
       setSearch('PRUEBA');
-      alert(`Se crearon ${missing.length} sujetos de prueba. Todos tienen identificadores que empiezan por ${TEST_SUBJECT_PREFIX}.`);
+      alert(`Sujetos de prueba listos: ${missing.length} creados y ${existing.length} actualizados. Todos empiezan por ${TEST_SUBJECT_PREFIX}.`);
     } catch (error) {
       alert(error instanceof Error ? error.message : 'No se pudieron crear los sujetos de prueba.');
     } finally {

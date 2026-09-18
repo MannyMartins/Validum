@@ -197,6 +197,8 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
 
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | undefined>(preselectedTemplateId);
   const [selectedEmpleadoId, setSelectedEmpleadoId] = useState<string>('');
+  const [templateSearch, setTemplateSearch] = useState('');
+  const [employeeSearch, setEmployeeSearch] = useState('');
 
   // Form values
   const [manualValues, setManualValues] = useState<Record<string, string>>({});
@@ -235,6 +237,16 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
     empleados.find(e => e.id === selectedEmpleadoId),
   [empleados, selectedEmpleadoId]);
 
+  const templateSearchOptions = useMemo(() => templates.map(template => ({
+    id: template.id,
+    label: `${template.name} · ${template.entity}`,
+  })), [templates]);
+
+  const employeeSearchOptions = useMemo(() => empleados.map(employee => ({
+    id: employee.id,
+    label: `${employee.nombres} ${employee.apellidos} · ${employee.cedula} · ${employee.eps}`,
+  })), [empleados]);
+
   const employeeCompany = useMemo(
     () => selectedEmpleado?.empresaId ? empresas.find(item => item.id === selectedEmpleado.empresaId) : undefined,
     [empresas, selectedEmpleado]
@@ -248,6 +260,16 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       setSelectedEmpleadoId(empleados[0].id);
     }
   }, [empleados, selectedEmpleadoId]);
+
+  useEffect(() => {
+    const selected = templateSearchOptions.find(option => option.id === selectedTemplateId);
+    if (selected) setTemplateSearch(selected.label);
+  }, [selectedTemplateId, templateSearchOptions]);
+
+  useEffect(() => {
+    const selected = employeeSearchOptions.find(option => option.id === selectedEmpleadoId);
+    if (selected) setEmployeeSearch(selected.label);
+  }, [employeeSearchOptions, selectedEmpleadoId]);
 
   // Si no hay plantilla seleccionada, buscar una compatible o la primera
   useEffect(() => {
@@ -622,33 +644,52 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-[#0c1825] px-3 py-1.5 shadow-inner">
             <span className="text-[10px] font-bold uppercase text-[#c4d600]">Plantilla:</span>
-            <select
-              value={selectedTemplateId || ''}
-              onChange={e => setSelectedTemplateId(e.target.value)}
-              className="bg-transparent text-xs font-semibold text-white outline-none"
-            >
-              {templates.map(t => (
-                <option key={t.id} value={t.id} className="bg-[#0c1825] text-white">
-                  {t.name}
-                </option>
-              ))}
-            </select>
+            <input
+              type="search"
+              list="validum-template-options"
+              value={templateSearch}
+              onChange={event => {
+                const value = event.target.value;
+                setTemplateSearch(value);
+                const match = templateSearchOptions.find(option => option.label === value);
+                if (match) setSelectedTemplateId(match.id);
+              }}
+              onBlur={() => {
+                const selected = templateSearchOptions.find(option => option.id === selectedTemplateId);
+                if (selected) setTemplateSearch(selected.label);
+              }}
+              placeholder="Buscar EPS o plantilla"
+              aria-label="Buscar EPS o plantilla"
+              className="w-[250px] bg-transparent text-xs font-semibold text-white outline-none placeholder:text-slate-500"
+            />
+            <datalist id="validum-template-options">
+              {templateSearchOptions.map(option => <option key={option.id} value={option.label} />)}
+            </datalist>
           </div>
 
           <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-[#0c1825] px-3 py-1.5 shadow-inner">
             <span className="text-[10px] font-bold uppercase text-[#c4d600]">Afiliado:</span>
-            <select
-              value={selectedEmpleadoId}
-              onChange={e => setSelectedEmpleadoId(e.target.value)}
-              className="bg-transparent text-xs font-semibold text-white outline-none max-w-[200px] truncate"
-            >
-              <option value="">Seleccionar cotizante...</option>
-              {empleados.map(e => (
-                <option key={e.id} value={e.id} className="bg-[#0c1825] text-white">
-                  {e.nombres} {e.apellidos} ({e.cedula})
-                </option>
-              ))}
-            </select>
+            <input
+              type="search"
+              list="validum-employee-options"
+              value={employeeSearch}
+              onChange={event => {
+                const value = event.target.value;
+                setEmployeeSearch(value);
+                const match = employeeSearchOptions.find(option => option.label === value);
+                if (match) setSelectedEmpleadoId(match.id);
+              }}
+              onBlur={() => {
+                const selected = employeeSearchOptions.find(option => option.id === selectedEmpleadoId);
+                if (selected) setEmployeeSearch(selected.label);
+              }}
+              placeholder="Nombre, documento o EPS"
+              aria-label="Buscar afiliado por nombre, documento o EPS"
+              className="w-[300px] bg-transparent text-xs font-semibold text-white outline-none placeholder:text-slate-500"
+            />
+            <datalist id="validum-employee-options">
+              {employeeSearchOptions.map(option => <option key={option.id} value={option.label} />)}
+            </datalist>
           </div>
         </div>
       </div>

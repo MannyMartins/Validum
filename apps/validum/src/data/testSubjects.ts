@@ -60,7 +60,9 @@ function familyFor(subjectId: string, familyNumber: number, principalSex: 'F' | 
       nacionalidad: 'COLOMBIANA',
       paisNacimiento: 'COLOMBIA',
       departamentoNacimiento: 'SANTANDER',
-      municipioNacimiento: 'BUCARAMANGA',
+      // Se usa un municipio real y corto para que este mismo expediente sintético
+      // pueda probar formularios EPS con casillas familiares muy estrechas.
+      municipioNacimiento: 'CALI',
       discapacidad: 'NINGUNA',
       condicion: '',
       municipio: 'BUCARAMANGA',
@@ -84,7 +86,7 @@ function familyFor(subjectId: string, familyNumber: number, principalSex: 'F' | 
       nacionalidad: 'COLOMBIANA',
       paisNacimiento: 'COLOMBIA',
       departamentoNacimiento: 'SANTANDER',
-      municipioNacimiento: 'BUCARAMANGA',
+      municipioNacimiento: 'CALI',
       discapacidad: 'NINGUNA',
       municipio: 'BUCARAMANGA',
       departamento: 'SANTANDER',
@@ -107,7 +109,7 @@ function familyFor(subjectId: string, familyNumber: number, principalSex: 'F' | 
       nacionalidad: 'COLOMBIANA',
       paisNacimiento: 'COLOMBIA',
       departamentoNacimiento: 'SANTANDER',
-      municipioNacimiento: 'BUCARAMANGA',
+      municipioNacimiento: 'CALI',
       discapacidad: 'NINGUNA',
       municipio: 'BUCARAMANGA',
       departamento: 'SANTANDER',
