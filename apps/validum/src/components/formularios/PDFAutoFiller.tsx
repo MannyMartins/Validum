@@ -94,11 +94,11 @@ function effectiveTemplatePageCount(template: FormTemplate): number {
   return normalizeEpsName(`${template.entity} ${template.name}`).includes('SANITAS') ? 2 : template.totalPages;
 }
 
-function isSanitasTemplate(template?: FormTemplate): boolean {
-  return Boolean(template && normalizeEpsName(`${template.entity} ${template.name}`).includes('SANITAS'));
+function usesGeneralSgsssRules(template?: FormTemplate): boolean {
+  return Boolean(template && template.entityType === 'EPS');
 }
 
-const SANITAS_DECLARATIONS = [
+const GENERAL_SGSSS_DECLARATIONS = [
   'declaracionDependenciaEconomica',
   'declaracionNoObligacionContributivo',
   'autorizacionHistoriaClinica',
@@ -107,15 +107,15 @@ const SANITAS_DECLARATIONS = [
   'autorizacionNotificaciones',
 ] as const;
 
-const SANITAS_ALWAYS_BLANK = new Set([
+const GENERAL_SGSSS_ALWAYS_BLANK = new Set([
   'etnia', 'comunidad', 'discapacidad', 'discapacidadSi', 'discapacidadNo',
   'condicion', 'condicionTemporal', 'condicionPermanente',
   'encuestaSisbenSi', 'encuestaSisbenNo', 'puntajeSisben', 'grupoEspecial',
   'tarifaContribucionSolidaria',
 ]);
 
-function sanitasGenerationTemplate(template: FormTemplate, values: Record<string, string>): FormTemplate {
-  if (!isSanitasTemplate(template)) return template;
+function generalSgsssGenerationTemplate(template: FormTemplate, values: Record<string, string>): FormTemplate {
+  if (!usesGeneralSgsssRules(template)) return template;
   const isNoveltyReport = values.tipoTramiteSeccionI === 'REPORTE_NOVEDADES';
   const alwaysChecked = new Set([
     isNoveltyReport ? 'tipoTramiteNovedad' : 'tipoTramiteAfiliacion',
@@ -134,7 +134,7 @@ function sanitasGenerationTemplate(template: FormTemplate, values: Record<string
         if (field.fieldKey === 'selloRadicacion' && !values.selloRadicacion) {
           return { ...field, fieldType: 'text' as const, dataSource: 'manual' as const };
         }
-        if (SANITAS_ALWAYS_BLANK.has(field.fieldKey)) {
+        if (GENERAL_SGSSS_ALWAYS_BLANK.has(field.fieldKey)) {
           return field.fieldType === 'checkbox'
             ? { ...field, checkboxRule: { mode: 'equals' as const, source: 'manual' as const, fieldKey: '__sanitas_unchecked__', expectedValue: 'X' } }
             : { ...field, dataSource: 'manual' as const };
@@ -160,10 +160,10 @@ function buildOperationalDefaults(template?: FormTemplate, employee?: Empleado):
   if (!template) return {};
   const mappedKeys = new Set(template.fields.map(field => field.fieldKey));
   const values: Record<string, string> = {};
-  if (isSanitasTemplate(template)) values.tipoTramiteSeccionI = 'AFILIACION';
-  const defaultChecks = isSanitasTemplate(template) ? [
+  if (usesGeneralSgsssRules(template)) values.tipoTramiteSeccionI = 'AFILIACION';
+  const defaultChecks = usesGeneralSgsssRules(template) ? [
     'contribucionSolidariaNo',
-    ...SANITAS_DECLARATIONS,
+    ...GENERAL_SGSSS_DECLARATIONS,
     'anexoDocumentoIdentidad',
   ] : [
     'contribucionSolidariaNo',
@@ -432,7 +432,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         : (tramiteValues.subTipoTramite || '').trim().toUpperCase() === 'TRASLADO';
       const effectiveTramiteValues = {
         ...tramiteValues,
-        ...(isSanitasTemplate(selectedTemplate) ? {
+        ...(usesGeneralSgsssRules(selectedTemplate) ? {
           tipoTramite: manualValues.tipoTramiteSeccionI === 'REPORTE_NOVEDADES' ? 'NOVEDAD' : 'AFILIACION',
           tipoAfiliacion: 'COTIZANTE_CABEZA',
           regimen: 'CONTRIBUTIVO',
@@ -442,17 +442,17 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       };
       const effectiveManualValues = {
         ...manualValues,
-        ...(isSanitasTemplate(selectedTemplate) ? {
+        ...(usesGeneralSgsssRules(selectedTemplate) ? {
           declaracionFuerzaMayorDocumentos: '',
           declaracionNoInternacion: '',
           aceptacionContribucionSolidaria: '',
           aceptacionActualizacionTarifas: '',
-          ...Object.fromEntries([...SANITAS_ALWAYS_BLANK].map(key => [key, ''])),
-          ...Object.fromEntries(SANITAS_DECLARATIONS.map(key => [key, 'X'])),
+          ...Object.fromEntries([...GENERAL_SGSSS_ALWAYS_BLANK].map(key => [key, ''])),
+          ...Object.fromEntries(GENERAL_SGSSS_DECLARATIONS.map(key => [key, 'X'])),
         } : {}),
         ...(isTraslado ? {} : { motivoTraslado: '', epsAnterior: '' }),
       };
-      const activeTemplate = sanitasGenerationTemplate(selectedPdfTemplate, effectiveManualValues);
+      const activeTemplate = generalSgsssGenerationTemplate(selectedPdfTemplate, effectiveManualValues);
 
       let base64Pdf = await fillPDFTemplate(
         activeTemplate,
@@ -1138,13 +1138,13 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
           </div>
         </div>
 
-        {isSanitasTemplate(selectedTemplate) && (
+        {usesGeneralSgsssRules(selectedTemplate) && (
           <details open className="rounded-2xl border border-[#c4d600]/35 bg-[#091522] p-4 shadow-xl lg:col-span-2">
             <summary className="cursor-pointer text-xs font-black uppercase tracking-wider text-[#c4d600]">
               Especificaciones del formulario
             </summary>
             <p className="mt-2 text-[10px] text-slate-400">
-              Esta elección controla únicamente la casilla 1 de la sección I. El tipo específico de novedad se mantiene en la sección 60.
+              Esta elección controla únicamente el tipo de trámite de la sección I. La novedad específica conserva la configuración propia de cada EPS.
             </p>
             <div className="mt-3 grid gap-2 sm:grid-cols-2">
               {[

@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react';
-import { ArrowLeft, Check, ChevronLeft, ChevronRight, Edit, FileSpreadsheet, Plus, Search, Trash2, Upload, UserPlus, Users } from 'lucide-react';
+import { ArrowLeft, Beaker, Check, ChevronLeft, ChevronRight, Edit, FileSpreadsheet, Loader2, Plus, Search, Trash2, Upload, UserPlus, Users } from 'lucide-react';
 import { useValidum } from '../../context/ValidumContext';
 import { eliminarSoporte, guardarSoporte, ordenDocumentos } from '../../lib/documentStorage';
 import type { Beneficiario, DocumentoAdjunto, Empleado, Empresa } from '../../types/validum';
 import { SignaturePad } from '../formularios/SignaturePad';
 import { BulkImportModal } from './BulkImportModal';
 import { AffiliationFolioForm } from './AffiliationFolioForm';
+import { buildTestSubjects, TEST_SUBJECT_PREFIX } from '../../data/testSubjects';
 
 const EPS_LIST = [
   'Sanitas', 'Nueva EPS', 'Salud Total', 'Salud Mía', 'Famisanar',
@@ -63,6 +64,7 @@ type FormData = {
   fechaExpedicion: string;
   departamentoResidencia: string;
   ciudadResidencia: string;
+  localidadComuna: string;
   direccion: string;
   barrio: string;
   residenciaZona: 'CABECERA MUNICIPAL (U)' | 'RURAL (R)';
@@ -129,6 +131,7 @@ const fresh = (defaultCompany?: Empresa): FormData => ({
   fechaExpedicion: '',
   departamentoResidencia: '',
   ciudadResidencia: '',
+  localidadComuna: '',
   direccion: '',
   barrio: '',
   residenciaZona: 'CABECERA MUNICIPAL (U)',
@@ -194,6 +197,7 @@ export const EmpleadoList: React.FC = () => {
   const {
     empleados,
     addEmpleado,
+    addEmpleados,
     updateEmpleado,
     deleteEmpleado,
     empresa,
@@ -212,6 +216,7 @@ export const EmpleadoList: React.FC = () => {
   const [documentos, setDocumentos] = useState<DocumentoAdjunto[]>([]);
   const [pendientes, setPendientes] = useState<DocumentoPendiente[]>([]);
   const [removedDocumentIds, setRemovedDocumentIds] = useState<string[]>([]);
+  const [isCreatingTests, setIsCreatingTests] = useState(false);
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => setForm(old => ({ ...old, [key]: value }));
 
@@ -229,6 +234,27 @@ export const EmpleadoList: React.FC = () => {
     setEditing(null);
     setStep(0);
     setOpen(true);
+  };
+
+  const createTestSubjects = async () => {
+    const candidates = buildTestSubjects(empresa);
+    const existingIds = new Set(empleados.map(item => item.id));
+    const missing = candidates.filter(item => !existingIds.has(item.id));
+    if (!missing.length) {
+      alert('Los sujetos de prueba de las 10 EPS ya están creados. Búscalos por la palabra PRUEBA.');
+      return;
+    }
+    if (!window.confirm(`Se crearán ${missing.length} cotizantes sintéticos, cada uno con cónyuge, hijo e hija. ¿Continuar?`)) return;
+    setIsCreatingTests(true);
+    try {
+      await addEmpleados(missing);
+      setSearch('PRUEBA');
+      alert(`Se crearon ${missing.length} sujetos de prueba. Todos tienen identificadores que empiezan por ${TEST_SUBJECT_PREFIX}.`);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'No se pudieron crear los sujetos de prueba.');
+    } finally {
+      setIsCreatingTests(false);
+    }
   };
 
   const edit = (item: Empleado) => {
@@ -263,6 +289,7 @@ export const EmpleadoList: React.FC = () => {
       fechaExpedicion: item.fechaExpedicion || '',
       departamentoResidencia: item.departamentoResidencia || '',
       ciudadResidencia: item.ciudadResidencia || '',
+      localidadComuna: item.localidadComuna || '',
       direccion: item.direccion || '',
       barrio: item.barrio || '',
       residenciaZona: item.zona === 'R' ? 'RURAL (R)' : 'CABECERA MUNICIPAL (U)',
@@ -488,6 +515,7 @@ export const EmpleadoList: React.FC = () => {
         fechaExpedicion: form.fechaExpedicion,
         departamentoResidencia: form.departamentoResidencia,
         ciudadResidencia: form.ciudadResidencia,
+        localidadComuna: form.localidadComuna,
         direccion: form.direccion,
         barrio: form.barrio,
         zona: form.residenciaZona.startsWith('R') ? 'R' : 'U',
@@ -565,6 +593,15 @@ export const EmpleadoList: React.FC = () => {
           </div>
         </div>
         <div className="flex gap-3">
+          <button
+            type="button"
+            onClick={() => void createTestSubjects()}
+            disabled={isCreatingTests}
+            className="rounded-xl border border-cyan-500/40 px-4 py-2.5 text-xs font-bold text-cyan-300 transition-colors hover:bg-cyan-500/10 disabled:opacity-50"
+          >
+            {isCreatingTests ? <Loader2 className="mr-2 inline w-4 animate-spin" /> : <Beaker className="mr-2 inline w-4" />}
+            Crear sujetos de prueba
+          </button>
           <button onClick={() => setImportOpen(true)} className="rounded-xl border border-[#c4d600]/40 px-4 py-2.5 text-xs font-bold text-[#c4d600] hover:bg-[#c4d600]/10 transition-colors">
             <FileSpreadsheet className="mr-2 inline w-4" />Importar afiliados
           </button>
