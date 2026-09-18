@@ -225,7 +225,11 @@ export const ValidumProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const addEmpleados = async (nuevos: Empleado[]) => {
-    const next = [...nuevos, ...empleadosRef.current];
+    // La importación masiva también funciona como upsert: un identificador ya
+    // existente se actualiza en vez de duplicarse. Así solo se envía una copia
+    // completa del directorio al backend, incluso para lotes grandes.
+    const incomingIds = new Set(nuevos.map(empleado => empleado.id));
+    const next = [...nuevos, ...empleadosRef.current.filter(empleado => !incomingIds.has(empleado.id))];
     await saveEmployees(next);
     empleadosRef.current = next;
     setEmpleados(next);

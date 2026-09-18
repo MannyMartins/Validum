@@ -247,8 +247,9 @@ export const EmpleadoList: React.FC = () => {
     if (!window.confirm(`${message} ¿Continuar?`)) return;
     setIsCreatingTests(true);
     try {
-      await Promise.all(existing.map(item => updateEmpleado(item.id, item)));
-      await addEmpleados(missing);
+      // addEmpleados realiza un upsert masivo por id; una sola petición actualiza
+      // los existentes y agrega los faltantes sin duplicar el directorio.
+      await addEmpleados(candidates);
       setSearch('PRUEBA');
       alert(`Sujetos de prueba listos: ${missing.length} creados y ${existing.length} actualizados. Todos empiezan por ${TEST_SUBJECT_PREFIX}.`);
     } catch (error) {
