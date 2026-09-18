@@ -116,21 +116,29 @@ const SANITAS_ALWAYS_BLANK = new Set([
 
 function sanitasGenerationTemplate(template: FormTemplate, values: Record<string, string>): FormTemplate {
   if (!isSanitasTemplate(template)) return template;
+  const isNoveltyReport = values.tipoTramiteSeccionI === 'REPORTE_NOVEDADES';
   const alwaysChecked = new Set([
-    'tipoTramiteAfiliacion', 'tipoAfiliacionCotizante',
+    isNoveltyReport ? 'tipoTramiteNovedad' : 'tipoTramiteAfiliacion',
+    'tipoAfiliacionCotizante',
     'regimenContributivo', 'contribucionSolidariaNo',
   ]);
   const alwaysUnchecked = new Set([
-    'tipoTramiteNovedad', 'tipoAfiliacionIndividual', 'tipoAfiliacionColectiva',
+    isNoveltyReport ? 'tipoTramiteAfiliacion' : 'tipoTramiteNovedad',
+    'tipoAfiliacionIndividual', 'tipoAfiliacionColectiva',
     'tipoAfiliacionInstitucional', 'tipoAfiliacionOficio', 'tipoAfiliacionBeneficiario',
     'regimenSubsidiado', 'contribucionSolidariaSi',
   ]);
   return {
     ...template,
-    fields: template.fields
-      .filter(field => !SANITAS_ALWAYS_BLANK.has(field.fieldKey))
-      .filter(field => field.fieldKey !== 'selloRadicacion' || Boolean(values.selloRadicacion))
-      .map(field => {
+    fields: template.fields.map(field => {
+        if (field.fieldKey === 'selloRadicacion' && !values.selloRadicacion) {
+          return { ...field, fieldType: 'text' as const, dataSource: 'manual' as const };
+        }
+        if (SANITAS_ALWAYS_BLANK.has(field.fieldKey)) {
+          return field.fieldType === 'checkbox'
+            ? { ...field, checkboxRule: { mode: 'equals' as const, source: 'manual' as const, fieldKey: '__sanitas_unchecked__', expectedValue: 'X' } }
+            : { ...field, dataSource: 'manual' as const };
+        }
         if (alwaysChecked.has(field.fieldKey)) {
           return { ...field, checkboxRule: { mode: 'always' as const } };
         }
@@ -152,6 +160,7 @@ function buildOperationalDefaults(template?: FormTemplate, employee?: Empleado):
   if (!template) return {};
   const mappedKeys = new Set(template.fields.map(field => field.fieldKey));
   const values: Record<string, string> = {};
+  if (isSanitasTemplate(template)) values.tipoTramiteSeccionI = 'AFILIACION';
   const defaultChecks = isSanitasTemplate(template) ? [
     'contribucionSolidariaNo',
     ...SANITAS_DECLARATIONS,
@@ -424,7 +433,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       const effectiveTramiteValues = {
         ...tramiteValues,
         ...(isSanitasTemplate(selectedTemplate) ? {
-          tipoTramite: 'AFILIACION',
+          tipoTramite: manualValues.tipoTramiteSeccionI === 'REPORTE_NOVEDADES' ? 'NOVEDAD' : 'AFILIACION',
           tipoAfiliacion: 'COTIZANTE_CABEZA',
           regimen: 'CONTRIBUTIVO',
         } : {}),
@@ -438,6 +447,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
           declaracionNoInternacion: '',
           aceptacionContribucionSolidaria: '',
           aceptacionActualizacionTarifas: '',
+          ...Object.fromEntries([...SANITAS_ALWAYS_BLANK].map(key => [key, ''])),
           ...Object.fromEntries(SANITAS_DECLARATIONS.map(key => [key, 'X'])),
         } : {}),
         ...(isTraslado ? {} : { motivoTraslado: '', epsAnterior: '' }),
@@ -1127,6 +1137,44 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
             )}
           </div>
         </div>
+
+        {isSanitasTemplate(selectedTemplate) && (
+          <details open className="rounded-2xl border border-[#c4d600]/35 bg-[#091522] p-4 shadow-xl lg:col-span-2">
+            <summary className="cursor-pointer text-xs font-black uppercase tracking-wider text-[#c4d600]">
+              Especificaciones del formulario
+            </summary>
+            <p className="mt-2 text-[10px] text-slate-400">
+              Esta elección controla únicamente la casilla 1 de la sección I. El tipo específico de novedad se mantiene en la sección 60.
+            </p>
+            <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              {[
+                ['AFILIACION', 'Afiliación', 'Marca únicamente “A. Afiliación”'],
+                ['REPORTE_NOVEDADES', 'Reporte de novedades', 'Marca únicamente “B. Reporte de novedades”'],
+              ].map(([value, label, description]) => {
+                const selected = (manualValues.tipoTramiteSeccionI || 'AFILIACION') === value;
+                return (
+                  <label
+                    key={value}
+                    className={`cursor-pointer rounded-xl border p-3 transition ${selected ? 'border-[#c4d600] bg-[#c4d600]/10' : 'border-slate-700 bg-[#060e18] hover:border-slate-500'}`}
+                  >
+                    <span className="flex items-center gap-2 text-xs font-black text-white">
+                      <input
+                        type="radio"
+                        name="sanitas-tipo-tramite-seccion-i"
+                        value={value}
+                        checked={selected}
+                        onChange={() => setManualValues(values => ({ ...values, tipoTramiteSeccionI: value }))}
+                        className="accent-[#c4d600]"
+                      />
+                      {label}
+                    </span>
+                    <span className="mt-1 block pl-5 text-[10px] text-slate-400">{description}</span>
+                  </label>
+                );
+              })}
+            </div>
+          </details>
+        )}
 
         {/* Campos operativos que solo se imprimen cuando el asesor los diligencia. */}
         <details className="rounded-2xl border border-cyan-500/30 bg-[#091522] p-4 shadow-xl lg:col-span-2">

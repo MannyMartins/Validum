@@ -105,6 +105,7 @@ export interface FolioFormData {
   fechaExpedicion: string;
   departamentoResidencia: string;
   ciudadResidencia: string;
+  localidadComuna: string;
   direccion: string;
   barrio: string;
   residenciaZona: 'CABECERA MUNICIPAL (U)' | 'RURAL (R)';
@@ -213,6 +214,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     fechaExpedicion: initialData?.fechaExpedicion || '',
     departamentoResidencia: initialData?.departamentoResidencia || '',
     ciudadResidencia: initialData?.ciudadResidencia || '',
+    localidadComuna: initialData?.localidadComuna || '',
     direccion: initialData?.direccion || '',
     barrio: initialData?.barrio || '',
     residenciaZona: initialData?.residenciaZona || 'CABECERA MUNICIPAL (U)',
@@ -641,6 +643,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
         fechaExpedicion: form.fechaExpedicion,
         departamentoResidencia: form.departamentoResidencia,
         ciudadResidencia: form.ciudadResidencia,
+        localidadComuna: form.localidadComuna,
         direccion: form.direccion,
         barrio: form.barrio,
         zona: form.residenciaZona === 'CABECERA MUNICIPAL (U)' ? 'U' : 'R',
@@ -1278,6 +1281,16 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                                   <option key={item.municipalityCode} value={item.municipality}>{item.department}</option>
                                 ))}
                               </datalist>
+                            </label>
+
+                            <label className="block text-xs font-semibold text-slate-600 md:col-span-3">
+                              Localidad / Comuna
+                              <input
+                                value={form.localidadComuna}
+                                onChange={e => update('localidadComuna', e.target.value.toUpperCase())}
+                                placeholder="Ej: COMUNA 12 o LOCALIDAD SUBA"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-bold text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white"
+                              />
                             </label>
                           </div>
                         </div>
