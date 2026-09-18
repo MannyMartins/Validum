@@ -94,11 +94,69 @@ function effectiveTemplatePageCount(template: FormTemplate): number {
   return normalizeEpsName(`${template.entity} ${template.name}`).includes('SANITAS') ? 2 : template.totalPages;
 }
 
+function isSanitasTemplate(template?: FormTemplate): boolean {
+  return Boolean(template && normalizeEpsName(`${template.entity} ${template.name}`).includes('SANITAS'));
+}
+
+const SANITAS_DECLARATIONS = [
+  'declaracionDependenciaEconomica',
+  'declaracionNoObligacionContributivo',
+  'autorizacionHistoriaClinica',
+  'autorizacionReporteInformacion',
+  'autorizacionDatosPersonales',
+  'autorizacionNotificaciones',
+] as const;
+
+const SANITAS_ALWAYS_BLANK = new Set([
+  'etnia', 'comunidad', 'discapacidad', 'discapacidadSi', 'discapacidadNo',
+  'condicion', 'condicionTemporal', 'condicionPermanente',
+  'encuestaSisbenSi', 'encuestaSisbenNo', 'puntajeSisben', 'grupoEspecial',
+  'tarifaContribucionSolidaria',
+]);
+
+function sanitasGenerationTemplate(template: FormTemplate, values: Record<string, string>): FormTemplate {
+  if (!isSanitasTemplate(template)) return template;
+  const alwaysChecked = new Set([
+    'tipoTramiteAfiliacion', 'tipoAfiliacionCotizante',
+    'regimenContributivo', 'contribucionSolidariaNo',
+  ]);
+  const alwaysUnchecked = new Set([
+    'tipoTramiteNovedad', 'tipoAfiliacionIndividual', 'tipoAfiliacionColectiva',
+    'tipoAfiliacionInstitucional', 'tipoAfiliacionOficio', 'tipoAfiliacionBeneficiario',
+    'regimenSubsidiado', 'contribucionSolidariaSi',
+  ]);
+  return {
+    ...template,
+    fields: template.fields
+      .filter(field => !SANITAS_ALWAYS_BLANK.has(field.fieldKey))
+      .filter(field => field.fieldKey !== 'selloRadicacion' || Boolean(values.selloRadicacion))
+      .map(field => {
+        if (alwaysChecked.has(field.fieldKey)) {
+          return { ...field, checkboxRule: { mode: 'always' as const } };
+        }
+        if (alwaysUnchecked.has(field.fieldKey)) {
+          return {
+            ...field,
+            checkboxRule: { mode: 'equals' as const, source: 'manual' as const, fieldKey: '__sanitas_unchecked__', expectedValue: 'X' },
+          };
+        }
+        if (field.fieldKey === 'selloRadicacion') {
+          return { ...field, stampText: values.selloRadicacion };
+        }
+        return field;
+      }),
+  };
+}
+
 function buildOperationalDefaults(template?: FormTemplate, employee?: Empleado): Record<string, string> {
   if (!template) return {};
   const mappedKeys = new Set(template.fields.map(field => field.fieldKey));
   const values: Record<string, string> = {};
-  [
+  const defaultChecks = isSanitasTemplate(template) ? [
+    'contribucionSolidariaNo',
+    ...SANITAS_DECLARATIONS,
+    'anexoDocumentoIdentidad',
+  ] : [
     'contribucionSolidariaNo',
     'declaracionDependenciaEconomica',
     'declaracionNoObligacionContributivo',
@@ -107,7 +165,8 @@ function buildOperationalDefaults(template?: FormTemplate, employee?: Empleado):
     'autorizacionReporteInformacion',
     'autorizacionDatosPersonales',
     'anexoDocumentoIdentidad',
-  ].forEach(key => {
+  ];
+  defaultChecks.forEach(key => {
     if (mappedKeys.has(key)) values[key] = 'X';
   });
 
@@ -213,6 +272,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       epsAnterior: isTraslado ? (selectedEmpleado.epsAnterior || '') : '',
       motivoTraslado: isTraslado ? (selectedEmpleado.motivoTraslado || '') : '',
       cajaCompensacionAnterior: selectedEmpleado.cajaCompensacionAnterior || '',
+      fechaNovedad: selectedEmpleado.fechaNovedad || selectedEmpleado.fechaIngreso || new Date().toISOString().slice(0, 10),
       codigoRegistroEpsTramite: selectedEmpleado.codigoRegistroEps || '',
     }));
   }, [selectedEmpleado]);
@@ -315,6 +375,23 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
       alert('El afiliado no tiene una empresa aportante completa asociada. Corrige el expediente antes de generar.');
       return;
     }
+    const requiredCotizante = [
+      ['tipo de documento', selectedEmpleado.tipoDocumento],
+      ['número de documento', selectedEmpleado.numeroDocumento || selectedEmpleado.cedula],
+      ['primer nombre', selectedEmpleado.primerNombre || selectedEmpleado.nombres],
+      ['primer apellido', selectedEmpleado.primerApellido || selectedEmpleado.apellidos],
+      ['fecha de nacimiento', selectedEmpleado.fechaNacimiento],
+      ['nacionalidad', selectedEmpleado.nacionalidad],
+      ['sexo', selectedEmpleado.sexo],
+      ['departamento de residencia', selectedEmpleado.departamentoResidencia],
+      ['ciudad de residencia', selectedEmpleado.ciudadResidencia],
+      ['dirección', selectedEmpleado.direccion],
+      ['teléfono', selectedEmpleado.telefonoCotizante],
+    ].filter(([, value]) => !String(value || '').trim());
+    if (requiredCotizante.length) {
+      alert(`Faltan datos obligatorios del cotizante: ${requiredCotizante.map(([label]) => label).join(', ')}. Completa el expediente antes de radicar.`);
+      return;
+    }
     if (!cotizanteSignature) {
       alert('Falta la firma del afiliado / cotizante. Abre la ventana de firma antes de generar el formulario.');
       setActiveSignature('cotizante');
@@ -333,7 +410,7 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         pageSizes: selectedTemplate.pageSizes?.slice(0, effectivePageCount),
         fields: selectedTemplate.fields.filter(field => field.page >= 0 && field.page < effectivePageCount),
       };
-      const activeTemplate: FormTemplate = currentPdfBase64 ? {
+      const selectedPdfTemplate: FormTemplate = currentPdfBase64 ? {
         ...currentTemplate,
         pdfBase64: currentPdfBase64,
         pdfAssetPath: undefined,
@@ -346,13 +423,26 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
         : (tramiteValues.subTipoTramite || '').trim().toUpperCase() === 'TRASLADO';
       const effectiveTramiteValues = {
         ...tramiteValues,
+        ...(isSanitasTemplate(selectedTemplate) ? {
+          tipoTramite: 'AFILIACION',
+          tipoAfiliacion: 'COTIZANTE_CABEZA',
+          regimen: 'CONTRIBUTIVO',
+        } : {}),
         epsAnterior: isTraslado ? (tramiteValues.epsAnterior || '') : '',
         motivoTraslado: isTraslado ? (tramiteValues.motivoTraslado || '') : '',
       };
       const effectiveManualValues = {
         ...manualValues,
+        ...(isSanitasTemplate(selectedTemplate) ? {
+          declaracionFuerzaMayorDocumentos: '',
+          declaracionNoInternacion: '',
+          aceptacionContribucionSolidaria: '',
+          aceptacionActualizacionTarifas: '',
+          ...Object.fromEntries(SANITAS_DECLARATIONS.map(key => [key, 'X'])),
+        } : {}),
         ...(isTraslado ? {} : { motivoTraslado: '', epsAnterior: '' }),
       };
+      const activeTemplate = sanitasGenerationTemplate(selectedPdfTemplate, effectiveManualValues);
 
       let base64Pdf = await fillPDFTemplate(
         activeTemplate,
@@ -1037,6 +1127,73 @@ export const PDFAutoFiller: React.FC<PDFAutoFillerProps> = ({
             )}
           </div>
         </div>
+
+        {/* Campos operativos que solo se imprimen cuando el asesor los diligencia. */}
+        <details className="rounded-2xl border border-cyan-500/30 bg-[#091522] p-4 shadow-xl lg:col-span-2">
+          <summary className="cursor-pointer text-xs font-black uppercase tracking-wider text-cyan-300">
+            Datos adicionales de radicación (opcionales)
+          </summary>
+          <p className="mt-2 text-[10px] text-slate-400">
+            Observaciones, ejecutivo comercial, fecha de novedad, caja de compensación y sello. Los campos vacíos no se imprimen.
+          </p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <label className="text-[10px] font-bold uppercase text-slate-400">
+              66. Fecha de novedad
+              <input
+                type="date"
+                value={tramiteValues.fechaNovedad || ''}
+                onChange={event => setTramiteValues(values => ({ ...values, fechaNovedad: event.target.value }))}
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+              />
+            </label>
+            <label className="text-[10px] font-bold uppercase text-slate-400">
+              68. Caja de compensación
+              <input
+                value={tramiteValues.cajaCompensacionAnterior || ''}
+                onChange={event => setTramiteValues(values => ({ ...values, cajaCompensacionAnterior: event.target.value }))}
+                placeholder="Opcional"
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+              />
+            </label>
+            <label className="text-[10px] font-bold uppercase text-slate-400">
+              Documento del ejecutivo
+              <input
+                value={manualValues.ejecutivoComercialDocumento || ''}
+                onChange={event => setManualValues(values => ({ ...values, ejecutivoComercialDocumento: event.target.value }))}
+                placeholder="CC / número"
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+              />
+            </label>
+            <label className="text-[10px] font-bold uppercase text-slate-400">
+              Nombre del ejecutivo
+              <input
+                value={manualValues.ejecutivoComercialNombre || ''}
+                onChange={event => setManualValues(values => ({ ...values, ejecutivoComercialNombre: event.target.value }))}
+                placeholder="Nombre completo"
+                className="mt-1 w-full rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+              />
+            </label>
+            <label className="text-[10px] font-bold uppercase text-slate-400 sm:col-span-2 lg:col-span-3">
+              Observaciones del funcionario
+              <textarea
+                value={manualValues.observaciones || ''}
+                onChange={event => setManualValues(values => ({ ...values, observaciones: event.target.value }))}
+                rows={2}
+                placeholder="Escriba únicamente cuando sea necesario"
+                className="mt-1 w-full resize-y rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-xs text-white outline-none focus:border-cyan-400"
+              />
+            </label>
+            <label className="flex items-center gap-2 self-end rounded-xl border border-slate-700 bg-[#060e18] px-3 py-2 text-[10px] font-bold uppercase text-slate-300">
+              <input
+                type="checkbox"
+                checked={Boolean(manualValues.selloRadicacion)}
+                onChange={event => setManualValues(values => ({ ...values, selloRadicacion: event.target.checked ? 'RADICADO' : '' }))}
+                className="accent-[#c4d600]"
+              />
+              Imprimir sello de radicación
+            </label>
+          </div>
+        </details>
 
         {/* 6. DOCUMENTOS Y FIRMAS (IDÉNTICO A CAPTURA DERECHA INFERIOR) */}
         <div className="rounded-2xl border border-[#c4d600]/30 bg-[#091522] p-4 shadow-xl hover:border-[#c4d600]/60 transition flex flex-col justify-between">

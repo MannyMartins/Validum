@@ -189,6 +189,22 @@ function beneficiaryValue(person: Beneficiario | undefined, suffix: string): str
 }
 
 export function resolveFamiliarField(key: string, empleado: Empleado): string {
+  // En el formulario SGSSS los datos de residencia y contacto del núcleo
+  // familiar corresponden siempre al domicilio del cotizante principal.
+  const sharedResidence = key.match(/^beneficiario\d+(Departamento|Municipio|Direccion|Localidad|Telefono|Email|ZonaUrbana|ZonaRural)$/);
+  if (sharedResidence) {
+    const values: Record<string, string> = {
+      Departamento: empleado.departamentoResidencia || '',
+      Municipio: empleado.ciudadResidencia || '',
+      Direccion: empleado.direccion || '',
+      Localidad: empleado.localidadComuna || empleado.barrio || '',
+      Telefono: empleado.telefonoCotizante || empleado.telefonoFijo || '',
+      Email: empleado.emailCotizante || '',
+      ZonaUrbana: normalizeComparable(empleado.zona).startsWith('U') ? 'X' : '',
+      ZonaRural: normalizeComparable(empleado.zona).startsWith('R') ? 'X' : '',
+    };
+    return values[sharedResidence[1]] || '';
+  }
   const relatives = empleado.beneficiarios || [];
   const spouse = relatives.find(item => /CONYUGE|COMPANER[OA]/.test(normalizeComparable(item.parentesco)));
   const spouseMatch = key.match(/^conyuge(.+)$/);
@@ -240,6 +256,30 @@ export function resolveDataValue(
   manualFields: Record<string, string>,
   tramiteData: Record<string, string>,
 ): string {
+  // Alias históricos conservados para no romper plantillas ya configuradas.
+  // La interfaz captura firmaDigital*, mientras varias plantillas oficiales
+  // todavía se llaman firmaAfiliado/firmaEmpleador.
+  if (key === 'firmaAfiliado' || key === 'firmaCotizante' || key === 'firmaDigitalCotizante') {
+    return manualFields[key]
+      || manualFields.firmaDigitalCotizante
+      || manualFields.firmaCotizante
+      || empleado.firmaDigitalCotizante
+      || '';
+  }
+  if (key === 'firmaEmpleador' || key === 'firmaEmpresa' || key === 'firmaDigitalEmpresa') {
+    return manualFields[key]
+      || manualFields.firmaDigitalEmpresa
+      || manualFields.firmaEmpresa
+      || empleado.firmaDigitalEmpresa
+      || '';
+  }
+  if (key === 'nacionalidad') {
+    return manualFields.nacionalidad || resolveEmpleadoField('nacionalidad', empleado);
+  }
+  if (key === 'ejecutivoComercial') {
+    return manualFields.ejecutivoComercial
+      || [manualFields.ejecutivoComercialDocumento, manualFields.ejecutivoComercialNombre].filter(Boolean).join(' - ');
+  }
   if (source === 'manual') return manualFields[key] || '';
   if (source === 'tramite') return resolveTramiteField(key, tramiteData) || manualFields[key] || '';
   if (source === 'empresa') {

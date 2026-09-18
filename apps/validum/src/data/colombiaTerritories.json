@@ -1,0 +1,6734 @@
+[
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91263",
+    "municipality": "EL ENCANTO"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91405",
+    "municipality": "LA CHORRERA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91407",
+    "municipality": "LA PEDRERA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91430",
+    "municipality": "LA VICTORIA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91001",
+    "municipality": "LETICIA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91460",
+    "municipality": "MIRITÍ - PARANÁ"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91530",
+    "municipality": "PUERTO ALEGRÍA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91536",
+    "municipality": "PUERTO ARICA"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91540",
+    "municipality": "PUERTO NARIÑO"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91669",
+    "municipality": "PUERTO SANTANDER"
+  },
+  {
+    "departmentCode": "91",
+    "department": "AMAZONAS",
+    "municipalityCode": "91798",
+    "municipality": "TARAPACÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05002",
+    "municipality": "ABEJORRAL"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05004",
+    "municipality": "ABRIAQUÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05021",
+    "municipality": "ALEJANDRÍA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05030",
+    "municipality": "AMAGÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05031",
+    "municipality": "AMALFI"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05034",
+    "municipality": "ANDES"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05036",
+    "municipality": "ANGELÓPOLIS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05038",
+    "municipality": "ANGOSTURA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05040",
+    "municipality": "ANORÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05044",
+    "municipality": "ANZÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05045",
+    "municipality": "APARTADÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05051",
+    "municipality": "ARBOLETES"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05055",
+    "municipality": "ARGELIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05059",
+    "municipality": "ARMENIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05079",
+    "municipality": "BARBOSA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05088",
+    "municipality": "BELLO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05086",
+    "municipality": "BELMIRA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05091",
+    "municipality": "BETANIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05093",
+    "municipality": "BETULIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05107",
+    "municipality": "BRICEÑO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05113",
+    "municipality": "BURITICÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05120",
+    "municipality": "CÁCERES"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05125",
+    "municipality": "CAICEDO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05129",
+    "municipality": "CALDAS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05134",
+    "municipality": "CAMPAMENTO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05138",
+    "municipality": "CAÑASGORDAS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05142",
+    "municipality": "CARACOLÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05145",
+    "municipality": "CARAMANTA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05147",
+    "municipality": "CAREPA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05150",
+    "municipality": "CAROLINA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05154",
+    "municipality": "CAUCASIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05172",
+    "municipality": "CHIGORODÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05190",
+    "municipality": "CISNEROS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05101",
+    "municipality": "CIUDAD BOLÍVAR"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05197",
+    "municipality": "COCORNÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05206",
+    "municipality": "CONCEPCIÓN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05209",
+    "municipality": "CONCORDIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05212",
+    "municipality": "COPACABANA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05234",
+    "municipality": "DABEIBA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05237",
+    "municipality": "DONMATÍAS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05240",
+    "municipality": "EBÉJICO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05250",
+    "municipality": "EL BAGRE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05148",
+    "municipality": "EL CARMEN DE VIBORAL"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05697",
+    "municipality": "EL SANTUARIO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05264",
+    "municipality": "ENTRERRÍOS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05266",
+    "municipality": "ENVIGADO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05282",
+    "municipality": "FREDONIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05284",
+    "municipality": "FRONTINO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05306",
+    "municipality": "GIRALDO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05308",
+    "municipality": "GIRARDOTA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05310",
+    "municipality": "GÓMEZ PLATA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05313",
+    "municipality": "GRANADA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05315",
+    "municipality": "GUADALUPE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05318",
+    "municipality": "GUARNE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05321",
+    "municipality": "GUATAPÉ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05347",
+    "municipality": "HELICONIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05353",
+    "municipality": "HISPANIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05360",
+    "municipality": "ITAGÜÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05361",
+    "municipality": "ITUANGO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05364",
+    "municipality": "JARDÍN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05368",
+    "municipality": "JERICÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05376",
+    "municipality": "LA CEJA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05380",
+    "municipality": "LA ESTRELLA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05390",
+    "municipality": "LA PINTADA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05400",
+    "municipality": "LA UNIÓN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05411",
+    "municipality": "LIBORINA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05425",
+    "municipality": "MACEO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05440",
+    "municipality": "MARINILLA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05001",
+    "municipality": "MEDELLÍN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05467",
+    "municipality": "MONTEBELLO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05475",
+    "municipality": "MURINDÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05480",
+    "municipality": "MUTATÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05483",
+    "municipality": "NARIÑO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05495",
+    "municipality": "NECHÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05490",
+    "municipality": "NECOCLÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05501",
+    "municipality": "OLAYA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05541",
+    "municipality": "PEÑOL"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05543",
+    "municipality": "PEQUE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05576",
+    "municipality": "PUEBLORRICO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05579",
+    "municipality": "PUERTO BERRÍO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05585",
+    "municipality": "PUERTO NARE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05591",
+    "municipality": "PUERTO TRIUNFO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05604",
+    "municipality": "REMEDIOS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05607",
+    "municipality": "RETIRO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05615",
+    "municipality": "RIONEGRO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05628",
+    "municipality": "SABANALARGA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05631",
+    "municipality": "SABANETA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05642",
+    "municipality": "SALGAR"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05647",
+    "municipality": "SAN ANDRÉS DE CUERQUÍA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05649",
+    "municipality": "SAN CARLOS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05652",
+    "municipality": "SAN FRANCISCO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05656",
+    "municipality": "SAN JERÓNIMO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05658",
+    "municipality": "SAN JOSÉ DE LA MONTAÑA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05659",
+    "municipality": "SAN JUAN DE URABÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05660",
+    "municipality": "SAN LUIS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05664",
+    "municipality": "SAN PEDRO DE LOS MILAGROS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05665",
+    "municipality": "SAN PEDRO DE URABÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05667",
+    "municipality": "SAN RAFAEL"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05670",
+    "municipality": "SAN ROQUE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05674",
+    "municipality": "SAN VICENTE FERRER"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05679",
+    "municipality": "SANTA BÁRBARA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05042",
+    "municipality": "SANTA FÉ DE ANTIOQUIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05686",
+    "municipality": "SANTA ROSA DE OSOS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05690",
+    "municipality": "SANTO DOMINGO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05736",
+    "municipality": "SEGOVIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05756",
+    "municipality": "SONSÓN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05761",
+    "municipality": "SOPETRÁN"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05789",
+    "municipality": "TÁMESIS"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05790",
+    "municipality": "TARAZÁ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05792",
+    "municipality": "TARSO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05809",
+    "municipality": "TITIRIBÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05819",
+    "municipality": "TOLEDO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05837",
+    "municipality": "TURBO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05842",
+    "municipality": "URAMITA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05847",
+    "municipality": "URRAO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05854",
+    "municipality": "VALDIVIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05856",
+    "municipality": "VALPARAÍSO"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05858",
+    "municipality": "VEGACHÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05861",
+    "municipality": "VENECIA"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05873",
+    "municipality": "VIGÍA DEL FUERTE"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05885",
+    "municipality": "YALÍ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05887",
+    "municipality": "YARUMAL"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05890",
+    "municipality": "YOLOMBÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05893",
+    "municipality": "YONDÓ"
+  },
+  {
+    "departmentCode": "05",
+    "department": "ANTIOQUIA",
+    "municipalityCode": "05895",
+    "municipality": "ZARAGOZA"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81001",
+    "municipality": "ARAUCA"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81065",
+    "municipality": "ARAUQUITA"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81220",
+    "municipality": "CRAVO NORTE"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81300",
+    "municipality": "FORTUL"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81591",
+    "municipality": "PUERTO RONDÓN"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81736",
+    "municipality": "SARAVENA"
+  },
+  {
+    "departmentCode": "81",
+    "department": "ARAUCA",
+    "municipalityCode": "81794",
+    "municipality": "TAME"
+  },
+  {
+    "departmentCode": "88",
+    "department": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
+    "municipalityCode": "88564",
+    "municipality": "PROVIDENCIA"
+  },
+  {
+    "departmentCode": "88",
+    "department": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
+    "municipalityCode": "88001",
+    "municipality": "SAN ANDRÉS"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08078",
+    "municipality": "BARANOA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08001",
+    "municipality": "BARRANQUILLA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08137",
+    "municipality": "CAMPO DE LA CRUZ"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08141",
+    "municipality": "CANDELARIA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08296",
+    "municipality": "GALAPA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08372",
+    "municipality": "JUAN DE ACOSTA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08421",
+    "municipality": "LURUACO"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08433",
+    "municipality": "MALAMBO"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08436",
+    "municipality": "MANATÍ"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08520",
+    "municipality": "PALMAR DE VARELA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08549",
+    "municipality": "PIOJÓ"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08558",
+    "municipality": "POLONUEVO"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08560",
+    "municipality": "PONEDERA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08573",
+    "municipality": "PUERTO COLOMBIA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08606",
+    "municipality": "REPELÓN"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08634",
+    "municipality": "SABANAGRANDE"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08638",
+    "municipality": "SABANALARGA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08675",
+    "municipality": "SANTA LUCÍA"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08685",
+    "municipality": "SANTO TOMÁS"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08758",
+    "municipality": "SOLEDAD"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08770",
+    "municipality": "SUAN"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08832",
+    "municipality": "TUBARÁ"
+  },
+  {
+    "departmentCode": "08",
+    "department": "ATLÁNTICO",
+    "municipalityCode": "08849",
+    "municipality": "USIACURÍ"
+  },
+  {
+    "departmentCode": "11",
+    "department": "BOGOTÁ, D.C.",
+    "municipalityCode": "11001",
+    "municipality": "BOGOTÁ, D.C."
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13006",
+    "municipality": "ACHÍ"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13030",
+    "municipality": "ALTOS DEL ROSARIO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13042",
+    "municipality": "ARENAL"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13052",
+    "municipality": "ARJONA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13062",
+    "municipality": "ARROYOHONDO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13074",
+    "municipality": "BARRANCO DE LOBA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13140",
+    "municipality": "CALAMAR"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13160",
+    "municipality": "CANTAGALLO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13001",
+    "municipality": "CARTAGENA DE INDIAS"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13188",
+    "municipality": "CICUCO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13222",
+    "municipality": "CLEMENCIA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13212",
+    "municipality": "CÓRDOBA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13244",
+    "municipality": "EL CARMEN DE BOLÍVAR"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13248",
+    "municipality": "EL GUAMO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13268",
+    "municipality": "EL PEÑÓN"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13300",
+    "municipality": "HATILLO DE LOBA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13430",
+    "municipality": "MAGANGUÉ"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13433",
+    "municipality": "MAHATES"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13440",
+    "municipality": "MARGARITA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13442",
+    "municipality": "MARÍA LA BAJA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13458",
+    "municipality": "MONTECRISTO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13473",
+    "municipality": "MORALES"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13490",
+    "municipality": "NOROSÍ"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13549",
+    "municipality": "PINILLOS"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13580",
+    "municipality": "REGIDOR"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13600",
+    "municipality": "RÍO VIEJO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13620",
+    "municipality": "SAN CRISTÓBAL"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13647",
+    "municipality": "SAN ESTANISLAO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13650",
+    "municipality": "SAN FERNANDO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13654",
+    "municipality": "SAN JACINTO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13655",
+    "municipality": "SAN JACINTO DEL CAUCA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13657",
+    "municipality": "SAN JUAN NEPOMUCENO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13667",
+    "municipality": "SAN MARTÍN DE LOBA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13670",
+    "municipality": "SAN PABLO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13673",
+    "municipality": "SANTA CATALINA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13468",
+    "municipality": "SANTA CRUZ DE MOMPOX"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13683",
+    "municipality": "SANTA ROSA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13688",
+    "municipality": "SANTA ROSA DEL SUR"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13744",
+    "municipality": "SIMITÍ"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13760",
+    "municipality": "SOPLAVIENTO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13780",
+    "municipality": "TALAIGUA NUEVO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13810",
+    "municipality": "TIQUISIO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13836",
+    "municipality": "TURBACO"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13838",
+    "municipality": "TURBANÁ"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13873",
+    "municipality": "VILLANUEVA"
+  },
+  {
+    "departmentCode": "13",
+    "department": "BOLÍVAR",
+    "municipalityCode": "13894",
+    "municipality": "ZAMBRANO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15022",
+    "municipality": "ALMEIDA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15047",
+    "municipality": "AQUITANIA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15051",
+    "municipality": "ARCABUCO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15087",
+    "municipality": "BELÉN"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15090",
+    "municipality": "BERBEO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15092",
+    "municipality": "BETÉITIVA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15097",
+    "municipality": "BOAVITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15104",
+    "municipality": "BOYACÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15106",
+    "municipality": "BRICEÑO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15109",
+    "municipality": "BUENAVISTA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15114",
+    "municipality": "BUSBANZÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15131",
+    "municipality": "CALDAS"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15135",
+    "municipality": "CAMPOHERMOSO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15162",
+    "municipality": "CERINZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15172",
+    "municipality": "CHINAVITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15176",
+    "municipality": "CHIQUINQUIRÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15232",
+    "municipality": "CHÍQUIZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15180",
+    "municipality": "CHISCAS"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15183",
+    "municipality": "CHITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15185",
+    "municipality": "CHITARAQUE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15187",
+    "municipality": "CHIVATÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15236",
+    "municipality": "CHIVOR"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15189",
+    "municipality": "CIÉNEGA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15204",
+    "municipality": "CÓMBITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15212",
+    "municipality": "COPER"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15215",
+    "municipality": "CORRALES"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15218",
+    "municipality": "COVARACHÍA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15223",
+    "municipality": "CUBARÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15224",
+    "municipality": "CUCAITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15226",
+    "municipality": "CUÍTIVA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15238",
+    "municipality": "DUITAMA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15244",
+    "municipality": "EL COCUY"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15248",
+    "municipality": "EL ESPINO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15272",
+    "municipality": "FIRAVITOBA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15276",
+    "municipality": "FLORESTA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15293",
+    "municipality": "GACHANTIVÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15296",
+    "municipality": "GÁMEZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15299",
+    "municipality": "GARAGOA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15317",
+    "municipality": "GUACAMAYAS"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15322",
+    "municipality": "GUATEQUE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15325",
+    "municipality": "GUAYATÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15332",
+    "municipality": "GÜICÁN DE LA SIERRA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15362",
+    "municipality": "IZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15367",
+    "municipality": "JENESANO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15368",
+    "municipality": "JERICÓ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15380",
+    "municipality": "LA CAPILLA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15403",
+    "municipality": "LA UVITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15401",
+    "municipality": "LA VICTORIA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15377",
+    "municipality": "LABRANZAGRANDE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15425",
+    "municipality": "MACANAL"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15442",
+    "municipality": "MARIPÍ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15455",
+    "municipality": "MIRAFLORES"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15464",
+    "municipality": "MONGUA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15466",
+    "municipality": "MONGUÍ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15469",
+    "municipality": "MONIQUIRÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15476",
+    "municipality": "MOTAVITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15480",
+    "municipality": "MUZO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15491",
+    "municipality": "NOBSA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15494",
+    "municipality": "NUEVO COLÓN"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15500",
+    "municipality": "OICATÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15507",
+    "municipality": "OTANCHE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15511",
+    "municipality": "PACHAVITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15514",
+    "municipality": "PÁEZ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15516",
+    "municipality": "PAIPA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15518",
+    "municipality": "PAJARITO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15522",
+    "municipality": "PANQUEBA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15531",
+    "municipality": "PAUNA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15533",
+    "municipality": "PAYA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15537",
+    "municipality": "PAZ DE RÍO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15542",
+    "municipality": "PESCA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15550",
+    "municipality": "PISBA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15572",
+    "municipality": "PUERTO BOYACÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15580",
+    "municipality": "QUÍPAMA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15599",
+    "municipality": "RAMIRIQUÍ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15600",
+    "municipality": "RÁQUIRA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15621",
+    "municipality": "RONDÓN"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15632",
+    "municipality": "SABOYÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15638",
+    "municipality": "SÁCHICA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15646",
+    "municipality": "SAMACÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15660",
+    "municipality": "SAN EDUARDO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15664",
+    "municipality": "SAN JOSÉ DE PARE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15667",
+    "municipality": "SAN LUIS DE GACENO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15673",
+    "municipality": "SAN MATEO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15676",
+    "municipality": "SAN MIGUEL DE SEMA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15681",
+    "municipality": "SAN PABLO DE BORBUR"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15690",
+    "municipality": "SANTA MARÍA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15693",
+    "municipality": "SANTA ROSA DE VITERBO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15696",
+    "municipality": "SANTA SOFÍA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15686",
+    "municipality": "SANTANA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15720",
+    "municipality": "SATIVANORTE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15723",
+    "municipality": "SATIVASUR"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15740",
+    "municipality": "SIACHOQUE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15753",
+    "municipality": "SOATÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15757",
+    "municipality": "SOCHA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15755",
+    "municipality": "SOCOTÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15759",
+    "municipality": "SOGAMOSO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15761",
+    "municipality": "SOMONDOCO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15762",
+    "municipality": "SORA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15764",
+    "municipality": "SORACÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15763",
+    "municipality": "SOTAQUIRÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15774",
+    "municipality": "SUSACÓN"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15776",
+    "municipality": "SUTAMARCHÁN"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15778",
+    "municipality": "SUTATENZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15790",
+    "municipality": "TASCO"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15798",
+    "municipality": "TENZA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15804",
+    "municipality": "TIBANÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15806",
+    "municipality": "TIBASOSA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15808",
+    "municipality": "TINJACÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15810",
+    "municipality": "TIPACOQUE"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15814",
+    "municipality": "TOCA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15816",
+    "municipality": "TOGÜÍ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15820",
+    "municipality": "TÓPAGA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15822",
+    "municipality": "TOTA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15001",
+    "municipality": "TUNJA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15832",
+    "municipality": "TUNUNGUÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15835",
+    "municipality": "TURMEQUÉ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15837",
+    "municipality": "TUTA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15839",
+    "municipality": "TUTAZÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15842",
+    "municipality": "ÚMBITA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15861",
+    "municipality": "VENTAQUEMADA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15407",
+    "municipality": "VILLA DE LEYVA"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15879",
+    "municipality": "VIRACACHÁ"
+  },
+  {
+    "departmentCode": "15",
+    "department": "BOYACÁ",
+    "municipalityCode": "15897",
+    "municipality": "ZETAQUIRA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17013",
+    "municipality": "AGUADAS"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17042",
+    "municipality": "ANSERMA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17050",
+    "municipality": "ARANZAZU"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17088",
+    "municipality": "BELALCÁZAR"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17174",
+    "municipality": "CHINCHINÁ"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17272",
+    "municipality": "FILADELFIA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17380",
+    "municipality": "LA DORADA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17388",
+    "municipality": "LA MERCED"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17001",
+    "municipality": "MANIZALES"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17433",
+    "municipality": "MANZANARES"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17442",
+    "municipality": "MARMATO"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17444",
+    "municipality": "MARQUETALIA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17446",
+    "municipality": "MARULANDA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17486",
+    "municipality": "NEIRA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17495",
+    "municipality": "NORCASIA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17513",
+    "municipality": "PÁCORA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17524",
+    "municipality": "PALESTINA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17541",
+    "municipality": "PENSILVANIA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17614",
+    "municipality": "RIOSUCIO"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17616",
+    "municipality": "RISARALDA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17653",
+    "municipality": "SALAMINA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17662",
+    "municipality": "SAMANÁ"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17665",
+    "municipality": "SAN JOSÉ"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17777",
+    "municipality": "SUPÍA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17867",
+    "municipality": "VICTORIA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17873",
+    "municipality": "VILLAMARÍA"
+  },
+  {
+    "departmentCode": "17",
+    "department": "CALDAS",
+    "municipalityCode": "17877",
+    "municipality": "VITERBO"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18029",
+    "municipality": "ALBANIA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18094",
+    "municipality": "BELÉN DE LOS ANDAQUÍES"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18150",
+    "municipality": "CARTAGENA DEL CHAIRÁ"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18205",
+    "municipality": "CURILLO"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18247",
+    "municipality": "EL DONCELLO"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18256",
+    "municipality": "EL PAUJÍL"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18001",
+    "municipality": "FLORENCIA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18410",
+    "municipality": "LA MONTAÑITA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18460",
+    "municipality": "MILÁN"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18479",
+    "municipality": "MORELIA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18592",
+    "municipality": "PUERTO RICO"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18610",
+    "municipality": "SAN JOSÉ DEL FRAGUA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18753",
+    "municipality": "SAN VICENTE DEL CAGUÁN"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18756",
+    "municipality": "SOLANO"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18785",
+    "municipality": "SOLITA"
+  },
+  {
+    "departmentCode": "18",
+    "department": "CAQUETÁ",
+    "municipalityCode": "18860",
+    "municipality": "VALPARAÍSO"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85010",
+    "municipality": "AGUAZUL"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85015",
+    "municipality": "CHÁMEZA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85125",
+    "municipality": "HATO COROZAL"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85136",
+    "municipality": "LA SALINA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85139",
+    "municipality": "MANÍ"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85162",
+    "municipality": "MONTERREY"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85225",
+    "municipality": "NUNCHÍA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85230",
+    "municipality": "OROCUÉ"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85250",
+    "municipality": "PAZ DE ARIPORO"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85263",
+    "municipality": "PORE"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85279",
+    "municipality": "RECETOR"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85300",
+    "municipality": "SABANALARGA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85315",
+    "municipality": "SÁCAMA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85325",
+    "municipality": "SAN LUIS DE PALENQUE"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85400",
+    "municipality": "TÁMARA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85410",
+    "municipality": "TAURAMENA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85430",
+    "municipality": "TRINIDAD"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85440",
+    "municipality": "VILLANUEVA"
+  },
+  {
+    "departmentCode": "85",
+    "department": "CASANARE",
+    "municipalityCode": "85001",
+    "municipality": "YOPAL"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19022",
+    "municipality": "ALMAGUER"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19050",
+    "municipality": "ARGELIA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19075",
+    "municipality": "BALBOA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19100",
+    "municipality": "BOLÍVAR"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19110",
+    "municipality": "BUENOS AIRES"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19130",
+    "municipality": "CAJIBÍO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19137",
+    "municipality": "CALDONO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19142",
+    "municipality": "CALOTO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19212",
+    "municipality": "CORINTO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19256",
+    "municipality": "EL TAMBO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19290",
+    "municipality": "FLORENCIA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19300",
+    "municipality": "GUACHENÉ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19318",
+    "municipality": "GUAPI"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19355",
+    "municipality": "INZÁ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19364",
+    "municipality": "JAMBALÓ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19392",
+    "municipality": "LA SIERRA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19397",
+    "municipality": "LA VEGA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19418",
+    "municipality": "LÓPEZ DE MICAY"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19450",
+    "municipality": "MERCADERES"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19455",
+    "municipality": "MIRANDA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19473",
+    "municipality": "MORALES"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19513",
+    "municipality": "PADILLA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19517",
+    "municipality": "PÁEZ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19532",
+    "municipality": "PATÍA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19533",
+    "municipality": "PIAMONTE"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19548",
+    "municipality": "PIENDAMÓ - TUNÍA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19001",
+    "municipality": "POPAYÁN"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19573",
+    "municipality": "PUERTO TEJADA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19585",
+    "municipality": "PURACÉ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19622",
+    "municipality": "ROSAS"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19693",
+    "municipality": "SAN SEBASTIÁN"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19701",
+    "municipality": "SANTA ROSA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19698",
+    "municipality": "SANTANDER DE QUILICHAO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19743",
+    "municipality": "SILVIA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19760",
+    "municipality": "SOTARÁ - PAISPAMBA"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19780",
+    "municipality": "SUÁREZ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19785",
+    "municipality": "SUCRE"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19807",
+    "municipality": "TIMBÍO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19809",
+    "municipality": "TIMBIQUÍ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19821",
+    "municipality": "TORIBÍO"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19824",
+    "municipality": "TOTORÓ"
+  },
+  {
+    "departmentCode": "19",
+    "department": "CAUCA",
+    "municipalityCode": "19845",
+    "municipality": "VILLA RICA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20011",
+    "municipality": "AGUACHICA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20013",
+    "municipality": "AGUSTÍN CODAZZI"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20032",
+    "municipality": "ASTREA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20045",
+    "municipality": "BECERRIL"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20060",
+    "municipality": "BOSCONIA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20175",
+    "municipality": "CHIMICHAGUA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20178",
+    "municipality": "CHIRIGUANÁ"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20228",
+    "municipality": "CURUMANÍ"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20238",
+    "municipality": "EL COPEY"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20250",
+    "municipality": "EL PASO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20295",
+    "municipality": "GAMARRA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20310",
+    "municipality": "GONZÁLEZ"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20383",
+    "municipality": "LA GLORIA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20400",
+    "municipality": "LA JAGUA DE IBIRICO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20621",
+    "municipality": "LA PAZ"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20443",
+    "municipality": "MANAURE BALCÓN DEL CESAR"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20517",
+    "municipality": "PAILITAS"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20550",
+    "municipality": "PELAYA"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20570",
+    "municipality": "PUEBLO BELLO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20614",
+    "municipality": "RÍO DE ORO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20710",
+    "municipality": "SAN ALBERTO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20750",
+    "municipality": "SAN DIEGO"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20770",
+    "municipality": "SAN MARTÍN"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20787",
+    "municipality": "TAMALAMEQUE"
+  },
+  {
+    "departmentCode": "20",
+    "department": "CESAR",
+    "municipalityCode": "20001",
+    "municipality": "VALLEDUPAR"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27006",
+    "municipality": "ACANDÍ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27025",
+    "municipality": "ALTO BAUDÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27050",
+    "municipality": "ATRATO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27073",
+    "municipality": "BAGADÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27075",
+    "municipality": "BAHÍA SOLANO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27077",
+    "municipality": "BAJO BAUDÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27099",
+    "municipality": "BOJAYÁ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27150",
+    "municipality": "CARMEN DEL DARIÉN"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27160",
+    "municipality": "CÉRTEGUI"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27205",
+    "municipality": "CONDOTO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27135",
+    "municipality": "EL CANTÓN DEL SAN PABLO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27245",
+    "municipality": "EL CARMEN DE ATRATO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27250",
+    "municipality": "EL LITORAL DEL SAN JUAN"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27361",
+    "municipality": "ISTMINA"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27372",
+    "municipality": "JURADÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27413",
+    "municipality": "LLORÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27425",
+    "municipality": "MEDIO ATRATO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27430",
+    "municipality": "MEDIO BAUDÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27450",
+    "municipality": "MEDIO SAN JUAN"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27491",
+    "municipality": "NÓVITA"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27493",
+    "municipality": "NUEVO BELÉN DE BAJIRÁ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27495",
+    "municipality": "NUQUÍ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27001",
+    "municipality": "QUIBDÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27580",
+    "municipality": "RÍO IRÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27600",
+    "municipality": "RÍO QUITO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27615",
+    "municipality": "RIOSUCIO"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27660",
+    "municipality": "SAN JOSÉ DEL PALMAR"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27745",
+    "municipality": "SIPÍ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27787",
+    "municipality": "TADÓ"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27800",
+    "municipality": "UNGUÍA"
+  },
+  {
+    "departmentCode": "27",
+    "department": "CHOCÓ",
+    "municipalityCode": "27810",
+    "municipality": "UNIÓN PANAMERICANA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23068",
+    "municipality": "AYAPEL"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23079",
+    "municipality": "BUENAVISTA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23090",
+    "municipality": "CANALETE"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23162",
+    "municipality": "CERETÉ"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23168",
+    "municipality": "CHIMÁ"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23182",
+    "municipality": "CHINÚ"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23189",
+    "municipality": "CIÉNAGA DE ORO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23300",
+    "municipality": "COTORRA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23350",
+    "municipality": "LA APARTADA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23417",
+    "municipality": "LORICA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23419",
+    "municipality": "LOS CÓRDOBAS"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23464",
+    "municipality": "MOMIL"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23466",
+    "municipality": "MONTELÍBANO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23001",
+    "municipality": "MONTERÍA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23500",
+    "municipality": "MOÑITOS"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23555",
+    "municipality": "PLANETA RICA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23570",
+    "municipality": "PUEBLO NUEVO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23574",
+    "municipality": "PUERTO ESCONDIDO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23580",
+    "municipality": "PUERTO LIBERTADOR"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23586",
+    "municipality": "PURÍSIMA DE LA CONCEPCIÓN"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23660",
+    "municipality": "SAHAGÚN"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23670",
+    "municipality": "SAN ANDRÉS DE SOTAVENTO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23672",
+    "municipality": "SAN ANTERO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23675",
+    "municipality": "SAN BERNARDO DEL VIENTO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23678",
+    "municipality": "SAN CARLOS"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23682",
+    "municipality": "SAN JOSÉ DE URÉ"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23686",
+    "municipality": "SAN PELAYO"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23807",
+    "municipality": "TIERRALTA"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23815",
+    "municipality": "TUCHÍN"
+  },
+  {
+    "departmentCode": "23",
+    "department": "CÓRDOBA",
+    "municipalityCode": "23855",
+    "municipality": "VALENCIA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25001",
+    "municipality": "AGUA DE DIOS"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25019",
+    "municipality": "ALBÁN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25035",
+    "municipality": "ANAPOIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25040",
+    "municipality": "ANOLAIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25599",
+    "municipality": "APULO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25053",
+    "municipality": "ARBELÁEZ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25086",
+    "municipality": "BELTRÁN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25095",
+    "municipality": "BITUIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25099",
+    "municipality": "BOJACÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25120",
+    "municipality": "CABRERA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25123",
+    "municipality": "CACHIPAY"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25126",
+    "municipality": "CAJICÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25148",
+    "municipality": "CAPARRAPÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25151",
+    "municipality": "CÁQUEZA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25154",
+    "municipality": "CARMEN DE CARUPA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25168",
+    "municipality": "CHAGUANÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25175",
+    "municipality": "CHÍA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25178",
+    "municipality": "CHIPAQUE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25181",
+    "municipality": "CHOACHÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25183",
+    "municipality": "CHOCONTÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25200",
+    "municipality": "COGUA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25214",
+    "municipality": "COTA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25224",
+    "municipality": "CUCUNUBÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25245",
+    "municipality": "EL COLEGIO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25258",
+    "municipality": "EL PEÑÓN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25260",
+    "municipality": "EL ROSAL"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25269",
+    "municipality": "FACATATIVÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25279",
+    "municipality": "FÓMEQUE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25281",
+    "municipality": "FOSCA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25286",
+    "municipality": "FUNZA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25288",
+    "municipality": "FÚQUENE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25290",
+    "municipality": "FUSAGASUGÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25293",
+    "municipality": "GACHALÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25295",
+    "municipality": "GACHANCIPÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25297",
+    "municipality": "GACHETÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25299",
+    "municipality": "GAMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25307",
+    "municipality": "GIRARDOT"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25312",
+    "municipality": "GRANADA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25317",
+    "municipality": "GUACHETÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25320",
+    "municipality": "GUADUAS"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25322",
+    "municipality": "GUASCA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25324",
+    "municipality": "GUATAQUÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25326",
+    "municipality": "GUATAVITA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25328",
+    "municipality": "GUAYABAL DE SÍQUIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25335",
+    "municipality": "GUAYABETAL"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25339",
+    "municipality": "GUTIÉRREZ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25368",
+    "municipality": "JERUSALÉN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25372",
+    "municipality": "JUNÍN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25377",
+    "municipality": "LA CALERA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25386",
+    "municipality": "LA MESA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25394",
+    "municipality": "LA PALMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25398",
+    "municipality": "LA PEÑA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25402",
+    "municipality": "LA VEGA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25407",
+    "municipality": "LENGUAZAQUE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25426",
+    "municipality": "MACHETÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25430",
+    "municipality": "MADRID"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25436",
+    "municipality": "MANTA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25438",
+    "municipality": "MEDINA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25473",
+    "municipality": "MOSQUERA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25483",
+    "municipality": "NARIÑO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25486",
+    "municipality": "NEMOCÓN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25488",
+    "municipality": "NILO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25489",
+    "municipality": "NIMAIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25491",
+    "municipality": "NOCAIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25513",
+    "municipality": "PACHO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25518",
+    "municipality": "PAIME"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25524",
+    "municipality": "PANDI"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25530",
+    "municipality": "PARATEBUENO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25535",
+    "municipality": "PASCA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25572",
+    "municipality": "PUERTO SALGAR"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25580",
+    "municipality": "PULÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25592",
+    "municipality": "QUEBRADANEGRA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25594",
+    "municipality": "QUETAME"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25596",
+    "municipality": "QUIPILE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25612",
+    "municipality": "RICAURTE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25645",
+    "municipality": "SAN ANTONIO DEL TEQUENDAMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25649",
+    "municipality": "SAN BERNARDO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25653",
+    "municipality": "SAN CAYETANO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25658",
+    "municipality": "SAN FRANCISCO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25662",
+    "municipality": "SAN JUAN DE RIOSECO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25718",
+    "municipality": "SASAIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25736",
+    "municipality": "SESQUILÉ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25740",
+    "municipality": "SIBATÉ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25743",
+    "municipality": "SILVANIA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25745",
+    "municipality": "SIMIJACA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25754",
+    "municipality": "SOACHA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25758",
+    "municipality": "SOPÓ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25769",
+    "municipality": "SUBACHOQUE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25772",
+    "municipality": "SUESCA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25777",
+    "municipality": "SUPATÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25779",
+    "municipality": "SUSA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25781",
+    "municipality": "SUTATAUSA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25785",
+    "municipality": "TABIO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25793",
+    "municipality": "TAUSA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25797",
+    "municipality": "TENA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25799",
+    "municipality": "TENJO"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25805",
+    "municipality": "TIBACUY"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25807",
+    "municipality": "TIBIRITA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25815",
+    "municipality": "TOCAIMA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25817",
+    "municipality": "TOCANCIPÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25823",
+    "municipality": "TOPAIPÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25839",
+    "municipality": "UBALÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25841",
+    "municipality": "UBAQUE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25845",
+    "municipality": "UNE"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25851",
+    "municipality": "ÚTICA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25506",
+    "municipality": "VENECIA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25862",
+    "municipality": "VERGARA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25867",
+    "municipality": "VIANÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25843",
+    "municipality": "VILLA DE SAN DIEGO DE UBATÉ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25871",
+    "municipality": "VILLAGÓMEZ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25873",
+    "municipality": "VILLAPINZÓN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25875",
+    "municipality": "VILLETA"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25878",
+    "municipality": "VIOTÁ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25885",
+    "municipality": "YACOPÍ"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25898",
+    "municipality": "ZIPACÓN"
+  },
+  {
+    "departmentCode": "25",
+    "department": "CUNDINAMARCA",
+    "municipalityCode": "25899",
+    "municipality": "ZIPAQUIRÁ"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94343",
+    "municipality": "BARRANCOMINAS"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94886",
+    "municipality": "CACAHUAL"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94001",
+    "municipality": "INÍRIDA"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94885",
+    "municipality": "LA GUADALUPE"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94888",
+    "municipality": "MORICHAL"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94887",
+    "municipality": "PANA PANA"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94884",
+    "municipality": "PUERTO COLOMBIA"
+  },
+  {
+    "departmentCode": "94",
+    "department": "GUAINÍA",
+    "municipalityCode": "94883",
+    "municipality": "SAN FELIPE"
+  },
+  {
+    "departmentCode": "95",
+    "department": "GUAVIARE",
+    "municipalityCode": "95015",
+    "municipality": "CALAMAR"
+  },
+  {
+    "departmentCode": "95",
+    "department": "GUAVIARE",
+    "municipalityCode": "95025",
+    "municipality": "EL RETORNO"
+  },
+  {
+    "departmentCode": "95",
+    "department": "GUAVIARE",
+    "municipalityCode": "95200",
+    "municipality": "MIRAFLORES"
+  },
+  {
+    "departmentCode": "95",
+    "department": "GUAVIARE",
+    "municipalityCode": "95001",
+    "municipality": "SAN JOSÉ DEL GUAVIARE"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41006",
+    "municipality": "ACEVEDO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41013",
+    "municipality": "AGRADO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41016",
+    "municipality": "AIPE"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41020",
+    "municipality": "ALGECIRAS"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41026",
+    "municipality": "ALTAMIRA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41078",
+    "municipality": "BARAYA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41132",
+    "municipality": "CAMPOALEGRE"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41206",
+    "municipality": "COLOMBIA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41244",
+    "municipality": "ELÍAS"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41298",
+    "municipality": "GARZÓN"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41306",
+    "municipality": "GIGANTE"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41319",
+    "municipality": "GUADALUPE"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41349",
+    "municipality": "HOBO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41357",
+    "municipality": "ÍQUIRA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41359",
+    "municipality": "ISNOS"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41378",
+    "municipality": "LA ARGENTINA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41396",
+    "municipality": "LA PLATA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41483",
+    "municipality": "NÁTAGA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41001",
+    "municipality": "NEIVA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41503",
+    "municipality": "OPORAPA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41518",
+    "municipality": "PAICOL"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41524",
+    "municipality": "PALERMO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41530",
+    "municipality": "PALESTINA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41548",
+    "municipality": "PITAL"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41551",
+    "municipality": "PITALITO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41615",
+    "municipality": "RIVERA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41660",
+    "municipality": "SALADOBLANCO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41668",
+    "municipality": "SAN AGUSTÍN"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41676",
+    "municipality": "SANTA MARÍA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41770",
+    "municipality": "SUAZA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41791",
+    "municipality": "TARQUI"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41799",
+    "municipality": "TELLO"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41801",
+    "municipality": "TERUEL"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41797",
+    "municipality": "TESALIA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41807",
+    "municipality": "TIMANÁ"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41872",
+    "municipality": "VILLAVIEJA"
+  },
+  {
+    "departmentCode": "41",
+    "department": "HUILA",
+    "municipalityCode": "41885",
+    "municipality": "YAGUARÁ"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44035",
+    "municipality": "ALBANIA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44078",
+    "municipality": "BARRANCAS"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44090",
+    "municipality": "DIBULLA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44098",
+    "municipality": "DISTRACCIÓN"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44110",
+    "municipality": "EL MOLINO"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44279",
+    "municipality": "FONSECA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44378",
+    "municipality": "HATONUEVO"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44420",
+    "municipality": "LA JAGUA DEL PILAR"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44430",
+    "municipality": "MAICAO"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44560",
+    "municipality": "MANAURE"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44001",
+    "municipality": "RIOHACHA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44650",
+    "municipality": "SAN JUAN DEL CESAR"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44847",
+    "municipality": "URIBIA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44855",
+    "municipality": "URUMITA"
+  },
+  {
+    "departmentCode": "44",
+    "department": "LA GUAJIRA",
+    "municipalityCode": "44874",
+    "municipality": "VILLANUEVA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47030",
+    "municipality": "ALGARROBO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47053",
+    "municipality": "ARACATACA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47058",
+    "municipality": "ARIGUANÍ"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47161",
+    "municipality": "CERRO DE SAN ANTONIO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47170",
+    "municipality": "CHIVOLO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47189",
+    "municipality": "CIÉNAGA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47205",
+    "municipality": "CONCORDIA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47245",
+    "municipality": "EL BANCO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47258",
+    "municipality": "EL PIÑÓN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47268",
+    "municipality": "EL RETÉN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47288",
+    "municipality": "FUNDACIÓN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47318",
+    "municipality": "GUAMAL"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47460",
+    "municipality": "NUEVA GRANADA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47541",
+    "municipality": "PEDRAZA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47545",
+    "municipality": "PIJIÑO DEL CARMEN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47551",
+    "municipality": "PIVIJAY"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47555",
+    "municipality": "PLATO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47570",
+    "municipality": "PUEBLOVIEJO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47605",
+    "municipality": "REMOLINO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47660",
+    "municipality": "SABANAS DE SAN ÁNGEL"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47675",
+    "municipality": "SALAMINA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47692",
+    "municipality": "SAN SEBASTIÁN DE BUENAVISTA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47703",
+    "municipality": "SAN ZENÓN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47707",
+    "municipality": "SANTA ANA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47720",
+    "municipality": "SANTA BÁRBARA DE PINTO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47001",
+    "municipality": "SANTA MARTA"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47745",
+    "municipality": "SITIONUEVO"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47798",
+    "municipality": "TENERIFE"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47960",
+    "municipality": "ZAPAYÁN"
+  },
+  {
+    "departmentCode": "47",
+    "department": "MAGDALENA",
+    "municipalityCode": "47980",
+    "municipality": "ZONA BANANERA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50006",
+    "municipality": "ACACÍAS"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50110",
+    "municipality": "BARRANCA DE UPÍA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50124",
+    "municipality": "CABUYARO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50150",
+    "municipality": "CASTILLA LA NUEVA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50223",
+    "municipality": "CUBARRAL"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50226",
+    "municipality": "CUMARAL"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50245",
+    "municipality": "EL CALVARIO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50251",
+    "municipality": "EL CASTILLO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50270",
+    "municipality": "EL DORADO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50287",
+    "municipality": "FUENTE DE ORO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50313",
+    "municipality": "GRANADA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50318",
+    "municipality": "GUAMAL"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50350",
+    "municipality": "LA MACARENA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50400",
+    "municipality": "LEJANÍAS"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50325",
+    "municipality": "MAPIRIPÁN"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50330",
+    "municipality": "MESETAS"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50450",
+    "municipality": "PUERTO CONCORDIA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50568",
+    "municipality": "PUERTO GAITÁN"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50577",
+    "municipality": "PUERTO LLERAS"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50573",
+    "municipality": "PUERTO LÓPEZ"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50590",
+    "municipality": "PUERTO RICO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50606",
+    "municipality": "RESTREPO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50680",
+    "municipality": "SAN CARLOS DE GUAROA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50683",
+    "municipality": "SAN JUAN DE ARAMA"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50686",
+    "municipality": "SAN JUANITO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50689",
+    "municipality": "SAN MARTÍN"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50370",
+    "municipality": "URIBE"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50001",
+    "municipality": "VILLAVICENCIO"
+  },
+  {
+    "departmentCode": "50",
+    "department": "META",
+    "municipalityCode": "50711",
+    "municipality": "VISTAHERMOSA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52019",
+    "municipality": "ALBÁN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52022",
+    "municipality": "ALDANA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52036",
+    "municipality": "ANCUYA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52051",
+    "municipality": "ARBOLEDA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52079",
+    "municipality": "BARBACOAS"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52083",
+    "municipality": "BELÉN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52110",
+    "municipality": "BUESACO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52240",
+    "municipality": "CHACHAGÜÍ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52203",
+    "municipality": "COLÓN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52207",
+    "municipality": "CONSACÁ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52210",
+    "municipality": "CONTADERO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52215",
+    "municipality": "CÓRDOBA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52224",
+    "municipality": "CUASPUD CARLOSAMA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52227",
+    "municipality": "CUMBAL"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52233",
+    "municipality": "CUMBITARA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52250",
+    "municipality": "EL CHARCO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52254",
+    "municipality": "EL PEÑOL"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52256",
+    "municipality": "EL ROSARIO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52258",
+    "municipality": "EL TABLÓN DE GÓMEZ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52260",
+    "municipality": "EL TAMBO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52520",
+    "municipality": "FRANCISCO PIZARRO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52287",
+    "municipality": "FUNES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52317",
+    "municipality": "GUACHUCAL"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52320",
+    "municipality": "GUAITARILLA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52323",
+    "municipality": "GUALMATÁN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52352",
+    "municipality": "ILES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52354",
+    "municipality": "IMUÉS"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52356",
+    "municipality": "IPIALES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52378",
+    "municipality": "LA CRUZ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52381",
+    "municipality": "LA FLORIDA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52385",
+    "municipality": "LA LLANADA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52390",
+    "municipality": "LA TOLA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52399",
+    "municipality": "LA UNIÓN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52405",
+    "municipality": "LEIVA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52411",
+    "municipality": "LINARES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52418",
+    "municipality": "LOS ANDES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52427",
+    "municipality": "MAGÜÍ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52435",
+    "municipality": "MALLAMA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52473",
+    "municipality": "MOSQUERA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52480",
+    "municipality": "NARIÑO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52490",
+    "municipality": "OLAYA HERRERA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52506",
+    "municipality": "OSPINA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52001",
+    "municipality": "PASTO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52540",
+    "municipality": "POLICARPA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52560",
+    "municipality": "POTOSÍ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52565",
+    "municipality": "PROVIDENCIA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52573",
+    "municipality": "PUERRES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52585",
+    "municipality": "PUPIALES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52612",
+    "municipality": "RICAURTE"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52621",
+    "municipality": "ROBERTO PAYÁN"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52678",
+    "municipality": "SAMANIEGO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52835",
+    "municipality": "SAN ANDRÉS DE TUMACO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52685",
+    "municipality": "SAN BERNARDO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52687",
+    "municipality": "SAN LORENZO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52693",
+    "municipality": "SAN PABLO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52694",
+    "municipality": "SAN PEDRO DE CARTAGO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52683",
+    "municipality": "SANDONÁ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52696",
+    "municipality": "SANTA BÁRBARA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52699",
+    "municipality": "SANTACRUZ"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52720",
+    "municipality": "SAPUYES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52786",
+    "municipality": "TAMINANGO"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52788",
+    "municipality": "TANGUA"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52838",
+    "municipality": "TÚQUERRES"
+  },
+  {
+    "departmentCode": "52",
+    "department": "NARIÑO",
+    "municipalityCode": "52885",
+    "municipality": "YACUANQUER"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54003",
+    "municipality": "ÁBREGO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54051",
+    "municipality": "ARBOLEDAS"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54099",
+    "municipality": "BOCHALEMA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54109",
+    "municipality": "BUCARASICA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54128",
+    "municipality": "CÁCHIRA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54125",
+    "municipality": "CÁCOTA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54172",
+    "municipality": "CHINÁCOTA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54174",
+    "municipality": "CHITAGÁ"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54206",
+    "municipality": "CONVENCIÓN"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54223",
+    "municipality": "CUCUTILLA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54239",
+    "municipality": "DURANIA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54245",
+    "municipality": "EL CARMEN"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54250",
+    "municipality": "EL TARRA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54261",
+    "municipality": "EL ZULIA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54313",
+    "municipality": "GRAMALOTE"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54344",
+    "municipality": "HACARÍ"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54347",
+    "municipality": "HERRÁN"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54385",
+    "municipality": "LA ESPERANZA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54398",
+    "municipality": "LA PLAYA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54377",
+    "municipality": "LABATECA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54405",
+    "municipality": "LOS PATIOS"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54418",
+    "municipality": "LOURDES"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54480",
+    "municipality": "MUTISCUA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54498",
+    "municipality": "OCAÑA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54518",
+    "municipality": "PAMPLONA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54520",
+    "municipality": "PAMPLONITA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54553",
+    "municipality": "PUERTO SANTANDER"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54599",
+    "municipality": "RAGONVALIA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54660",
+    "municipality": "SALAZAR"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54670",
+    "municipality": "SAN CALIXTO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54673",
+    "municipality": "SAN CAYETANO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54001",
+    "municipality": "SAN JOSÉ DE CÚCUTA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54680",
+    "municipality": "SANTIAGO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54720",
+    "municipality": "SARDINATA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54743",
+    "municipality": "SILOS"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54800",
+    "municipality": "TEORAMA"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54810",
+    "municipality": "TIBÚ"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54820",
+    "municipality": "TOLEDO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54871",
+    "municipality": "VILLA CARO"
+  },
+  {
+    "departmentCode": "54",
+    "department": "NORTE DE SANTANDER",
+    "municipalityCode": "54874",
+    "municipality": "VILLA DEL ROSARIO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86219",
+    "municipality": "COLÓN"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86001",
+    "municipality": "MOCOA"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86320",
+    "municipality": "ORITO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86568",
+    "municipality": "PUERTO ASÍS"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86569",
+    "municipality": "PUERTO CAICEDO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86571",
+    "municipality": "PUERTO GUZMÁN"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86573",
+    "municipality": "PUERTO LEGUÍZAMO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86755",
+    "municipality": "SAN FRANCISCO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86757",
+    "municipality": "SAN MIGUEL"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86760",
+    "municipality": "SANTIAGO"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86749",
+    "municipality": "SIBUNDOY"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86865",
+    "municipality": "VALLE DEL GUAMUEZ"
+  },
+  {
+    "departmentCode": "86",
+    "department": "PUTUMAYO",
+    "municipalityCode": "86885",
+    "municipality": "VILLAGARZÓN"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63001",
+    "municipality": "ARMENIA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63111",
+    "municipality": "BUENAVISTA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63130",
+    "municipality": "CALARCÁ"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63190",
+    "municipality": "CIRCASIA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63212",
+    "municipality": "CÓRDOBA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63272",
+    "municipality": "FILANDIA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63302",
+    "municipality": "GÉNOVA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63401",
+    "municipality": "LA TEBAIDA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63470",
+    "municipality": "MONTENEGRO"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63548",
+    "municipality": "PIJAO"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63594",
+    "municipality": "QUIMBAYA"
+  },
+  {
+    "departmentCode": "63",
+    "department": "QUINDÍO",
+    "municipalityCode": "63690",
+    "municipality": "SALENTO"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66045",
+    "municipality": "APÍA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66075",
+    "municipality": "BALBOA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66088",
+    "municipality": "BELÉN DE UMBRÍA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66170",
+    "municipality": "DOSQUEBRADAS"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66318",
+    "municipality": "GUÁTICA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66383",
+    "municipality": "LA CELIA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66400",
+    "municipality": "LA VIRGINIA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66440",
+    "municipality": "MARSELLA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66456",
+    "municipality": "MISTRATÓ"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66001",
+    "municipality": "PEREIRA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66572",
+    "municipality": "PUEBLO RICO"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66594",
+    "municipality": "QUINCHÍA"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66682",
+    "municipality": "SANTA ROSA DE CABAL"
+  },
+  {
+    "departmentCode": "66",
+    "department": "RISARALDA",
+    "municipalityCode": "66687",
+    "municipality": "SANTUARIO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68013",
+    "municipality": "AGUADA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68020",
+    "municipality": "ALBANIA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68051",
+    "municipality": "ARATOCA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68077",
+    "municipality": "BARBOSA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68079",
+    "municipality": "BARICHARA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68081",
+    "municipality": "BARRANCABERMEJA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68092",
+    "municipality": "BETULIA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68101",
+    "municipality": "BOLÍVAR"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68001",
+    "municipality": "BUCARAMANGA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68121",
+    "municipality": "CABRERA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68132",
+    "municipality": "CALIFORNIA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68147",
+    "municipality": "CAPITANEJO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68152",
+    "municipality": "CARCASÍ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68160",
+    "municipality": "CEPITÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68162",
+    "municipality": "CERRITO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68167",
+    "municipality": "CHARALÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68169",
+    "municipality": "CHARTA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68176",
+    "municipality": "CHIMA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68179",
+    "municipality": "CHIPATÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68190",
+    "municipality": "CIMITARRA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68207",
+    "municipality": "CONCEPCIÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68209",
+    "municipality": "CONFINES"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68211",
+    "municipality": "CONTRATACIÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68217",
+    "municipality": "COROMORO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68229",
+    "municipality": "CURITÍ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68235",
+    "municipality": "EL CARMEN DE CHUCURÍ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68245",
+    "municipality": "EL GUACAMAYO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68250",
+    "municipality": "EL PEÑÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68255",
+    "municipality": "EL PLAYÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68264",
+    "municipality": "ENCINO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68266",
+    "municipality": "ENCISO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68271",
+    "municipality": "FLORIÁN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68276",
+    "municipality": "FLORIDABLANCA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68296",
+    "municipality": "GALÁN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68298",
+    "municipality": "GÁMBITA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68307",
+    "municipality": "GIRÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68318",
+    "municipality": "GUACA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68320",
+    "municipality": "GUADALUPE"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68322",
+    "municipality": "GUAPOTÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68324",
+    "municipality": "GUAVATÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68327",
+    "municipality": "GÜEPSA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68344",
+    "municipality": "HATO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68368",
+    "municipality": "JESÚS MARÍA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68370",
+    "municipality": "JORDÁN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68377",
+    "municipality": "LA BELLEZA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68397",
+    "municipality": "LA PAZ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68385",
+    "municipality": "LANDÁZURI"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68406",
+    "municipality": "LEBRIJA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68418",
+    "municipality": "LOS SANTOS"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68425",
+    "municipality": "MACARAVITA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68432",
+    "municipality": "MÁLAGA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68444",
+    "municipality": "MATANZA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68464",
+    "municipality": "MOGOTES"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68468",
+    "municipality": "MOLAGAVITA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68498",
+    "municipality": "OCAMONTE"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68500",
+    "municipality": "OIBA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68502",
+    "municipality": "ONZAGA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68522",
+    "municipality": "PALMAR"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68524",
+    "municipality": "PALMAS DEL SOCORRO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68533",
+    "municipality": "PÁRAMO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68547",
+    "municipality": "PIEDECUESTA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68549",
+    "municipality": "PINCHOTE"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68572",
+    "municipality": "PUENTE NACIONAL"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68573",
+    "municipality": "PUERTO PARRA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68575",
+    "municipality": "PUERTO WILCHES"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68615",
+    "municipality": "RIONEGRO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68655",
+    "municipality": "SABANA DE TORRES"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68669",
+    "municipality": "SAN ANDRÉS"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68673",
+    "municipality": "SAN BENITO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68679",
+    "municipality": "SAN GIL"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68682",
+    "municipality": "SAN JOAQUÍN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68684",
+    "municipality": "SAN JOSÉ DE MIRANDA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68686",
+    "municipality": "SAN MIGUEL"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68689",
+    "municipality": "SAN VICENTE DE CHUCURÍ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68705",
+    "municipality": "SANTA BÁRBARA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68720",
+    "municipality": "SANTA HELENA DEL OPÓN"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68745",
+    "municipality": "SIMACOTA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68755",
+    "municipality": "SOCORRO"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68770",
+    "municipality": "SUAITA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68773",
+    "municipality": "SUCRE"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68780",
+    "municipality": "SURATÁ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68820",
+    "municipality": "TONA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68855",
+    "municipality": "VALLE DE SAN JOSÉ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68861",
+    "municipality": "VÉLEZ"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68867",
+    "municipality": "VETAS"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68872",
+    "municipality": "VILLANUEVA"
+  },
+  {
+    "departmentCode": "68",
+    "department": "SANTANDER",
+    "municipalityCode": "68895",
+    "municipality": "ZAPATOCA"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70110",
+    "municipality": "BUENAVISTA"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70124",
+    "municipality": "CAIMITO"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70230",
+    "municipality": "CHALÁN"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70204",
+    "municipality": "COLOSÓ"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70215",
+    "municipality": "COROZAL"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70221",
+    "municipality": "COVEÑAS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70233",
+    "municipality": "EL ROBLE"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70235",
+    "municipality": "GALERAS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70265",
+    "municipality": "GUARANDA"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70400",
+    "municipality": "LA UNIÓN"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70418",
+    "municipality": "LOS PALMITOS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70429",
+    "municipality": "MAJAGUAL"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70473",
+    "municipality": "MORROA"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70508",
+    "municipality": "OVEJAS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70523",
+    "municipality": "PALMITO"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70670",
+    "municipality": "SAMPUÉS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70678",
+    "municipality": "SAN BENITO ABAD"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70823",
+    "municipality": "SAN JOSÉ DE TOLUVIEJO"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70702",
+    "municipality": "SAN JUAN DE BETULIA"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70742",
+    "municipality": "SAN LUIS DE SINCÉ"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70708",
+    "municipality": "SAN MARCOS"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70713",
+    "municipality": "SAN ONOFRE"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70717",
+    "municipality": "SAN PEDRO"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70820",
+    "municipality": "SANTIAGO DE TOLÚ"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70001",
+    "municipality": "SINCELEJO"
+  },
+  {
+    "departmentCode": "70",
+    "department": "SUCRE",
+    "municipalityCode": "70771",
+    "municipality": "SUCRE"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73024",
+    "municipality": "ALPUJARRA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73026",
+    "municipality": "ALVARADO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73030",
+    "municipality": "AMBALEMA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73043",
+    "municipality": "ANZOÁTEGUI"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73055",
+    "municipality": "ARMERO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73067",
+    "municipality": "ATACO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73124",
+    "municipality": "CAJAMARCA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73148",
+    "municipality": "CARMEN DE APICALÁ"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73152",
+    "municipality": "CASABIANCA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73168",
+    "municipality": "CHAPARRAL"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73200",
+    "municipality": "COELLO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73217",
+    "municipality": "COYAIMA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73226",
+    "municipality": "CUNDAY"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73236",
+    "municipality": "DOLORES"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73268",
+    "municipality": "ESPINAL"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73270",
+    "municipality": "FALAN"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73275",
+    "municipality": "FLANDES"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73283",
+    "municipality": "FRESNO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73319",
+    "municipality": "GUAMO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73347",
+    "municipality": "HERVEO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73349",
+    "municipality": "HONDA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73001",
+    "municipality": "IBAGUÉ"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73352",
+    "municipality": "ICONONZO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73408",
+    "municipality": "LÉRIDA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73411",
+    "municipality": "LÍBANO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73449",
+    "municipality": "MELGAR"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73461",
+    "municipality": "MURILLO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73483",
+    "municipality": "NATAGAIMA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73504",
+    "municipality": "ORTEGA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73520",
+    "municipality": "PALOCABILDO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73547",
+    "municipality": "PIEDRAS"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73555",
+    "municipality": "PLANADAS"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73563",
+    "municipality": "PRADO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73585",
+    "municipality": "PURIFICACIÓN"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73616",
+    "municipality": "RIOBLANCO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73622",
+    "municipality": "RONCESVALLES"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73624",
+    "municipality": "ROVIRA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73671",
+    "municipality": "SALDAÑA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73675",
+    "municipality": "SAN ANTONIO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73678",
+    "municipality": "SAN LUIS"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73443",
+    "municipality": "SAN SEBASTIÁN DE MARIQUITA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73686",
+    "municipality": "SANTA ISABEL"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73770",
+    "municipality": "SUÁREZ"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73854",
+    "municipality": "VALLE DE SAN JUAN"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73861",
+    "municipality": "VENADILLO"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73870",
+    "municipality": "VILLAHERMOSA"
+  },
+  {
+    "departmentCode": "73",
+    "department": "TOLIMA",
+    "municipalityCode": "73873",
+    "municipality": "VILLARRICA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76020",
+    "municipality": "ALCALÁ"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76036",
+    "municipality": "ANDALUCÍA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76041",
+    "municipality": "ANSERMANUEVO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76054",
+    "municipality": "ARGELIA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76100",
+    "municipality": "BOLÍVAR"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76109",
+    "municipality": "BUENAVENTURA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76113",
+    "municipality": "BUGALAGRANDE"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76122",
+    "municipality": "CAICEDONIA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76126",
+    "municipality": "CALIMA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76130",
+    "municipality": "CANDELARIA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76147",
+    "municipality": "CARTAGO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76233",
+    "municipality": "DAGUA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76243",
+    "municipality": "EL ÁGUILA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76246",
+    "municipality": "EL CAIRO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76248",
+    "municipality": "EL CERRITO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76250",
+    "municipality": "EL DOVIO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76275",
+    "municipality": "FLORIDA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76306",
+    "municipality": "GINEBRA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76318",
+    "municipality": "GUACARÍ"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76111",
+    "municipality": "GUADALAJARA DE BUGA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76364",
+    "municipality": "JAMUNDÍ"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76377",
+    "municipality": "LA CUMBRE"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76400",
+    "municipality": "LA UNIÓN"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76403",
+    "municipality": "LA VICTORIA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76497",
+    "municipality": "OBANDO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76520",
+    "municipality": "PALMIRA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76563",
+    "municipality": "PRADERA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76606",
+    "municipality": "RESTREPO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76616",
+    "municipality": "RIOFRÍO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76622",
+    "municipality": "ROLDANILLO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76670",
+    "municipality": "SAN PEDRO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76001",
+    "municipality": "SANTIAGO DE CALI"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76736",
+    "municipality": "SEVILLA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76823",
+    "municipality": "TORO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76828",
+    "municipality": "TRUJILLO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76834",
+    "municipality": "TULUÁ"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76845",
+    "municipality": "ULLOA"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76863",
+    "municipality": "VERSALLES"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76869",
+    "municipality": "VIJES"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76890",
+    "municipality": "YOTOCO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76892",
+    "municipality": "YUMBO"
+  },
+  {
+    "departmentCode": "76",
+    "department": "VALLE DEL CAUCA",
+    "municipalityCode": "76895",
+    "municipality": "ZARZAL"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97161",
+    "municipality": "CARURÚ"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97001",
+    "municipality": "MITÚ"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97511",
+    "municipality": "PACOA"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97777",
+    "municipality": "PAPUNAHUA"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97666",
+    "municipality": "TARAIRA"
+  },
+  {
+    "departmentCode": "97",
+    "department": "VAUPÉS",
+    "municipalityCode": "97889",
+    "municipality": "YAVARATÉ"
+  },
+  {
+    "departmentCode": "99",
+    "department": "VICHADA",
+    "municipalityCode": "99773",
+    "municipality": "CUMARIBO"
+  },
+  {
+    "departmentCode": "99",
+    "department": "VICHADA",
+    "municipalityCode": "99524",
+    "municipality": "LA PRIMAVERA"
+  },
+  {
+    "departmentCode": "99",
+    "department": "VICHADA",
+    "municipalityCode": "99001",
+    "municipality": "PUERTO CARREÑO"
+  },
+  {
+    "departmentCode": "99",
+    "department": "VICHADA",
+    "municipalityCode": "99624",
+    "municipality": "SANTA ROSALÍA"
+  }
+]

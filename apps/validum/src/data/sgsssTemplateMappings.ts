@@ -63,7 +63,7 @@ interface TemplateProfile {
   extraFields?: ExtraField[];
 }
 
-const CURRENT_VERSION = 16;
+const CURRENT_VERSION = 17;
 
 function inside(region: Box, x: number, top: number, width: number, height: number): Box {
   return {
@@ -272,13 +272,21 @@ function buildTemplate(profile: TemplateProfile): FormTemplate {
     addCheck(p1.page, p1.beneficiaryComplement, 0.59, complementTop + 0.01, `beneficiario${number}CondicionPermanente`, `Beneficiario ${number} - condición permanente`, 'familiar');
     add(p1.page, inside(p1.beneficiaryComplement, 0.65, complementTop, 0.345, 0.13), `beneficiario${number}ValorUpc`, `Beneficiario ${number} - valor UPC`, 'familiar', 'number');
 
-    const residenceTop = 0.16 + (number - 1) * 0.16;
-    add(p1.page, inside(p1.beneficiaryResidence, 0.005, residenceTop, 0.18, 0.14), `beneficiario${number}Departamento`, `Beneficiario ${number} - departamento`, 'familiar');
-    add(p1.page, inside(p1.beneficiaryResidence, 0.19, residenceTop, 0.22, 0.14), `beneficiario${number}Municipio`, `Beneficiario ${number} - municipio / distrito`, 'familiar');
-    addCheck(p1.page, p1.beneficiaryResidence, 0.45, residenceTop + 0.01, `beneficiario${number}ZonaUrbana`, `Beneficiario ${number} - zona urbana`, 'familiar');
-    addCheck(p1.page, p1.beneficiaryResidence, 0.50, residenceTop + 0.01, `beneficiario${number}ZonaRural`, `Beneficiario ${number} - zona rural`, 'familiar');
-    add(p1.page, inside(p1.beneficiaryResidence, 0.56, residenceTop, 0.25, 0.14), `beneficiario${number}Telefono`, `Beneficiario ${number} - teléfono`, 'familiar');
-    add(p1.page, inside(p1.beneficiaryResidence, 0.82, residenceTop, 0.175, 0.14), `beneficiario${number}ValorUpc`, `Beneficiario ${number} - valor UPC adicional`, 'familiar', 'number');
+    const isSanitasResidence = profile.id === 'default-sanitas-2026';
+    const residenceTop = isSanitasResidence ? 0.18 + (number - 1) * 0.075 : 0.16 + (number - 1) * 0.16;
+    const residenceHeight = isSanitasResidence ? 0.065 : 0.14;
+    add(p1.page, inside(p1.beneficiaryResidence, 0.005, residenceTop, 0.18, residenceHeight), `beneficiario${number}Departamento`, `Beneficiario ${number} - departamento`, 'familiar');
+    add(p1.page, inside(p1.beneficiaryResidence, 0.19, residenceTop, 0.22, residenceHeight), `beneficiario${number}Municipio`, `Beneficiario ${number} - municipio / distrito`, 'familiar');
+    addCheck(p1.page, p1.beneficiaryResidence, 0.45, residenceTop, `beneficiario${number}ZonaUrbana`, `Beneficiario ${number} - zona urbana`, 'familiar');
+    addCheck(p1.page, p1.beneficiaryResidence, 0.50, residenceTop, `beneficiario${number}ZonaRural`, `Beneficiario ${number} - zona rural`, 'familiar');
+    add(p1.page, inside(p1.beneficiaryResidence, 0.56, residenceTop, 0.25, residenceHeight), `beneficiario${number}Telefono`, `Beneficiario ${number} - teléfono`, 'familiar');
+    add(p1.page, inside(p1.beneficiaryResidence, 0.82, residenceTop, 0.175, residenceHeight), `beneficiario${number}ValorUpc`, `Beneficiario ${number} - valor UPC adicional`, 'familiar', 'number');
+    if (isSanitasResidence) {
+      const contactTop = 0.66 + (number - 1) * 0.075;
+      add(p1.page, inside(p1.beneficiaryResidence, 0.005, contactTop, 0.36, 0.065), `beneficiario${number}Direccion`, `Beneficiario ${number} - dirección`, 'familiar');
+      add(p1.page, inside(p1.beneficiaryResidence, 0.37, contactTop, 0.34, 0.065), `beneficiario${number}Localidad`, `Beneficiario ${number} - localidad / comuna`, 'familiar');
+      add(p1.page, inside(p1.beneficiaryResidence, 0.72, contactTop, 0.275, 0.065), `beneficiario${number}Email`, `Beneficiario ${number} - correo electrónico`, 'familiar');
+    }
   }
 
   const addIpsRows = (page: number, region: Box) => {
@@ -750,8 +758,8 @@ const profiles: TemplateProfile[] = [
       observations: { x: 29, top: 688, width: 546, height: 36 }
     },
     extraFields: [
-      { page: 1, box: { x: 29, top: 736, width: 260, height: 16 }, key: 'ejecutivoComercial', label: 'Doc. y nombre del Ejecutivo Comercial', source: 'tramite' },
-      { page: 1, box: { x: 300, top: 736, width: 130, height: 16 }, key: 'fechaSelloRadicacion', label: 'Fecha en sello de radicación', source: 'tramite' },
+      { page: 1, box: { x: 29, top: 736, width: 260, height: 16 }, key: 'ejecutivoComercial', label: 'Doc. y nombre del Ejecutivo Comercial', source: 'manual' },
+      { page: 1, box: { x: 300, top: 736, width: 130, height: 16 }, key: 'selloRadicacion', label: 'Sello de radicación', source: 'manual', type: 'stamp' },
     ],
   },
   {

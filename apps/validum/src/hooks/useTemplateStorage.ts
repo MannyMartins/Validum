@@ -34,37 +34,50 @@ function restorePrunedFields(template: FormTemplate, factory: FormTemplate): For
 
 function upgradeFactoryTypography(template: FormTemplate, factory: FormTemplate): FormTemplate {
   const factoryFields = new Map(factory.fields.map(field => [field.id, field]));
+  const isSanitas = template.id === 'default-sanitas-2026';
+  const operationalSanitasKeys = new Set([
+    'nacionalidad', 'departamentoResidencia', 'ciudad', 'fechaNovedad',
+    'cajaCompensacionAnterior', 'firmaAfiliado', 'firmaEmpleador',
+    'observaciones', 'ejecutivoComercial', 'selloRadicacion',
+    ...Array.from({ length: 5 }, (_, index) => index + 1).flatMap(number => [
+      `beneficiario${number}Direccion`,
+      `beneficiario${number}Localidad`,
+      `beneficiario${number}Email`,
+    ]),
+  ]);
+  const sourceFields = isSanitas
+    ? template.fields.filter(field => field.fieldKey !== 'fechaSelloRadicacion')
+    : template.fields;
+  const upgradedFields = sourceFields.map(field => {
+    const factoryByKey = isSanitas && operationalSanitasKeys.has(field.fieldKey)
+      ? factory.fields.find(candidate => candidate.fieldKey === field.fieldKey)
+      : undefined;
+    const factoryField = factoryFields.get(field.id) || factoryByKey;
+    if (!factoryField) return field;
+    const repairedField = isSanitas && operationalSanitasKeys.has(field.fieldKey)
+      ? {
+          ...field,
+          dataSource: factoryField.dataSource,
+          fieldType: factoryField.fieldType,
+          checkboxRule: factoryField.checkboxRule,
+        }
+      : field;
+    const legacyLimit = repairedField.fieldType === 'checkbox' ? 7 : 6;
+    if (repairedField.fontSize > legacyLimit) return repairedField;
+    return {
+      ...repairedField,
+      fontSize: factoryField.fontSize,
+      minFontSize: Math.max(repairedField.minFontSize || 0, factoryField.minFontSize || 5),
+    };
+  });
+  const existingOperationalKeys = new Set(upgradedFields.map(field => field.fieldKey));
+  const missingOperationalFields = isSanitas
+    ? factory.fields.filter(field => operationalSanitasKeys.has(field.fieldKey) && !existingOperationalKeys.has(field.fieldKey))
+    : [];
   return {
     ...template,
     version: factory.version,
-    fields: template.fields.map(field => {
-      const factoryField = factoryFields.get(field.id);
-      if (!factoryField) return field;
-      const isKnownSanitasPageError = template.id === 'default-sanitas-2026'
-        && field.page === 0
-        && Math.abs(field.y - 29.58) < 0.1
-        && (
-          (field.fieldKey === 'ejecutivoComercial' && Math.abs(field.x - 29) < 0.1 && Math.abs(field.width - 260) < 0.1)
-          || (field.fieldKey === 'fechaSelloRadicacion' && Math.abs(field.x - 300) < 0.1 && Math.abs(field.width - 130) < 0.1)
-        );
-      const repairedField = isKnownSanitasPageError
-        ? {
-            ...field,
-            page: factoryField.page,
-            x: factoryField.x,
-            y: factoryField.y,
-            width: factoryField.width,
-            height: factoryField.height,
-          }
-        : field;
-      const legacyLimit = field.fieldType === 'checkbox' ? 7 : 6;
-      if (repairedField.fontSize > legacyLimit) return repairedField;
-      return {
-        ...repairedField,
-        fontSize: factoryField.fontSize,
-        minFontSize: Math.max(repairedField.minFontSize || 0, factoryField.minFontSize || 5),
-      };
-    }),
+    fields: [...upgradedFields, ...missingOperationalFields],
   };
 }
 

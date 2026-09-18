@@ -36,6 +36,11 @@ import {
 } from '../../lib/backendRepository';
 import { InteractiveFolioLayout } from '../folio/InteractiveFolioLayout';
 import { EnhancedSignatureField } from '../folio/EnhancedSignatureField';
+import {
+  COLOMBIA_DEPARTMENTS,
+  municipalitiesForDepartment,
+  territoryForMunicipality,
+} from '../../data/colombiaTerritories';
 
 // ── Listas Maestras SGSSS ──
 const DOCUMENT_TYPES = ['CC', 'CE', 'TI', 'RC', 'PA', 'PEP', 'PPT'];
@@ -244,6 +249,11 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     firmaDigitalCotizante: initialData?.firmaDigitalCotizante || '',
     firmaDigitalEmpresa: initialData?.firmaDigitalEmpresa || ''
   }));
+
+  const residenceMunicipalities = useMemo(
+    () => municipalitiesForDepartment(form.departamentoResidencia),
+    [form.departamentoResidencia]
+  );
 
   useEffect(() => {
     let active = true;
@@ -484,6 +494,11 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
       setActiveSection(0);
       return;
     }
+    if (!form.nacionalidad.trim() || !form.sexo) {
+      alert('⚠️ Campos requeridos: Indique nacionalidad y sexo del cotizante en la solapa "Persona".');
+      setActiveSection(0);
+      return;
+    }
 
     // 2. Validación Solapa 2: Residencia & IPS
     if (!form.direccion.trim()) {
@@ -493,6 +508,11 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
     }
     if (!form.telefonoCotizante.trim()) {
       alert('⚠️ Campo requerido: Digite un teléfono de contacto en la solapa "Residencia & IPS".');
+      setActiveSection(1);
+      return;
+    }
+    if (!form.emailCotizante.trim() || !form.departamentoResidencia.trim() || !form.ciudadResidencia.trim()) {
+      alert('⚠️ Campos requeridos: Complete correo, departamento y ciudad de residencia del cotizante.');
       setActiveSection(1);
       return;
     }
@@ -1199,8 +1219,8 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                             <MapPin className="h-4 w-4 text-slate-500" />
                           </div>
 
-                          <div className="grid gap-3 md:grid-cols-4">
-                            <label className="block text-xs font-semibold text-slate-600 md:col-span-2">
+                          <div className="grid gap-3 md:grid-cols-6">
+                            <label className="block text-xs font-semibold text-slate-600 md:col-span-3">
                               Dirección completa *
                               <input
                                 value={form.direccion}
@@ -1210,7 +1230,7 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                               />
                             </label>
 
-                            <label className="block text-xs font-semibold text-slate-600">
+                            <label className="block text-xs font-semibold text-slate-600 md:col-span-3">
                               Barrio *
                               <input
                                 value={form.barrio}
@@ -1220,14 +1240,44 @@ export const AffiliationFolioForm: React.FC<AffiliationFolioFormProps> = ({
                               />
                             </label>
 
-                            <label className="block text-xs font-semibold text-slate-600">
-                              Ciudad residencia *
+                            <label className="block text-xs font-semibold text-slate-600 md:col-span-3">
+                              Departamento residencia *
                               <input
-                                value={form.ciudadResidencia}
-                                onChange={e => update('ciudadResidencia', e.target.value)}
-                                placeholder="Ciudad"
+                                list="validum-departamentos-residencia"
+                                value={form.departamentoResidencia}
+                                onChange={e => {
+                                  update('departamentoResidencia', e.target.value.toUpperCase());
+                                  if (form.ciudadResidencia) update('ciudadResidencia', '');
+                                }}
+                                placeholder="Escriba para buscar"
+                                autoComplete="off"
                                 className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-bold text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white"
                               />
+                              <datalist id="validum-departamentos-residencia">
+                                {COLOMBIA_DEPARTMENTS.map(department => <option key={department} value={department} />)}
+                              </datalist>
+                            </label>
+
+                            <label className="block text-xs font-semibold text-slate-600 md:col-span-3">
+                              Ciudad residencia *
+                              <input
+                                list="validum-municipios-residencia"
+                                value={form.ciudadResidencia}
+                                onChange={e => {
+                                  const city = e.target.value.toUpperCase();
+                                  update('ciudadResidencia', city);
+                                  const territory = territoryForMunicipality(city, form.departamentoResidencia);
+                                  if (territory && !form.departamentoResidencia) update('departamentoResidencia', territory.department);
+                                }}
+                                placeholder="Escriba para buscar municipio"
+                                autoComplete="off"
+                                className="mt-1 w-full rounded-xl border border-slate-200 bg-slate-50/70 px-3 py-2 text-xs font-bold text-slate-800 outline-none transition focus:border-cyan-500 focus:bg-white"
+                              />
+                              <datalist id="validum-municipios-residencia">
+                                {residenceMunicipalities.map(item => (
+                                  <option key={item.municipalityCode} value={item.municipality}>{item.department}</option>
+                                ))}
+                              </datalist>
                             </label>
                           </div>
                         </div>
