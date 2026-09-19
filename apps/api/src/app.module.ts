@@ -11,6 +11,7 @@ import { ApplicationsModule } from './applications/applications.module';
 import { AffiliatesModule } from './affiliates/affiliates.module';
 import { WorkspaceModule } from './workspace/workspace.module';
 import { TeamModule } from './team/team.module';
+import { CorrespondenceModule } from './correspondence/correspondence.module';
 
 import { AppController } from './app.controller';
 
@@ -67,7 +68,7 @@ export function validateEnvironment(config: Record<string, unknown>) {
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validate: validateEnvironment }),
     BullModule.forRootAsync({ inject: [ConfigService], useFactory: (c: ConfigService) => ({ connection: { url: c.getOrThrow('REDIS_URL') } }) }),
-    PrismaModule, AuthModule, AuditModule, DocumentsModule, WhatsAppModule, CasesModule, ApplicationsModule, AffiliatesModule, WorkspaceModule, TeamModule,
+    PrismaModule, AuthModule, AuditModule, DocumentsModule, WhatsAppModule, CasesModule, ApplicationsModule, AffiliatesModule, WorkspaceModule, TeamModule, CorrespondenceModule,
   ],
   controllers: [AppController],
 })

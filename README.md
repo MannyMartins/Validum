@@ -74,4 +74,14 @@ Los datos locales se escriben bajo `data/postgres`, `data/redis` y `data/minio`.
 
 Incluido: esquema inicial, inicio de sesión JWT, registro de auditoría, webhook verificable, modelo de casos y contactos, documentos con almacenamiento privado, cola BullMQ, contrato OCR/IA intercambiable y panel inicial.
 
+## Correspondencia clasificada desde n8n
+
+El módulo **Correspondencia** recibe los correos clasificados por el flujo externo de n8n mediante `POST /api/correspondencia/ingest`. La ingesta no usa una sesión de usuario: exige la cabecera `X-API-Key` y la compara con `CORRESPONDENCIA_INGEST_API_KEY`. Si la variable no está configurada, el endpoint permanece cerrado.
+
+En Railway, crea `CORRESPONDENCIA_INGEST_API_KEY` únicamente en el servicio **Validum API** con un valor aleatorio largo y configura exactamente el mismo valor como credencial secreta del flujo n8n. No agregues esa clave al servicio web ni al repositorio. La migración `20260919010000_add_correspondence` se aplica automáticamente al iniciar el contenedor de la API mediante `prisma migrate deploy`. Para aplicarla manualmente fuera de Railway usa:
+
+```powershell
+pnpm db:deploy
+```
+
 La siguiente implementación debe incorporar los formularios concretos de cada EPS: catálogo de EPS, plantillas PDF/HTML, mapeo validado de campos, descarga segura de medios de Meta, proveedor OCR elegido y pantalla de revisión/aprobación. Para diseñarlo bien se necesitan formularios de muestra anonimizados y las reglas de negocio de cada EPS.

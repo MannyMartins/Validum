@@ -10,6 +10,7 @@ import { DocumentosSoporteLibrary } from './components/soportes/DocumentosSoport
 import { LandingPage } from './components/landing/LandingPage';
 import { InternalTeamManagement } from './components/configuracion/InternalTeamManagement';
 import { SetPasswordView } from './components/auth/SetPasswordView';
+import { CorrespondenceDashboard } from './components/correspondencia/CorrespondenceDashboard';
 
 const MainLayout: React.FC = () => {
   const { isAuthenticated, isAuthLoading, isDataLoading, dataError, needsPasswordSetup, activeTab, setActiveTab, logout } = useValidum();
@@ -78,6 +79,8 @@ const MainLayout: React.FC = () => {
         return <DocumentosSoporteLibrary />;
       case 'empleados':
         return <EmpleadoList />;
+      case 'correspondencia':
+        return <CorrespondenceDashboard />;
       case 'configuracion':
         return <ConfiguracionEmpresa />;
       case 'equipo':

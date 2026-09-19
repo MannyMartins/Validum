@@ -53,6 +53,7 @@ DATABASE_URL=${{Postgres.DATABASE_URL}}
 REDIS_URL=${{Redis.REDIS_URL}}
 JWT_SECRET=<secreto aleatorio de al menos 32 caracteres>
 JWT_EXPIRES_IN_SECONDS=28800
+CORRESPONDENCIA_INGEST_API_KEY=<secreto aleatorio largo compartido solo con n8n>
 DASHBOARD_ORIGIN=https://<dominio-validum>
 APP_URL=https://<dominio-validum>
 ADMIN_NAME=<nombre del primer administrador; temporal>
@@ -67,6 +68,8 @@ https://<dominio-api>/api/health
 ```
 
 Nunca uses el ejemplo de esta guía como `JWT_SECRET`. Genera un valor único con un gestor de contraseñas o un generador criptográfico.
+
+`CORRESPONDENCIA_INGEST_API_KEY` pertenece únicamente al servicio API. Copia su valor en la credencial de n8n que envía `X-API-Key`; no lo expongas como variable `VITE_*`. Si falta, la API seguirá iniciando, pero rechazará toda ingesta de correspondencia.
 
 ## 5. Validum Web
 

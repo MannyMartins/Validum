@@ -80,6 +80,26 @@ enum ConversationState {
   COMPLETED
 }
 
+enum CorrespondenceCategory {
+  TERMINOS_JURIDICOS @map("Términos jurídicos")
+  COBROS_JURIDICOS @map("Cobros Jurídicos")
+  CONSULTA_GENERAL @map("Consulta General")
+  SOPORTE_OPERATIVO @map("Soporte Operativo")
+}
+
+enum CorrespondencePriority {
+  URGENTE @map("Urgente")
+  MODERADO @map("Moderado")
+  RESPUESTA_LIGERA @map("Respuesta Ligera")
+}
+
+enum CorrespondenceStatus {
+  PENDIENTE @map("pendiente")
+  EN_REVISION @map("en_revision")
+  RESPONDIDO @map("respondido")
+  ARCHIVADO @map("archivado")
+}
+
 model User {
   id String @id @default(uuid())
   email String @unique
@@ -95,6 +115,44 @@ model User {
   preference UserPreference?
   soporteDocumentos SoporteDocumento[]
   authTokens AuthToken[]
+  correspondenceAssignments CorreoClasificado[] @relation("CorrespondenceAssignee")
+}
+
+model CorreoClasificado {
+  id                    String                 @id @default(uuid())
+  gmailMessageId        String                 @map("gmail_message_id")
+  gmailThreadId         String                 @map("gmail_thread_id")
+  cuentaDestino         String                 @map("cuenta_destino")
+  remitenteCorreo       String                 @map("remitente_correo")
+  asunto                String
+  cuerpo                String
+  fechaRecepcion        DateTime               @map("fecha_recepcion") @db.Timestamptz(6)
+  remitenteNombre       String                 @map("remitente_nombre")
+  identificacion        String?
+  empresaRelacionada    String?                @map("empresa_relacionada")
+  categoria             CorrespondenceCategory
+  prioridad             CorrespondencePriority
+  resumen               String
+  documentosRequeridos  Json                   @default("[]") @map("documentos_requeridos")
+  propuestaRespuesta    String                 @map("propuesta_respuesta")
+  alertaInmediata       Boolean                @default(false) @map("alerta_inmediata")
+  estado                CorrespondenceStatus   @default(PENDIENTE)
+  asignadoAId           String?                @map("asignado_a")
+  asignadoA             User?                  @relation("CorrespondenceAssignee", fields: [asignadoAId], references: [id], onDelete: SetNull)
+  notasInternas         String?                @map("notas_internas")
+  errorClasificacion    Boolean                @default(false) @map("error_clasificacion")
+  respuestaCrudaIa      String?                @map("respuesta_cruda_ia")
+  creadoEn              DateTime               @default(now()) @map("creado_en")
+  actualizadoEn         DateTime               @updatedAt @map("actualizado_en")
+
+  @@unique([cuentaDestino, gmailMessageId])
+  @@index([categoria])
+  @@index([prioridad])
+  @@index([estado])
+  @@index([fechaRecepcion])
+  @@index([alertaInmediata])
+  @@index([asignadoAId])
+  @@map("correos_clasificados")
 }
 
 model Company {

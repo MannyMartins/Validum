@@ -32,6 +32,7 @@ export type ActiveTab =
   | 'analitica-ausentismo'
   | 'liquidaciones'
   | 'soportes'
+  | 'correspondencia'
   | 'equipo'
   | 'configuracion';
 

@@ -8,6 +8,7 @@ import {
   Clock,
   FolderOpen,
   ShieldCheck,
+  Inbox,
 } from 'lucide-react';
 import { useValidum, ActiveTab } from '../../context/ValidumContext';
 import { ValidumLogo } from '../common/ValidumLogo';
@@ -37,6 +38,12 @@ export const Sidebar: React.FC = () => {
       id: 'configuracion', 
       label: 'Empresas', 
       icon: <Settings className="w-4 h-4" /> 
+    },
+    {
+      id: 'correspondencia',
+      label: 'Correspondencia',
+      icon: <Inbox className="w-4 h-4 text-sky-400" />,
+      badge: 'NUEVO',
     },
     {
       id: 'equipo',
