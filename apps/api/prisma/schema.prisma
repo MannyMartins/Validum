@@ -123,6 +123,7 @@ model CorreoClasificado {
   gmailMessageId        String                 @map("gmail_message_id")
   gmailThreadId         String                 @map("gmail_thread_id")
   cuentaDestino         String                 @map("cuenta_destino")
+  destinatarios         String?
   remitenteCorreo       String                 @map("remitente_correo")
   asunto                String
   cuerpo                String

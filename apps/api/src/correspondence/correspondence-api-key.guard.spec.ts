@@ -9,18 +9,29 @@ function context(apiKey?: string): ExecutionContext {
 }
 
 describe('CorrespondenceApiKeyGuard', () => {
+  const validKey = 'a'.repeat(32);
   it('rechaza la ingesta si la variable no está configurada', () => {
     const guard = new CorrespondenceApiKeyGuard({ get: () => undefined } as unknown as ConfigService);
     expect(() => guard.canActivate(context('cualquier-clave'))).toThrow(UnauthorizedException);
   });
 
   it('rechaza una clave incorrecta', () => {
-    const guard = new CorrespondenceApiKeyGuard({ get: () => 'clave-correcta' } as unknown as ConfigService);
+    const guard = new CorrespondenceApiKeyGuard({ get: () => validKey } as unknown as ConfigService);
     expect(() => guard.canActivate(context('clave-incorrecta'))).toThrow(UnauthorizedException);
   });
 
+  it('rechaza una solicitud sin cabecera aunque la variable esté configurada', () => {
+    const guard = new CorrespondenceApiKeyGuard({ get: () => validKey } as unknown as ConfigService);
+    expect(() => guard.canActivate(context())).toThrow(UnauthorizedException);
+  });
+
+  it('rechaza una clave configurada con menos de 32 caracteres', () => {
+    const guard = new CorrespondenceApiKeyGuard({ get: () => 'demasiado-corta' } as unknown as ConfigService);
+    expect(() => guard.canActivate(context('demasiado-corta'))).toThrow(UnauthorizedException);
+  });
+
   it('acepta una clave correcta', () => {
-    const guard = new CorrespondenceApiKeyGuard({ get: () => 'clave-correcta' } as unknown as ConfigService);
-    expect(guard.canActivate(context('clave-correcta'))).toBe(true);
+    const guard = new CorrespondenceApiKeyGuard({ get: () => validKey } as unknown as ConfigService);
+    expect(guard.canActivate(context(validKey))).toBe(true);
   });
 });

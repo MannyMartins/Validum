@@ -57,21 +57,19 @@ export class CorrespondenceService {
       && PRIORITY_LABELS.includes(row.prioridad as never);
     const categoria = validClassification ? categories[row.categoria] : CorrespondenceCategory.CONSULTA_GENERAL;
     const prioridad = validClassification ? priorities[row.prioridad] : CorrespondencePriority.MODERADO;
-    const rawClassification = validClassification
-      ? row.respuesta_cruda || null
-      : JSON.stringify({
-          respuesta_cruda: row.respuesta_cruda || null,
-          categoria_original: row.categoria,
-          prioridad_original: row.prioridad,
-        });
+    const cuentaDestino = row.cuenta_origen || row.to;
+    const respuestaCrudaIa = row.respuesta_cruda || (!validClassification
+      ? JSON.stringify({ categoria: row.categoria, prioridad: row.prioridad })
+      : null);
     const where = {
       cuentaDestino_gmailMessageId: {
-        cuentaDestino: row.to.trim(),
+        cuentaDestino,
         gmailMessageId: row.messageId.trim(),
       },
     };
     const data = {
       gmailThreadId: row.threadId.trim(),
+      destinatarios: row.cuenta_origen ? row.to || null : null,
       remitenteCorreo: row.from.trim(),
       asunto: row.subject,
       cuerpo: row.textPlain,
@@ -85,8 +83,8 @@ export class CorrespondenceService {
       documentosRequeridos: row.documentos_requeridos,
       propuestaRespuesta: row.propuesta_respuesta,
       alertaInmediata: row.alerta_inmediata,
-      errorClasificacion: Boolean(row.error_parseo) || !validClassification,
-      respuestaCrudaIa: rawClassification,
+      errorClasificacion: row.error_parseo || !validClassification,
+      respuestaCrudaIa,
     } satisfies Prisma.CorreoClasificadoUpdateInput;
 
     return this.prisma.correoClasificado.findUnique({ where, select: { id: true } }).then(existing =>
@@ -95,7 +93,7 @@ export class CorrespondenceService {
         update: data,
         create: {
           ...data,
-          cuentaDestino: row.to.trim(),
+          cuentaDestino,
           gmailMessageId: row.messageId.trim(),
         },
         select: { id: true },
@@ -113,6 +111,7 @@ export class CorrespondenceService {
         select: {
           id: true,
           cuentaDestino: true,
+          destinatarios: true,
           remitenteCorreo: true,
           remitenteNombre: true,
           asunto: true,
@@ -194,7 +193,7 @@ export class CorrespondenceService {
       categoria: query.categoria ? categories[query.categoria] : undefined,
       prioridad: query.prioridad ? priorities[query.prioridad] : undefined,
       estado: query.estado ? statuses[query.estado] : undefined,
-      cuentaDestino: query.cuenta_destino?.trim() || undefined,
+      cuentaDestino: query.cuenta_origen?.trim().toLowerCase() || query.cuenta_destino?.trim() || undefined,
       alertaInmediata: query.alerta_inmediata,
       fechaRecepcion: query.fecha_desde || fechaHasta ? {
         gte: query.fecha_desde ? new Date(query.fecha_desde) : undefined,

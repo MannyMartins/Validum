@@ -3,8 +3,8 @@ import { IngestCorrespondenceDto } from './correspondence.dto';
 import { CorrespondenceService } from './correspondence.service';
 
 const validPayload: IngestCorrespondenceDto = {
-  from: 'cliente@example.com',
-  to: 'juridica@validum.co',
+  from: 'cliente@example.test',
+  to: 'juridica@example.test',
   subject: 'Solicitud de concepto',
   textPlain: 'Contenido sensible del correo',
   messageId: 'gmail-message-1',
@@ -19,6 +19,7 @@ const validPayload: IngestCorrespondenceDto = {
   documentos_requeridos: ['Contrato firmado'],
   propuesta_respuesta: 'Hemos recibido su solicitud.',
   alerta_inmediata: true,
+  error_parseo: false,
 };
 
 function createPrismaMock() {
@@ -51,9 +52,9 @@ describe('CorrespondenceService', () => {
 
     expect(result).toEqual({ body: { id: 'correo-1', creado: true, resultado: 'creado' }, created: true });
     expect(stored.values().next().value!.data).toMatchObject({
-      cuentaDestino: 'juridica@validum.co',
+      cuentaDestino: 'juridica@example.test',
       gmailMessageId: 'gmail-message-1',
-      remitenteCorreo: 'cliente@example.com',
+      remitenteCorreo: 'cliente@example.test',
       categoria: CorrespondenceCategory.TERMINOS_JURIDICOS,
       prioridad: CorrespondencePriority.URGENTE,
       errorClasificacion: false,
@@ -70,6 +71,25 @@ describe('CorrespondenceService', () => {
     expect(result.body).toEqual({ id: 'correo-1', creado: false, resultado: 'actualizado' });
     expect(stored.size).toBe(1);
     expect(stored.values().next().value!.data).toMatchObject({ resumen: 'Resumen corregido' });
+  });
+
+  it('usa cuenta_origen como clave estable y conserva los destinatarios originales', async () => {
+    const { prisma, stored } = createPrismaMock();
+    const service = new CorrespondenceService(prisma as never);
+    await service.ingest({ ...validPayload, cuenta_origen: 'buzon@example.test', to: 'Persona <persona@example.test>, Copia <copia@example.test>' });
+
+    expect(stored.values().next().value!.data).toMatchObject({
+      cuentaDestino: 'buzon@example.test',
+      destinatarios: 'Persona <persona@example.test>, Copia <copia@example.test>',
+    });
+  });
+
+  it('mantiene el comportamiento anterior cuando cuenta_origen no viene', async () => {
+    const { prisma, stored } = createPrismaMock();
+    const service = new CorrespondenceService(prisma as never);
+    await service.ingest(validPayload);
+
+    expect(stored.values().next().value!.data).toMatchObject({ cuentaDestino: validPayload.to, destinatarios: null });
   });
 
   it('conserva el correo y aplica valores seguros si la clasificación es inválida', async () => {
@@ -95,7 +115,7 @@ describe('CorrespondenceService', () => {
       categoria: 'Cobros Jurídicos',
       prioridad: 'Moderado',
       estado: 'en_revision',
-      cuenta_destino: 'cobros@validum.co',
+      cuenta_destino: 'cobros@example.test',
       alerta_inmediata: true,
       fecha_desde: '2026-09-01',
       fecha_hasta: '2026-09-18',
@@ -109,7 +129,7 @@ describe('CorrespondenceService', () => {
         categoria: CorrespondenceCategory.COBROS_JURIDICOS,
         prioridad: CorrespondencePriority.MODERADO,
         estado: CorrespondenceStatus.EN_REVISION,
-        cuentaDestino: 'cobros@validum.co',
+        cuentaDestino: 'cobros@example.test',
         alertaInmediata: true,
         OR: expect.arrayContaining([expect.objectContaining({ asunto: expect.any(Object) })]),
       }),

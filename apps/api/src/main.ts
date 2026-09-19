@@ -2,9 +2,12 @@ import { RequestMethod, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
+import { correspondenceBodyLimitMiddleware } from './correspondence/correspondence-body-limit.middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { rawBody: true });
+  app.set('trust proxy', 1);
+  app.use('/api/correspondencia/ingest', correspondenceBodyLimitMiddleware());
   app.useBodyParser('json', { limit: '40mb' });
   // Keep the public website entry point outside the API prefix. Railway assigns
   // a domain to this service and users occasionally open it directly; sending

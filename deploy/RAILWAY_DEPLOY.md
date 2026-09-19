@@ -53,7 +53,7 @@ DATABASE_URL=${{Postgres.DATABASE_URL}}
 REDIS_URL=${{Redis.REDIS_URL}}
 JWT_SECRET=<secreto aleatorio de al menos 32 caracteres>
 JWT_EXPIRES_IN_SECONDS=28800
-CORRESPONDENCIA_INGEST_API_KEY=<secreto aleatorio largo compartido solo con n8n>
+CORRESPONDENCIA_INGEST_API_KEY=<secreto aleatorio de al menos 32 caracteres compartido solo con n8n>
 DASHBOARD_ORIGIN=https://<dominio-validum>
 APP_URL=https://<dominio-validum>
 ADMIN_NAME=<nombre del primer administrador; temporal>
@@ -69,7 +69,9 @@ https://<dominio-api>/api/health
 
 Nunca uses el ejemplo de esta guía como `JWT_SECRET`. Genera un valor único con un gestor de contraseñas o un generador criptográfico.
 
-`CORRESPONDENCIA_INGEST_API_KEY` pertenece únicamente al servicio API. Copia su valor en la credencial de n8n que envía `X-API-Key`; no lo expongas como variable `VITE_*`. Si falta, la API seguirá iniciando, pero rechazará toda ingesta de correspondencia.
+`CORRESPONDENCIA_INGEST_API_KEY` pertenece únicamente al servicio API. Genérala, por ejemplo, con `openssl rand -hex 32`, y copia su valor en la credencial de n8n que envía `X-API-Key`; no lo expongas como variable `VITE_*`. Si falta o tiene menos de 32 caracteres, la API seguirá iniciando, registrará un aviso sin revelar el valor y rechazará toda ingesta de correspondencia. Comprueba la credencial sin escribir datos con `GET https://<dominio-api>/api/correspondencia/ingest/health`.
+
+Antes de desplegar una migración, crea una copia de seguridad de PostgreSQL. Confirma en los logs que `prisma migrate deploy` terminó correctamente antes de activar n8n. La guía completa, los JSON importables y el plan de reversión están en `deploy/n8n/README.md`.
 
 ## 5. Validum Web
 

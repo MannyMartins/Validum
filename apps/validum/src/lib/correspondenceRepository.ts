@@ -10,6 +10,7 @@ export interface CorrespondenceItem {
   gmailMessageId?: string;
   gmailThreadId?: string;
   cuentaDestino: string;
+  destinatarios?: string | null;
   remitenteCorreo: string;
   asunto: string;
   cuerpo?: string;
@@ -37,6 +38,7 @@ export interface CorrespondenceFilters {
   prioridad?: CorrespondencePriority;
   estado?: CorrespondenceStatus;
   cuenta_destino?: string;
+  cuenta_origen?: string;
   alerta_inmediata?: boolean;
   fecha_desde?: string;
   fecha_hasta?: string;

@@ -17,6 +17,7 @@ import { Response } from 'express';
 import { SessionPayload } from '../auth/auth.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CorrespondenceApiKeyGuard } from './correspondence-api-key.guard';
+import { CorrespondenceRateLimitGuard } from './correspondence-rate-limit.guard';
 import {
   IngestCorrespondenceDto,
   IngestPayloadPipe,
@@ -31,7 +32,7 @@ export class CorrespondenceController {
 
   @Post('ingest')
   @HttpCode(200)
-  @UseGuards(CorrespondenceApiKeyGuard)
+  @UseGuards(CorrespondenceApiKeyGuard, CorrespondenceRateLimitGuard)
   async ingest(
     @Body(IngestPayloadPipe) body: IngestCorrespondenceDto | IngestCorrespondenceDto[],
     @Res({ passthrough: true }) response: Response,
@@ -39,6 +40,12 @@ export class CorrespondenceController {
     const result = await this.correspondence.ingest(body);
     response.status(result.created ? 201 : 200);
     return result.body;
+  }
+
+  @Get('ingest/health')
+  @UseGuards(CorrespondenceApiKeyGuard)
+  ingestHealth() {
+    return { ok: true };
   }
 
   @Get('resumen')

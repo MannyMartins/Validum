@@ -76,12 +76,14 @@ Incluido: esquema inicial, inicio de sesión JWT, registro de auditoría, webhoo
 
 ## Correspondencia clasificada desde n8n
 
-El módulo **Correspondencia** recibe los correos clasificados por el flujo externo de n8n mediante `POST /api/correspondencia/ingest`. La ingesta no usa una sesión de usuario: exige la cabecera `X-API-Key` y la compara con `CORRESPONDENCIA_INGEST_API_KEY`. Si la variable no está configurada, el endpoint permanece cerrado.
+El módulo **Correspondencia** recibe los correos clasificados por el flujo externo de n8n mediante `POST /api/correspondencia/ingest`. La ingesta no usa una sesión de usuario: exige la cabecera `X-API-Key` y la compara con `CORRESPONDENCIA_INGEST_API_KEY`. Si la variable no está configurada o tiene menos de 32 caracteres, el endpoint permanece cerrado. `GET /api/correspondencia/ingest/health`, protegido por la misma clave, permite comprobar la conexión sin escribir en la base de datos.
 
-En Railway, crea `CORRESPONDENCIA_INGEST_API_KEY` únicamente en el servicio **Validum API** con un valor aleatorio largo y configura exactamente el mismo valor como credencial secreta del flujo n8n. No agregues esa clave al servicio web ni al repositorio. La migración `20260919010000_add_correspondence` se aplica automáticamente al iniciar el contenedor de la API mediante `prisma migrate deploy`. Para aplicarla manualmente fuera de Railway usa:
+En Railway, crea `CORRESPONDENCIA_INGEST_API_KEY` únicamente en el servicio **Validum API** con un valor aleatorio de al menos 32 caracteres y configura exactamente el mismo valor como credencial secreta del flujo n8n. No agregues esa clave al servicio web ni al repositorio. Las migraciones de Correspondencia se aplican automáticamente al iniciar el contenedor de la API mediante `prisma migrate deploy`. Para aplicarlas manualmente fuera de Railway usa:
 
 ```powershell
 pnpm db:deploy
 ```
+
+El workflow importable, sus pruebas y la guía operativa segura están en [`deploy/n8n`](deploy/n8n/README.md). La ingesta admite lotes de hasta 250 correos, limita cada petición a 2 MB y aplica un máximo de 120 solicitudes por minuto y por IP en cada instancia de la API.
 
 La siguiente implementación debe incorporar los formularios concretos de cada EPS: catálogo de EPS, plantillas PDF/HTML, mapeo validado de campos, descarga segura de medios de Meta, proveedor OCR elegido y pantalla de revisión/aprobación. Para diseñarlo bien se necesitan formularios de muestra anonimizados y las reglas de negocio de cada EPS.
