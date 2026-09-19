@@ -25,10 +25,14 @@ import {
   UpdateCorrespondenceDto,
 } from './correspondence.dto';
 import { CorrespondenceService } from './correspondence.service';
+import { MailSyncService } from './mailbox/mail-sync.service';
 
 @Controller('correspondencia')
 export class CorrespondenceController {
-  constructor(private readonly correspondence: CorrespondenceService) {}
+  constructor(
+    private readonly correspondence: CorrespondenceService,
+    private readonly sync: MailSyncService,
+  ) {}
 
   @Post('ingest')
   @HttpCode(200)
@@ -64,6 +68,15 @@ export class CorrespondenceController {
   @UseGuards(JwtAuthGuard)
   detail(@Param('id') id: string) {
     return this.correspondence.detail(id);
+  }
+
+  @Post(':id/reclasificar')
+  @UseGuards(JwtAuthGuard)
+  reclassify(@Req() req: { user: SessionPayload }, @Param('id') id: string) {
+    if (!['owner', 'admin', 'operator'].includes(req.user.membershipRole)) {
+      throw new ForbiddenException('Tu rol solo permite consultar la correspondencia.');
+    }
+    return this.sync.reclassify(id);
   }
 
   @Patch(':id')

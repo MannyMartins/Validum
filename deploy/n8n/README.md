@@ -1,4 +1,13 @@
-# Correspondencia: Gmail → IA → Validum
+# Correspondencia: Gmail → IA → Validum (camino alternativo)
+
+> **Este ya no es el camino principal.** Validum lee los buzones de Gmail por su
+> cuenta, sin n8n ni servicios adicionales: la propia API consulta cada buzón,
+> clasifica con Gemini y guarda el resultado. La guía vigente es
+> [`deploy/GMAIL_SETUP.md`](../GMAIL_SETUP.md).
+>
+> Lo que sigue se conserva por si alguna vez conviene alimentar la
+> correspondencia desde fuera. El endpoint de ingesta con API key sigue activo,
+> así que estos flujos funcionan sin cambios.
 
 Estos archivos dejan preparado el flujo, pero **no contienen credenciales ni secretos**:
 

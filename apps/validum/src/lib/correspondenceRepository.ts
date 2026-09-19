@@ -76,6 +76,64 @@ export function loadCorrespondenceDetail(id: string): Promise<CorrespondenceItem
   return apiRequest(`/correspondencia/${encodeURIComponent(id)}`);
 }
 
+export type MailboxStatus = 'conectada' | 'desconectada' | 'pausada';
+
+export interface MailboxAccount {
+  id: string;
+  direccion: string;
+  etiqueta?: string | null;
+  estado: MailboxStatus;
+  ultimaSincronizacion?: string | null;
+  ultimoError?: string | null;
+  erroresConsecutivos?: number;
+  correosProcesados?: number;
+  creadoEn?: string;
+  conectada_por?: CorrespondenceAssignee | null;
+}
+
+export interface MailboxList {
+  items: MailboxAccount[];
+  configuracion: { google_configurado: boolean; clave_cifrado_valida: boolean };
+}
+
+export interface MailboxSyncResult {
+  cuenta: string;
+  nuevos: number;
+  omitidos: number;
+  error?: string;
+}
+
+export function loadMailboxes(): Promise<MailboxList> {
+  return apiRequest('/correspondencia/cuentas');
+}
+
+/** Devuelve la URL de consentimiento de Google para abrirla en una ventana nueva. */
+export function startMailboxConnection(cuenta?: string): Promise<{ url: string }> {
+  return apiRequest('/correspondencia/cuentas/oauth/iniciar', {
+    method: 'POST',
+    body: JSON.stringify(cuenta ? { cuenta } : {}),
+  });
+}
+
+export function updateMailbox(id: string, changes: { etiqueta?: string; activa?: boolean }): Promise<MailboxAccount> {
+  return apiRequest(`/correspondencia/cuentas/${encodeURIComponent(id)}`, {
+    method: 'PATCH',
+    body: JSON.stringify(changes),
+  });
+}
+
+export function disconnectMailbox(id: string): Promise<{ ok: boolean }> {
+  return apiRequest(`/correspondencia/cuentas/${encodeURIComponent(id)}`, { method: 'DELETE' });
+}
+
+export function syncMailboxesNow(): Promise<{ resultados: MailboxSyncResult[] }> {
+  return apiRequest('/correspondencia/cuentas/sincronizar', { method: 'POST' });
+}
+
+export function reclassifyCorrespondence(id: string): Promise<CorrespondenceItem> {
+  return apiRequest(`/correspondencia/${encodeURIComponent(id)}/reclasificar`, { method: 'POST' });
+}
+
 export function updateCorrespondence(id: string, changes: {
   estado?: CorrespondenceStatus;
   asignado_a?: string | null;

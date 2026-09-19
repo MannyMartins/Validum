@@ -100,6 +100,12 @@ enum CorrespondenceStatus {
   ARCHIVADO @map("archivado")
 }
 
+enum MailboxStatus {
+  CONECTADA @map("conectada")
+  DESCONECTADA @map("desconectada")
+  PAUSADA @map("pausada")
+}
+
 model User {
   id String @id @default(uuid())
   email String @unique
@@ -116,6 +122,7 @@ model User {
   soporteDocumentos SoporteDocumento[]
   authTokens AuthToken[]
   correspondenceAssignments CorreoClasificado[] @relation("CorrespondenceAssignee")
+  mailboxesConnected CuentaCorreo[] @relation("MailboxConnectedBy")
 }
 
 model CorreoClasificado {
@@ -154,6 +161,28 @@ model CorreoClasificado {
   @@index([alertaInmediata])
   @@index([asignadoAId])
   @@map("correos_clasificados")
+}
+
+model CuentaCorreo {
+  id                    String        @id @default(uuid())
+  direccion             String        @unique
+  etiqueta              String?
+  refreshTokenCifrado   String?       @map("refresh_token_cifrado")
+  refreshTokenIv        String?       @map("refresh_token_iv")
+  refreshTokenTag       String?       @map("refresh_token_tag")
+  estado                MailboxStatus @default(CONECTADA)
+  ultimoHistoryId       String?       @map("ultimo_history_id")
+  ultimaSincronizacion  DateTime?     @map("ultima_sincronizacion") @db.Timestamptz(6)
+  ultimoError           String?       @map("ultimo_error")
+  erroresConsecutivos   Int           @default(0) @map("errores_consecutivos")
+  correosProcesados     Int           @default(0) @map("correos_procesados")
+  conectadaPorId        String?       @map("conectada_por")
+  conectadaPor          User?         @relation("MailboxConnectedBy", fields: [conectadaPorId], references: [id], onDelete: SetNull)
+  creadoEn              DateTime      @default(now()) @map("creado_en")
+  actualizadoEn         DateTime      @updatedAt @map("actualizado_en")
+
+  @@index([estado])
+  @@map("cuentas_correo")
 }
 
 model Company {
