@@ -1,5 +1,5 @@
 import { NormalizedMail } from './gmail-message';
-import { buildPrompt, parseClassification } from './mail-classifier.service';
+import { buildPrompt, MailClassifierService, parseClassification } from './mail-classifier.service';
 
 const mail: NormalizedMail = {
   messageId: 'msg-1',
@@ -121,5 +121,30 @@ describe('construcción del prompt', () => {
     expect(prompt).toContain('Términos jurídicos');
     expect(prompt).toContain('Respuesta Ligera');
     expect(prompt).toContain('JSON válido');
+  });
+});
+
+describe('privacidad del modo gratuito', () => {
+  afterEach(() => jest.restoreAllMocks());
+
+  it('no envía el correo real solo por tener una API key configurada', async () => {
+    const network = jest.spyOn(global, 'fetch');
+    const config = { get: (key: string) => key === 'GEMINI_API_KEY' ? 'fixture-key' : undefined };
+    const service = new MailClassifierService(config as never);
+    expect((await service.classify(mail)).error_parseo).toBe(true);
+    expect(network).not.toHaveBeenCalled();
+  });
+
+  it('la prueba usa únicamente un ejemplo fijo y no cambia la autorización de producción', async () => {
+    const network = jest.spyOn(global, 'fetch').mockResolvedValue(new Response(JSON.stringify({
+      candidates: [{ content: { parts: [{ text: respuestaValida }] } }],
+    })));
+    const config = { get: (key: string) => key === 'GEMINI_API_KEY' ? 'fixture-key' : undefined };
+    const result = await new MailClassifierService(config as never).classifyExample();
+    expect(result.error_parseo).toBe(false);
+    const body = String(network.mock.calls[0][1]?.body);
+    expect(body).toContain('Mensaje completamente ficticio');
+    expect(body).not.toContain(mail.subject);
+    expect(network.mock.calls[0][1]?.signal).toBeDefined();
   });
 });

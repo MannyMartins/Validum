@@ -41,11 +41,22 @@ function setup(options: { redirectApp?: string } = {}) {
     json: jest.fn().mockReturnThis(),
     redirect: jest.fn().mockReturnThis(),
   };
-  const controller = new MailboxController(mailboxes as never, oauth as never, sync as never, config as never);
-  return { controller, mailboxes, oauth, sync, response };
+  const classifier = { classifyExample: jest.fn(async () => ({ error_parseo: false })) };
+  const controller = new MailboxController(mailboxes as never, oauth as never, sync as never, config as never, classifier as never);
+  return { controller, mailboxes, oauth, sync, response, classifier };
 }
 
 describe('control de acceso a las cuentas de correo', () => {
+  it('la prueba ficticia solo permite administradores y no sincroniza ni guarda correos', async () => {
+    const { controller, classifier, sync, mailboxes } = setup();
+    await expect(controller.testClassifier(buildUser('operator') as never)).rejects.toThrow(ForbiddenException);
+    expect(classifier.classifyExample).not.toHaveBeenCalled();
+    await expect(controller.testClassifier(buildUser('admin') as never)).resolves.toMatchObject({ ficticio: true, guardado: false });
+    expect(classifier.classifyExample).toHaveBeenCalledWith();
+    expect(sync.runCycle).not.toHaveBeenCalled();
+    expect(mailboxes.connectFromCode).not.toHaveBeenCalled();
+    expect(Reflect.getMetadata(GUARDS_METADATA, controller.testClassifier)).toContain(JwtAuthGuard);
+  });
   it('solo los administradores pueden listar y gestionar', async () => {
     const { controller, mailboxes, sync } = setup();
     for (const rol of ['viewer', 'operator', 'auditor']) {

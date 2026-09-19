@@ -92,6 +92,8 @@ export class MailboxService {
       configuracion: {
         google_configurado: this.oauth.isConfigured(),
         clave_cifrado_valida: isUsableKey(this.encryptionKey),
+        lectura_habilitada: this.config.get('CORRESPONDENCIA_POLL_ENABLED') === 'true',
+        ia_real_habilitada: this.config.get('CORRESPONDENCIA_GEMINI_REAL_ENABLED') === 'true',
       },
     };
   }
@@ -192,12 +194,12 @@ export class MailboxService {
     });
   }
 
-  async markSuccess(id: string, historyId: string | null, processed: number) {
+  async markSuccess(id: string, historyId: string | null, processed: number, complete = true) {
     await this.prisma.cuentaCorreo.update({
       where: { id },
       data: {
         ultimoHistoryId: historyId || undefined,
-        ultimaSincronizacion: new Date(),
+        ultimaSincronizacion: complete ? new Date() : undefined,
         ultimoError: null,
         erroresConsecutivos: 0,
         correosProcesados: { increment: processed },

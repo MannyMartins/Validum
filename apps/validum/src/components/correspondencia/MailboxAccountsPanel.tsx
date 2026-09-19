@@ -20,6 +20,7 @@ import {
   startMailboxConnection,
   syncMailboxesNow,
   updateMailbox,
+  testMailboxClassifier,
 } from '../../lib/correspondenceRepository';
 
 const statusStyle: Record<MailboxStatus, string> = {
@@ -79,12 +80,8 @@ export const MailboxAccountsPanel: React.FC<{ canManage: boolean }> = ({ canMana
     setMessage(null);
     try {
       const { url } = await startMailboxConnection();
-      // Ventana nueva para que se pueda elegir "Usar otra cuenta" en Google.
-      window.open(url, '_blank', 'noopener,noreferrer');
-      setMessage({
-        tone: 'ok',
-        text: 'Se abrió Google en otra pestaña. Elige "Usar otra cuenta" si quieres conectar un buzón distinto.',
-      });
+      // A popup opened after an awaited request can be blocked by the browser.
+      window.location.assign(url);
     } catch (error) {
       setMessage({ tone: 'error', text: (error as Error).message });
     }
@@ -122,6 +119,21 @@ export const MailboxAccountsPanel: React.FC<{ canManage: boolean }> = ({ canMana
     }
   };
 
+  const testModel = async () => {
+    setBusyId('test');
+    setMessage(null);
+    try {
+      const { clasificacion } = await testMailboxClassifier();
+      setMessage(clasificacion.error_parseo
+        ? { tone: 'error', text: 'La prueba no consiguió una clasificación. Revisa la clave y la cuota de Gemini; no se guardó ningún correo.' }
+        : { tone: 'ok', text: `Prueba ficticia: ${clasificacion.categoria} · ${clasificacion.prioridad}. ${clasificacion.resumen} No se guardó ningún registro.` });
+    } catch (error) {
+      setMessage({ tone: 'error', text: (error as Error).message });
+    } finally {
+      setBusyId(null);
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex items-center gap-2 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 text-sm text-slate-400">
@@ -139,15 +151,21 @@ export const MailboxAccountsPanel: React.FC<{ canManage: boolean }> = ({ canMana
         <div>
           <h2 className="text-lg font-bold text-slate-100">Cuentas de correo</h2>
           <p className="text-xs text-slate-400">
-            Cada buzón se revisa automáticamente y su correspondencia entra clasificada.
+            {data?.configuracion.lectura_habilitada
+              ? 'La lectura de los buzones está habilitada.'
+              : 'Modo de prueba: la lectura de Gmail está desactivada.'}
           </p>
         </div>
         {canManage && (
           <div className="flex gap-2">
+            <button type="button" onClick={testModel} disabled={Boolean(busyId)}
+              className="rounded-xl border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-200 disabled:opacity-50">
+              {busyId === 'test' ? 'Probando…' : 'Probar con correo ficticio'}
+            </button>
             <button
               type="button"
               onClick={syncNow}
-              disabled={busyId === 'sync' || !accounts.length}
+              disabled={Boolean(busyId) || !accounts.length || !data?.configuracion.lectura_habilitada}
               className="inline-flex items-center gap-2 rounded-xl border border-slate-700 px-3 py-2 text-xs font-semibold text-slate-200 hover:border-slate-500 disabled:opacity-50"
             >
               {busyId === 'sync' ? <LoaderCircle className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}

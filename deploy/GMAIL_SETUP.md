@@ -7,6 +7,16 @@ está corriendo.
 
 Esta guía cubre lo que hay que hacer una sola vez en Google Cloud y en Railway.
 
+## Estado actual: prueba ficticia gratuita
+
+Mantenga `CORRESPONDENCIA_POLL_ENABLED=false` y `CORRESPONDENCIA_GEMINI_REAL_ENABLED=false` (también es el comportamiento si faltan). Así no se lee Gmail, ni siquiera con «Revisar ahora», ni se envían correos guardados a Gemini. No conecte buzones reales durante esta fase.
+
+Para probar solo el modelo, configure `GEMINI_API_KEY` de un proyecto sin facturación en **Validum API** y abra **Correspondencia → Cuentas de correo → Probar con correo ficticio**. El servidor construye un ejemplo fijo, ignora cualquier correo suministrado en la petición y no guarda registros. El endpoint es `POST /api/correspondencia/cuentas/prueba-ia`, exige la sesión de propietario o administrador y devuelve `ficticio`, `guardado: false` y `clasificacion`. Si `error_parseo` es verdadero, la prueba no acredita que Gemini funcione: revise clave, disponibilidad y cuota.
+
+Antes del despliegue del PR, verifique un backup de PostgreSQL. Tras el merge, compruebe que Railway termina en Success y aplica `prisma migrate deploy`. La tabla `cuentas_correo` es aditiva; al revertir el código puede permanecer sin uso. No elimine tablas para revertir.
+
+Usar la API existente evita contratar n8n, pero aumenta su consumo de CPU, memoria y red. No garantiza costo cero en Railway. La cuota gratuita de Gemini también tiene límites.
+
 ---
 
 ## 1. Crear el proyecto en Google Cloud
@@ -23,17 +33,11 @@ Esta guía cubre lo que hay que hacer una sola vez en Google Cloud y en Railway.
 3. Rellena nombre de la aplicación, correo de asistencia y correo del desarrollador.
 4. En **Permisos**, añade `https://www.googleapis.com/auth/gmail.readonly`.
    Es el permiso mínimo: permite leer, nunca enviar ni borrar.
-5. **Publica la aplicación** ("Publicar aplicación" → estado *En producción*).
+5. Para pruebas, mantenga el modo **Prueba** y agregue las cuentas de prueba como usuarios autorizados. Evalúe la publicación y verificación antes de operar con datos reales.
 
-> **Este paso es el más importante de toda la guía.** Si la aplicación se queda
-> en estado *Prueba*, Google caduca las autorizaciones a los 7 días y las cuentas
-> se desconectan solas cada semana. Al publicarla, esa caducidad desaparece
-> aunque Google todavía no haya verificado la aplicación.
+> Los proyectos externos en modo Prueba suelen emitir refresh tokens que caducan a los 7 días cuando usan permisos Gmail. Publicar no garantiza tokens permanentes: la revocación, las políticas de Workspace y otros eventos también los invalidan.
 
-Como la aplicación no está verificada, al autorizar cada cuenta aparecerá una
-pantalla de advertencia. Hay que entrar en **Configuración avanzada → Ir a
-(nombre de la app)**. Es normal y solo ocurre una vez por cuenta. El límite de
-100 usuarios de las aplicaciones sin verificar no afecta a un puñado de buzones.
+`gmail.readonly` es un permiso restringido. Revise los requisitos de verificación y tratamiento de datos antes de publicar. Si Google muestra una advertencia o bloquea el acceso, compruebe el proyecto, el cliente y las políticas del administrador; no omita la advertencia automáticamente. [OAuth de Google](https://developers.google.com/identity/protocols/oauth2#expiration).
 
 ## 3. Crear el cliente OAuth
 
@@ -61,7 +65,9 @@ En el servicio **Validum API** (nunca en el frontend, y nunca con prefijo `VITE_
 | `GOOGLE_OAUTH_REDIRECT_URI` | La URL de redirección del paso 3 |
 | `CORRESPONDENCIA_OAUTH_REDIRECT_APP` | URL del panel, p. ej. `https://validum-production.up.railway.app/correspondencia` |
 | `GEMINI_API_KEY` | Clave de la API de Gemini (ver más abajo) |
-| `GEMINI_MODEL` | `gemini-flash-lite-latest` (opcional) |
+| `GEMINI_MODEL` | `gemini-2.5-flash-lite` (opcional) |
+| `CORRESPONDENCIA_POLL_ENABLED` | `false` durante las pruebas ficticias |
+| `CORRESPONDENCIA_GEMINI_REAL_ENABLED` | `false` durante las pruebas ficticias |
 | `CORRESPONDENCIA_POLL_CRON` | `*/5 * * * *` (opcional) |
 | `CORRESPONDENCIA_MAX_POR_CICLO` | `50` (opcional) |
 
@@ -71,10 +77,7 @@ todas las cuentas. Guárdala en un lugar seguro y no la rotes sin motivo.
 
 ### Sobre la clave de Gemini
 
-La facturación de la API de Gemini es **independiente** de cualquier suscripción
-de Gemini o Google AI Pro: esas suscripciones solo aplican dentro de la interfaz
-web de AI Studio. Para que la API funcione desde Validum hace falta una clave con
-facturación de Cloud habilitada, que se crea en <https://aistudio.google.com/apikey>.
+La facturación de la API de Gemini es **independiente** de las suscripciones de consumo. Para la prueba ficticia se puede usar una clave del nivel gratuito obtenida directamente en [Google AI Studio](https://aistudio.google.com/apikey), sujeta a cuota y disponibilidad del modelo. No habilite facturación para esta fase. [Precios y condiciones](https://ai.google.dev/gemini-api/docs/pricing).
 
 Esto no es solo un tema de costo. Los términos del nivel gratuito dicen que
 Google puede usar el contenido enviado para mejorar sus productos y que revisores
@@ -87,9 +90,9 @@ Google no usa los datos para entrenar.
 
 1. Entra a Validum como **Propietario** o **Administrador** y abre **Correspondencia**.
 2. Baja hasta **Cuentas de correo** y pulsa **Conectar cuenta**.
-3. Se abre Google en otra pestaña. **Elige "Usar otra cuenta"** para conectar un
+3. Se abre Google en la misma pestaña. **Elige "Usar otra cuenta"** para conectar un
    buzón distinto del que ya tengas abierto en el navegador.
-4. Acepta la advertencia de aplicación no verificada por **Configuración avanzada**.
+4. Compruebe que la pantalla corresponde al cliente OAuth autorizado; resuelva cualquier advertencia con el administrador.
 5. Concede el permiso de lectura. Volverás al panel y la cuenta aparecerá como
    *Conectada*.
 6. Repite para cada buzón. La dirección la determina Google, no lo que escribas.
@@ -98,6 +101,8 @@ Si conectar varias cuentas se complica porque el navegador entra siempre con la
 misma, usa una ventana de incógnito o un perfil distinto de Chrome para cada una.
 
 ## 6. Comprobar que funciona
+
+Este apartado requiere una autorización posterior para lectura real. Active explícitamente `CORRESPONDENCIA_POLL_ENABLED=true` solo entonces. Para enviar contenido real al modelo también se exige `CORRESPONDENCIA_GEMINI_REAL_ENABLED=true` y un servicio adecuado para información sensible; con ese segundo interruptor apagado, los correos se guardan para revisión manual.
 
 1. Envía un correo de prueba a uno de los buzones.
 2. En **Cuentas de correo**, pulsa **Revisar ahora** sin esperar los 5 minutos.
@@ -116,13 +121,13 @@ misma, usa una ventana de incógnito o un perfil distinto de Chrome para cada un
   Si un correo ya está guardado, no se vuelve a enviar al modelo.
 - **Errores de clasificación.** Si el modelo devuelve algo inservible, el correo
   se guarda igual, marcado con la etiqueta *Error IA*, y puede reprocesarse con
-  `POST /api/correspondencia/:id/reclasificar`. Ningún correo se pierde.
+  `POST /api/correspondencia/:id/reclasificar` cuando la IA real esté autorizada y configurada. Si está desactivada, se conserva la clasificación existente.
 - **Cuentas con fallos.** Tras 10 fallos seguidos la cuenta se pausa sola para
   dejar de gastar llamadas. Se reanuda desde el panel.
 - **Autorización revocada.** Si alguien retira el permiso desde su cuenta de
   Google, la cuenta pasa a *Desconectada* y el panel pide reconectarla.
-- **Varias réplicas.** El ciclo se programa como trabajo repetible en Redis, así
-  que aunque la API escale a varias instancias solo una ejecuta cada ciclo.
+- **Varias réplicas.** El trabajo repetible usa Redis. Antes de escalar o permitir revisiones manuales simultáneas, valide exclusión entre ciclos; no asuma que los controles manuales quedan serializados por el trabajo repetible.
+- **Recuperación.** La primera carga empieza un día antes de la conexión del buzón. Ante historial caducado se recupera desde la última sincronización, con un día de margen. Los lotes parciales conservan el cursor y la ventana hasta agotar pendientes; mensajes borrados de Gmail o anteriores a esa ventana no son recuperables por este mecanismo.
 
 ## Privacidad
 
@@ -138,10 +143,10 @@ misma, usa una ventana de incógnito o un perfil distinto de Chrome para cada un
 | Síntoma | Causa probable |
 | --- | --- |
 | `redirect_uri_mismatch` | La URL de redirección en Google no coincide exactamente con `GOOGLE_OAUTH_REDIRECT_URI`. |
-| Las cuentas se desconectan cada semana | La pantalla de consentimiento quedó en estado *Prueba*. Publícala en producción. |
+| Las cuentas se desconectan cada semana | Compruebe el estado Prueba del consentimiento y las políticas de Google; evalúe publicación/verificación antes de producción. |
 | "Google no entregó un token de actualización" | La cuenta ya había autorizado antes. Retira el acceso en <https://myaccount.google.com/permissions> y vuelve a conectarla. |
 | El botón *Conectar cuenta* está deshabilitado | Faltan variables de Google o `CORRESPONDENCIA_TOKEN_KEY` tiene menos de 32 caracteres. |
-| Los correos entran con *Error IA* | Falta `GEMINI_API_KEY`, o la clave no tiene facturación habilitada. |
+| Los correos entran con *Error IA* | IA real deshabilitada, clave ausente, cuota agotada, modelo no disponible o respuesta inválida. No habilite facturación solo para resolver una prueba ficticia. |
 | No entra ningún correo | Revisa que la cuenta esté *Conectada* y usa **Revisar ahora** para ver el error concreto. |
 
 ## Alternativa: ingesta externa

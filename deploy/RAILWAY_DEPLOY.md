@@ -59,7 +59,10 @@ GOOGLE_OAUTH_CLIENT_ID=<id de cliente OAuth de Google Cloud>
 GOOGLE_OAUTH_CLIENT_SECRET=<secreto de cliente OAuth de Google Cloud>
 GOOGLE_OAUTH_REDIRECT_URI=https://<dominio-api>/api/correspondencia/cuentas/oauth/callback
 CORRESPONDENCIA_OAUTH_REDIRECT_APP=https://<dominio-validum>/correspondencia
-GEMINI_API_KEY=<clave de la API de Gemini con facturación habilitada>
+GEMINI_API_KEY=<clave privada de Gemini; nivel gratuito solo para prueba ficticia>
+GEMINI_MODEL=gemini-2.5-flash-lite
+CORRESPONDENCIA_POLL_ENABLED=false
+CORRESPONDENCIA_GEMINI_REAL_ENABLED=false
 DASHBOARD_ORIGIN=https://<dominio-validum>
 APP_URL=https://<dominio-validum>
 ADMIN_NAME=<nombre del primer administrador; temporal>
@@ -85,7 +88,7 @@ La API consulta por su cuenta los buzones conectados, clasifica cada correo con 
 
 `CORRESPONDENCIA_TOKEN_KEY` cifra los tokens de Google guardados en la base de datos y firma el `state` del flujo OAuth. Genérala con `openssl rand -hex 32` y no la cambies sin necesidad: si se pierde, hay que reconectar todas las cuentas. Las variables de Google y de Gemini pertenecen únicamente al servicio API; nunca las expongas como `VITE_*`.
 
-La facturación de la API de Gemini es independiente de cualquier suscripción de Gemini o Google AI Pro, que solo aplican dentro de AI Studio. Además, el nivel gratuito permite a Google usar el contenido enviado para mejorar sus productos, así que no debe usarse con correspondencia real.
+La API de Gemini tiene facturación independiente de las suscripciones de consumo. El nivel gratuito no debe usarse con correspondencia real. Mantenga los dos interruptores anteriores en `false` y pruebe con el botón «Probar con correo ficticio». Los pasos de publicación OAuth requieren revisar las políticas de Google; publicar no garantiza autorizaciones permanentes.
 
 `CORRESPONDENCIA_INGEST_API_KEY` solo hace falta si además se quiere alimentar la correspondencia desde fuera. Genérala con `openssl rand -hex 32`; si falta o tiene menos de 32 caracteres, la API arranca, registra un aviso sin revelar el valor y rechaza toda ingesta externa. Puedes comprobarla sin escribir datos con `GET https://<dominio-api>/api/correspondencia/ingest/health`. Los flujos de n8n quedan como respaldo documentado en `deploy/n8n/README.md`.
 

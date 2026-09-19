@@ -93,7 +93,15 @@ export interface MailboxAccount {
 
 export interface MailboxList {
   items: MailboxAccount[];
-  configuracion: { google_configurado: boolean; clave_cifrado_valida: boolean };
+  configuracion: { google_configurado: boolean; clave_cifrado_valida: boolean; lectura_habilitada?: boolean; ia_real_habilitada?: boolean };
+}
+
+export function testMailboxClassifier(): Promise<{
+  ficticio: boolean;
+  guardado: boolean;
+  clasificacion: { categoria: string; prioridad: string; resumen: string; error_parseo: boolean };
+}> {
+  return apiRequest('/correspondencia/cuentas/prueba-ia', { method: 'POST' });
 }
 
 export interface MailboxSyncResult {

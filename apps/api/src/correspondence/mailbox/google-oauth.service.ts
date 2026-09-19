@@ -127,6 +127,7 @@ export class GoogleOAuthService {
   private async requestToken(body: Record<string, string>): Promise<Record<string, unknown>> {
     const response = await fetch(TOKEN_ENDPOINT, {
       method: 'POST',
+      signal: AbortSignal.timeout(30_000),
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams(body).toString(),
     });
@@ -140,7 +141,7 @@ export class GoogleOAuthService {
     if (!response.ok) {
       const reason = String(parsed.error || '');
       // No registramos el cuerpo: puede contener fragmentos del token.
-      this.logger.warn(`Google rechazó la petición de token (${response.status} ${reason || 'sin detalle'}).`);
+      this.logger.warn(`Google rechazó la petición de token (${response.status}).`);
       if (reason === 'invalid_grant') throw new GoogleTokenRevokedError();
       throw new UnauthorizedException('Google rechazó la autorización de la cuenta.');
     }

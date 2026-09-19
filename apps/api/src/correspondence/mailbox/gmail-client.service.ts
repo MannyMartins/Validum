@@ -33,7 +33,8 @@ export class GmailClientService {
    * demasiado antiguo; en ese caso avisamos para que el llamador haga una
    * carga completa acotada en lugar de perder correos en silencio.
    */
-  async listHistory(accessToken: string, startHistoryId: string, max: number): Promise<HistoryPage> {
+  async listHistory(accessToken: string, startHistoryId: string, max: number,
+    isKnown: (id: string) => Promise<boolean> = async () => false): Promise<HistoryPage> {
     const ids = new Set<string>();
     let pageToken: string | undefined;
     let latestHistoryId: string | null = null;
@@ -58,8 +59,11 @@ export class GmailClientService {
           const labels = added.message?.labelIds || [];
           // Los borradores y lo que Google ya marcó como spam no son correspondencia.
           if (!id || labels.includes('DRAFT') || labels.includes('SPAM') || labels.includes('TRASH')) continue;
+          if (ids.has(id) || await isKnown(id)) continue;
+          // Do not acknowledge history we have not persisted. On the next cycle
+          // saved messages are skipped before applying the processing limit.
+          if (ids.size >= max) return { messageIds: [...ids], historyId: startHistoryId };
           ids.add(id);
-          if (ids.size >= max) return { messageIds: [...ids], historyId: latestHistoryId };
         }
       }
       pageToken = data.nextPageToken;
@@ -69,13 +73,25 @@ export class GmailClientService {
   }
 
   /** Carga inicial acotada: solo la ventana reciente, nunca la bandeja entera. */
-  async listRecentMessages(accessToken: string, query: string, max: number): Promise<string[]> {
-    const params = new URLSearchParams({ q: query, maxResults: String(Math.min(max, 100)) });
-    const data = await this.request<{ messages?: { id?: string }[] }>(
-      `/messages?${params.toString()}`,
-      accessToken,
-    );
-    return (data.messages || []).map(message => String(message.id || '')).filter(Boolean).slice(0, max);
+  async listRecentMessages(accessToken: string, query: string, max: number,
+    isKnown: (id: string) => Promise<boolean> = async () => false): Promise<{ messageIds: string[]; complete: boolean }> {
+    const ids = new Set<string>();
+    let pageToken: string | undefined;
+    do {
+      const params = new URLSearchParams({ q: query, maxResults: '100' });
+      if (pageToken) params.set('pageToken', pageToken);
+      const data = await this.request<{ messages?: { id?: string }[]; nextPageToken?: string }>(
+        `/messages?${params.toString()}`, accessToken,
+      );
+      for (const message of data.messages || []) {
+        const id = message.id;
+        if (!id || ids.has(id) || await isKnown(id)) continue;
+        if (ids.size >= max) return { messageIds: [...ids], complete: false };
+        ids.add(id);
+      }
+      pageToken = data.nextPageToken;
+    } while (pageToken);
+    return { messageIds: [...ids], complete: true };
   }
 
   async getMessage(accessToken: string, id: string): Promise<GmailMessage> {
@@ -94,6 +110,7 @@ export class GmailClientService {
     const attempt = options.attempt || 0;
     const response = await fetch(`${GMAIL_API}${path}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
+      signal: AbortSignal.timeout(30_000),
     });
 
     if (response.ok) return (await response.json()) as T;
@@ -109,6 +126,6 @@ export class GmailClientService {
     }
 
     // Nunca incluimos el cuerpo de la respuesta: puede traer datos del correo.
-    throw new Error(`Gmail respondió ${response.status} al consultar ${path.split('?')[0]}.`);
+    throw new Error(`Gmail respondió ${response.status}.`);
   }
 }

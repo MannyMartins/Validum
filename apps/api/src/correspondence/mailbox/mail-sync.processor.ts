@@ -31,7 +31,7 @@ export class MailSyncProcessor extends WorkerHost implements OnModuleInit {
   }
 
   private get enabled(): boolean {
-    return String(this.config.get('CORRESPONDENCIA_POLL_ENABLED') ?? 'true').toLowerCase() !== 'false';
+    return this.config.get('CORRESPONDENCIA_POLL_ENABLED') === 'true';
   }
 
   async onModuleInit() {
@@ -64,6 +64,8 @@ export class MailSyncProcessor extends WorkerHost implements OnModuleInit {
   }
 
   async process() {
+    // Repeat jobs already in Redis must also respect the off switch.
+    if (!this.enabled) return { cuentas: 0, nuevos: 0, conError: 0 };
     const results = await this.sync.runCycle();
     const nuevos = results.reduce((total, row) => total + row.nuevos, 0);
     const conError = results.filter(row => row.error).length;

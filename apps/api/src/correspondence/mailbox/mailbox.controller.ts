@@ -22,6 +22,7 @@ import { MailSyncService } from './mail-sync.service';
 import { StartOAuthDto, UpdateMailboxDto } from './mailbox.dto';
 import { MailboxService } from './mailbox.service';
 import { GoogleOAuthService } from './google-oauth.service';
+import { MailClassifierService } from './mail-classifier.service';
 
 const MANAGER_ROLES = ['owner', 'admin'];
 
@@ -34,6 +35,7 @@ export class MailboxController {
     private readonly oauth: GoogleOAuthService,
     private readonly sync: MailSyncService,
     private readonly config: ConfigService,
+    private readonly classifier: MailClassifierService,
   ) {}
 
   private assertManager(user: SessionPayload) {
@@ -92,8 +94,8 @@ export class MailboxController {
     try {
       const account = await this.mailboxes.connectFromCode(code, verified.userId);
       return finish('ok', account.direccion);
-    } catch (caught) {
-      return finish('error', (caught as Error).message?.slice(0, 200) || 'No se pudo conectar la cuenta.');
+    } catch {
+      return finish('error', 'No se pudo conectar la cuenta. Revisa la configuración y vuelve a autorizarla.');
     }
   }
 
@@ -124,5 +126,12 @@ export class MailboxController {
   async runNow(@Req() req: { user: SessionPayload }) {
     this.assertManager(req.user);
     return { resultados: await this.sync.runCycle() };
+  }
+
+  @Post('prueba-ia')
+  @UseGuards(JwtAuthGuard)
+  async testClassifier(@Req() req: { user: SessionPayload }) {
+    this.assertManager(req.user);
+    return { ficticio: true, guardado: false, clasificacion: await this.classifier.classifyExample() };
   }
 }

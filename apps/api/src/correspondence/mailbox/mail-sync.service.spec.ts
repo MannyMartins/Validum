@@ -47,6 +47,7 @@ function setup(options: {
   accounts?: CuentaCorreo[];
   existingIds?: string[];
   maxPerCycle?: string;
+  enabled?: boolean;
 } = {}) {
   const accounts = options.accounts ?? [buildAccount()];
   const existing = new Set(options.existingIds ?? []);
@@ -59,7 +60,9 @@ function setup(options: {
     },
   };
   const config = {
-    get: jest.fn((key: string) => (key === 'CORRESPONDENCIA_MAX_POR_CICLO' ? options.maxPerCycle : undefined)),
+    get: jest.fn((key: string) => key === 'CORRESPONDENCIA_POLL_ENABLED'
+      ? (options.enabled === false ? 'false' : 'true')
+      : (key === 'CORRESPONDENCIA_MAX_POR_CICLO' ? options.maxPerCycle : undefined)),
   };
   const mailboxes = {
     activeAccounts: jest.fn(async () => accounts),
@@ -69,7 +72,7 @@ function setup(options: {
   };
   const gmail = {
     listHistory: jest.fn(async () => ({ messageIds: [], historyId: '900' })),
-    listRecentMessages: jest.fn(async () => []),
+    listRecentMessages: jest.fn(async () => ({ messageIds: [] as string[], complete: true })),
     getProfile: jest.fn(async () => ({ emailAddress: 'juridica@example.test', historyId: '999' })),
     getMessage: jest.fn(async (_token: string, id: string) => buildMessage(id)),
   };
@@ -101,9 +104,30 @@ function setup(options: {
 }
 
 describe('ciclo de sincronización de correo', () => {
+  it('no sobrescribe una clasificación existente cuando la IA real está desactivada', async () => {
+    const { service, prisma, correspondence } = setup();
+    await expect(service.reclassify('correo-1')).rejects.toThrow('desactivada');
+    expect(prisma.correoClasificado.findUnique).not.toHaveBeenCalled();
+    expect(correspondence.ingest).not.toHaveBeenCalled();
+  });
+  it('el modo de prueba impide incluso una revisión manual de Gmail', async () => {
+    const { service, mailboxes, gmail } = setup({ enabled: false });
+    await expect(service.runCycle()).rejects.toThrow('desactivada');
+    await expect(service.syncAccount(buildAccount())).rejects.toThrow('desactivada');
+    expect(mailboxes.activeAccounts).not.toHaveBeenCalled();
+    expect(gmail.getMessage).not.toHaveBeenCalled();
+  });
+
+  it('un lote parcial no confirma el cursor ni mueve la ventana de recuperación', async () => {
+    const { service, gmail, mailboxes } = setup({ maxPerCycle: '1' });
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1'], complete: false });
+    await service.syncAccount(buildAccount());
+    expect(mailboxes.markSuccess).toHaveBeenCalledWith('cuenta-1', null, 1, false);
+    expect(gmail.getProfile.mock.invocationCallOrder[0]).toBeLessThan(gmail.listRecentMessages.mock.invocationCallOrder[0]);
+  });
   it('en la primera carga pide solo la ventana reciente y guarda el historyId', async () => {
     const { service, gmail, mailboxes, correspondence } = setup();
-    gmail.listRecentMessages.mockResolvedValue(['m1', 'm2'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1', 'm2'], complete: true });
 
     const result = await service.syncAccount(buildAccount());
 
@@ -111,7 +135,7 @@ describe('ciclo de sincronización de correo', () => {
     expect(gmail.listHistory).not.toHaveBeenCalled();
     expect(result.nuevos).toBe(2);
     expect(correspondence.ingest).toHaveBeenCalledTimes(2);
-    expect(mailboxes.markSuccess).toHaveBeenCalledWith('cuenta-1', '999', 2);
+    expect(mailboxes.markSuccess).toHaveBeenCalledWith('cuenta-1', '999', 2, true);
   });
 
   it('usa la sincronización incremental cuando ya hay historyId', async () => {
@@ -120,7 +144,7 @@ describe('ciclo de sincronización de correo', () => {
 
     const result = await service.syncAccount(buildAccount({ ultimoHistoryId: '500' }));
 
-    expect(gmail.listHistory).toHaveBeenCalledWith('token-de-acceso', '500', 50);
+    expect(gmail.listHistory).toHaveBeenCalledWith('token-de-acceso', '500', 50, expect.any(Function));
     expect(gmail.listRecentMessages).not.toHaveBeenCalled();
     expect(result.nuevos).toBe(1);
   });
@@ -128,18 +152,18 @@ describe('ciclo de sincronización de correo', () => {
   it('recarga la ventana reciente si el historyId caducó, sin perder correos', async () => {
     const { service, gmail, mailboxes } = setup();
     gmail.listHistory.mockRejectedValue(new GmailHistoryGoneError());
-    gmail.listRecentMessages.mockResolvedValue(['m1'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1'], complete: true });
 
     const result = await service.syncAccount(buildAccount({ ultimoHistoryId: 'caducado' }));
 
     expect(gmail.listRecentMessages).toHaveBeenCalled();
     expect(result.nuevos).toBe(1);
-    expect(mailboxes.markSuccess).toHaveBeenCalledWith('cuenta-1', '999', 1);
+    expect(mailboxes.markSuccess).toHaveBeenCalledWith('cuenta-1', '999', 1, true);
   });
 
   it('no vuelve a llamar al modelo por un correo ya guardado', async () => {
     const { service, gmail, classifier, correspondence } = setup({ existingIds: ['m1'] });
-    gmail.listRecentMessages.mockResolvedValue(['m1', 'm2'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1', 'm2'], complete: true });
 
     const result = await service.syncAccount(buildAccount());
 
@@ -151,25 +175,25 @@ describe('ciclo de sincronización de correo', () => {
 
   it('respeta el tope por ciclo para no disparar el costo', async () => {
     const { service, gmail, classifier } = setup({ maxPerCycle: '2' });
-    gmail.listRecentMessages.mockResolvedValue(['m1', 'm2', 'm3', 'm4'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1', 'm2'], complete: false });
 
     const result = await service.syncAccount(buildAccount());
 
-    expect(gmail.listRecentMessages).toHaveBeenCalledWith('token-de-acceso', expect.any(String), 2);
+    expect(gmail.listRecentMessages).toHaveBeenCalledWith('token-de-acceso', expect.any(String), 2, expect.any(Function));
     expect(result.nuevos).toBe(2);
     expect(classifier.classify).toHaveBeenCalledTimes(2);
   });
 
   it('ignora un tope fuera de rango y usa el valor por defecto', async () => {
     const { service, gmail } = setup({ maxPerCycle: '9999' });
-    gmail.listRecentMessages.mockResolvedValue([] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: [], complete: true });
     await service.syncAccount(buildAccount());
-    expect(gmail.listRecentMessages).toHaveBeenCalledWith('token-de-acceso', expect.any(String), 50);
+    expect(gmail.listRecentMessages).toHaveBeenCalledWith('token-de-acceso', expect.any(String), 50, expect.any(Function));
   });
 
   it('envía a la ingesta la cuenta de origen y los datos del correo', async () => {
     const { service, gmail, correspondence } = setup();
-    gmail.listRecentMessages.mockResolvedValue(['m1'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1'], complete: true });
 
     await service.syncAccount(buildAccount());
 
@@ -190,14 +214,14 @@ describe('ciclo de sincronización de correo', () => {
     mailboxes.accessTokenFor
       .mockRejectedValueOnce(new Error('Gmail respondió 500.'))
       .mockResolvedValue('token-de-acceso' as never);
-    gmail.listRecentMessages.mockResolvedValue(['m1'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1'], complete: true });
 
     const results = await service.runCycle();
 
     expect(results).toHaveLength(2);
-    expect(results[0].error).toContain('500');
+    expect(results[0].error).toContain('No se pudo sincronizar');
     expect(results[1].nuevos).toBe(1);
-    expect(mailboxes.markFailure).toHaveBeenCalledWith('cuenta-a', expect.stringContaining('500'));
+    expect(mailboxes.markFailure).toHaveBeenCalledWith('cuenta-a', expect.stringContaining('No se pudo sincronizar'));
   });
 
   it('no cuenta como fallo reintentable una autorización revocada', async () => {
@@ -218,7 +242,7 @@ describe('ciclo de sincronización de correo', () => {
 
   it('omite mensajes sin identificador utilizable', async () => {
     const { service, gmail, classifier } = setup();
-    gmail.listRecentMessages.mockResolvedValue(['m1'] as never);
+    gmail.listRecentMessages.mockResolvedValue({ messageIds: ['m1'], complete: true });
     gmail.getMessage.mockResolvedValue({ threadId: 'x', payload: { headers: [] } } as never);
 
     const result = await service.syncAccount(buildAccount());

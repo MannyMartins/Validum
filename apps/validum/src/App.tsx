@@ -15,6 +15,12 @@ import { CorrespondenceDashboard } from './components/correspondencia/Correspond
 const MainLayout: React.FC = () => {
   const { isAuthenticated, isAuthLoading, isDataLoading, dataError, needsPasswordSetup, activeTab, setActiveTab, logout } = useValidum();
 
+  React.useEffect(() => {
+    if (isAuthenticated && new URLSearchParams(window.location.search).has('cuenta_estado')) {
+      setActiveTab('correspondencia');
+    }
+  }, [isAuthenticated, setActiveTab]);
+
   if (isAuthLoading) {
     return (
       <div className="theme-app-shell min-h-screen flex items-center justify-center">
