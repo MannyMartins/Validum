@@ -2,6 +2,8 @@ import { ForbiddenException } from '@nestjs/common';
 import { GUARDS_METADATA } from '@nestjs/common/constants';
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard';
 import { MailboxController } from './mailbox.controller';
+import { CorrespondenceController } from '../correspondence.controller';
+import { CorrespondenceModule } from '../correspondence.module';
 
 function buildUser(membershipRole: string) {
   return {
@@ -130,4 +132,13 @@ describe('callback de Google', () => {
     await controller.callback('codigo', 'state-firmado', '', response as never);
     expect(response.json).toHaveBeenCalledWith(expect.objectContaining({ estado: 'error' }));
   });
+
+  it('se registra antes de CorrespondenceController para que :id no capture /cuentas', () => {
+    const controllers = Reflect.getMetadata('controllers', CorrespondenceModule) as unknown[];
+    const mailboxIndex = controllers.indexOf(MailboxController);
+    const correspondenceIndex = controllers.indexOf(CorrespondenceController);
+    expect(mailboxIndex).toBeGreaterThanOrEqual(0);
+    expect(correspondenceIndex).toBeGreaterThan(mailboxIndex);
+  });
 });
+

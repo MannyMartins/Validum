@@ -15,7 +15,7 @@ import { MailboxService } from './mailbox/mailbox.service';
 
 @Module({
   imports: [BullModule.registerQueue({ name: MAIL_SYNC_QUEUE })],
-  controllers: [CorrespondenceController, MailboxController],
+  controllers: [MailboxController, CorrespondenceController],
   providers: [
     CorrespondenceService,
     CorrespondenceApiKeyGuard,
